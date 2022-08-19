@@ -4,6 +4,7 @@ from teste import alimentos
 from time import sleep
 import gtts
 from playsound import playsound
+import pyttsx3
 import pygame
 pygame.init()
 
@@ -131,12 +132,18 @@ class PrimeiraParte(Exception):
         self.cristal = 'cristal        '
         self.inventario = [self.garrafa_de_agua, self.carne, self.aditivo_de_cura]
         self.revivedor = 'revivedor      '
-        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30}
+        self.escudo1 = 'escudo1        '
+        self.escudo2 = 'escudo2        '
+        self.escudo3 = 'escudo3        '
+        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.escudo1: 5, self.escudo2:20, self.escudo3: 40}
         self.list_itens_comprados = []
         self.personagem_escolhido = ''
         self.CONTADOR_DE_BATALHA_DEMOGORGON = 0
         self.STATUS = True
         self.armadura = 'armadura'
+        self.escudo_escolhido = [self.escudo1, self.escudo2, self.escudo3]
+
+
 
     def escolha_de_personagem(self):
         print('''\npersonagem 01 - andrey - caçador assassino
@@ -159,13 +166,16 @@ personagem 03 - geralt - bruxo''')
         sleep(3)
     def mercadinho(self):
         print(f'\033[35m \033[1m{"BEM VINDO AO MERCADINHO MÁGICO":^50}\033[m')
-        self.codigo_agua = 245
-        self.codigo_carne = 103
-        self.codigo_pocao = 205
-        self.codigo_arma = 934
-        self.codigo_cristal = 534
-        self.codigo_revivedor = 890
-        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor]
+        self.codigo_agua = '245'
+        self.codigo_carne = '103'
+        self.codigo_pocao = '205'
+        self.codigo_arma = '934'
+        self.codigo_cristal = '534'
+        self.codigo_revivedor = '890'
+        self.codigo_escudo1 = '387'
+        self.codigo_escudo2 = '496'
+        self.codigo_escudo3 = '052'
+        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_escudo1, self.codigo_escudo2, self.codigo_escudo3 ]
         c = 0
         print('\033[31m \033[1m \033[4m')
         print('|CÓDIGO|        |ITEM|          |MOEDAS|\033[m')
@@ -184,9 +194,68 @@ personagem 03 - geralt - bruxo''')
                 break
             else:
                 print('\033[31mdigite apenas sim ou não cavalheiro\033[m')
+    def escolhendo_e_organizando_escudos(self):
+        self.contador_de_escudo1 = 3
+        self.contador_de_escudo2 = 5
+        self.contador_de_escudo3 = 7
+        self.escudo_escolhido = ''
+        if daniel.escudo1 or daniel.escudo2 or daniel.escudo3 in daniel.inventario:
+            self.marcador_de_escudo = ''
+            while True:
+                opcao = str(input('deseja utilizar seu escudo? ')).lower()
+
+                if opcao == 'sim':
+                    daniel.mostrando_inventario()
+                    option = str(input('qual escudo voçê deseja utilizar? ')).lower()
+                    if option == 'escudo1':
+                        if daniel.escudo1 in daniel.inventario:
+                            print('equipando escudo de nivel 1')
+                            daniel.escudo_escolhido = daniel.escudo1
+                            daniel.marcador_de_escudo = daniel.contador_de_escudo1 * teste.escudo1
+                            break
+                        else:
+                            print(f'escudo não encontrado no inventário de {daniel.personagem_escolhido}')
+                    elif option == 'escudo2':
+                        if daniel.escudo2 in daniel.inventario:
+                            print('equipando escudo de nivel 2')
+                            daniel.escudo_escolhido = daniel.escudo2
+                            daniel.marcador_de_escudo = daniel.contador_de_escudo2 * teste.escudo2
+                            break
+                        else:
+                            print(f'escudo não encontrado no inventário de {daniel.personagem_escolhido}')
+
+                    elif option == 'escudo3':
+                        if daniel.escudo3 in daniel.inventario:
+                            print('equipando escudo de nivel 3')
+                            daniel.escudo_escolhido = daniel.escudo3
+                            daniel.marcador_de_escudo = daniel.contador_de_escudo3 * teste.escudo3
+                            break
+                        else:
+                            print(f'escudo não encontrado no inventário de {daniel.personagem_escolhido}')
+                    else:
+                        print('\033[31m \033[1m             digite apenas escudo1 escudo2 ou escudo3 sem separar a letra do número, tente novamente \033[m')
+
+
+
+                elif opcao == 'não' or opcao == 'nao':
+                    if daniel.personagem_escolhido == 'arfrid':
+                        print(f'inutilização de escudos,{daniel.personagem_escolhido} está desprotegida')
+                        break
+                    else:
+                        print(f'inutilização de escudos,{daniel.personagem_escolhido} está desprotegido')
+                        break
+                else:
+                    print('\033[31m \033[1m apenas sim ou não \033[m')
+                    daniel.escolhendo_e_organizando_escudos()
+
+        else:
+            print()
+
+
+
 
     def compra_no_mercado(self):
-        codigo = int(input(f'digite o código do item que deseja comprar {self.nome}: '))
+        codigo = str(input(f'digite o código do item que deseja comprar {self.nome}: '))
         if codigo == self.codigo_agua:
             if self.moeda >= self.mercado[self.garrafa_de_agua]:
                 self.moeda -= self.mercado[self.garrafa_de_agua]
@@ -211,9 +280,6 @@ personagem 03 - geralt - bruxo''')
                 print('item comprado')
             else:
                 print('quantidade de moedas insuficiente para comprar a poção de cura')
-        elif codigo == str(codigo):
-            codigo = int(codigo)
-            print('\033[31m \033[1m opção inválida \033[m')
         elif codigo == self.codigo_arma:
             if self.moeda >= self.mercado[self.arma]:
                 self.moeda -= self.mercado[self.arma]
@@ -238,8 +304,33 @@ personagem 03 - geralt - bruxo''')
                 print('item comprado')
             else:
                 print('quantidade de moedas insuficiente para comprar o revivedor')
+
+        elif codigo == self.codigo_escudo1:
+            if self.moeda >= self.mercado[self.escudo1]:
+                self.moeda -= self.mercado[self.escudo1]
+                self.inventario.append(self.escudo1)
+                self.list_itens_comprados.append(self.escudo1)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficiente para comprar o escudo nivel 1')
+        elif codigo == self.codigo_escudo2:
+            if self.moeda >= self.mercado[self.escudo2]:
+                self.moeda -= self.mercado[self.escudo2]
+                self.inventario.append(self.escudo2)
+                self.list_itens_comprados.append(self.escudo2)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficiente para comprar o escudo nivel 2')
+        elif codigo == self.codigo_escudo3:
+            if self.moeda >= self.mercado[self.escudo3]:
+                self.moeda -= self.mercado[self.escudo3]
+                self.inventario.append(self.escudo3)
+                self.list_itens_comprados.append(self.escudo3)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficiente para comprar o escudo nivel 3')
         else:
-            print('código inserido não corresponde a nenhum produto do mercado mágico')
+            print('\033[31m \0331m               código inserido não corresponde a nenhum produto do mercado mágico \033[m')
             daniel.compra_no_mercado()
         while True:
             opcao = str(input('deseja comprar mais alguma coisa do mercado mágico? ')).lower()
@@ -251,7 +342,7 @@ personagem 03 - geralt - bruxo''')
                 print(f'\n \033[31m {"fechando mercado mágico":^60}\033[m')
                 break
             else:
-                print('opção inválida, apenas sim ou não cavalheiro')
+                print('\033[31m \033[1m    opção inválida, apenas sim ou não cavalheiro  \033[m')
     def mostrando_items_comprados(self):
         print(f'\033[33m \033[1m{"items comprados:":^80} \033[m')
         for item in self.list_itens_comprados:
@@ -403,7 +494,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         self.casa = 38
     def portal2(self):
         print(f'\033[32m \033[1m                encontrou o segundo portal da floresta encantada, viaje entre as dimensões para a casa 71\033[m ')
-        self.casa = 71
+        self.casa = 39
     def portal3(self):
         print(f'\033[32m \033[1m                encontrou o terceiro portal da floresta encantada, viaje entre as dimensões para a casa 90\033[m ')
         self.casa = 90
@@ -476,24 +567,37 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.STATUS = True
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura]
 
+            def som_demogorgon_atacando(self):
+                playsound('somdemogorgon_atacando.mp3')
+            def narrando_demogorgon(self):
+                falar = pyttsx3.init('sapi5')
+                frase = str('demogórgon aproxima-se')
+                falar.say(frase)
+                falar.runAndWait()
             def demogorgon_aparecendo(self):
-                teste.demogorgon.voz()
+                demogorgon.narrando_demogorgon()
+                sleep(1)
                 daniel.mostrando_demogorgon()
 
             def mostrar_vida_demogorgon(self):
                 sleep(1)
                 self.vida_demogorgon = self.barra_de_vida_demogorgon * self.contador_de_vida
                 daniel.marcador_de_vida = daniel.contador_de_vida * teste.coracao
-                print(f'\033[31m \033[1m{"VIDA DEMOGORGON":^70} ', end ='  ')
-                print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^70} ')
-                print(f'\033[31m \033[1m{self.vida_demogorgon:^70} ', end='  ')
-                print(f'\033[34m \033[1m{daniel.marcador_de_vida:^70}\033[m')
+                print(f'\033[31m \033[1m{"VIDA DEMOGORGON":^40} ', end ='  ')
+                print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
+                print(f'\033[33m \033[1m{"ESCUDO":^40}')
+                print(f'\033[31m \033[1m{self.vida_demogorgon:^40} ', end='  ')
+                print(f'\033[34m \033[1m{daniel.marcador_de_vida:^40}\033[m', end='  ')
+                if daniel.escudo1 or daniel.escudo2 or daniel.escudo3 in daniel.inventario:
+                    print(f'\033[1m {daniel.marcador_de_escudo:^40}\033[m')
+                else:
+                    print('')
 
             def demogorgon_jogando(self):
                 self.dano = 0
                 self.dado_demogorgon = ran(0, 12)
                 print('demogorgon atacando..')
-                teste.demogorgon.som_demogorgon_atacando()
+                demogorgon.som_demogorgon_atacando()
                 if self.dado_demogorgon <= 1:
                     self.dano = 0
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
@@ -612,6 +716,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             print(f'{daniel.personagem_escolhido} avistou o demogorgon do outro lado da floresta invertida')
             sleep(1)
             demogorgon.demogorgon_aparecendo()
+            daniel.escolhendo_e_organizando_escudos()
             sleep(1)
             while True:
                 opcao = str(input('\033[1m deseja fazer um ataque direto ao demogorgon? \033[m')).lower()
