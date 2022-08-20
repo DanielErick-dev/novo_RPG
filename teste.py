@@ -30,9 +30,7 @@ agua = '\U0001f4a7'
 coracao = '♥'
 carne = '🥩'
 moeda = '\033[33m💰'
-escudo1 = '🛡️'
-escudo2 = '\033[33m \033[1m 🛡'
-escudo3 = '\033[32m \033[1m 🔰'
+escudo = '🛡️'
 barra_de_vida_demogorgon = '━'
 
 
@@ -46,9 +44,13 @@ class Alimentos():
         self.quantidade_de_agua = 10
         self.quantidade_de_carne = 10
         self.quantidade_de_aditivo_de_cura = 10
+        self.quantidade_de_escudo  = 8
+
         self.garrafa_de_agua_para_beber = garrafa_de_agua * self.quantidade_de_agua
         self.carne_para_comer = alimento_de_carne * self.quantidade_de_carne
         self.aditivo_de_cura = coracao * self.quantidade_de_aditivo_de_cura
+        self.escudo_para_usar = escudo * self.quantidade_de_escudo
+
 
 
     def lendo_mercadinho(self):
@@ -58,7 +60,10 @@ class Alimentos():
                 frase.save('frase.mp3')
                 playsound('frase.mp3')
 
+
 alimentos = Alimentos()
+
+
 
 
 
