@@ -1,4 +1,5 @@
 from random import randint as ran
+from random import choice
 import teste
 from teste import alimentos
 from time import sleep
@@ -142,6 +143,7 @@ class PrimeiraParte(Exception):
         self.escudo_escolhido = [self.escudo]
         self.contador_de_escudo = 12
         self.marcador_de_escudo = teste.escudo * self.contador_de_escudo
+        self.opcao_de_escudo = False
 
 
 
@@ -197,10 +199,12 @@ personagem 03 - geralt - bruxo''')
             while True:
                 self.opcao = str(input('deseja utilizar seu escudo? ')).lower()
                 if self.opcao == 'sim':
+                    daniel.opcao_de_escudo = True
                     print('equipando escudo')
                     daniel.inventario.append(daniel.escudo)
                     break
                 elif self.opcao == 'não' or self.opcao == 'nao':
+                    daniel.opcao_de_escudo = False
                     if daniel.personagem_escolhido == 'arfrid':
                         print(f'inutilização de escudos,{daniel.personagem_escolhido} está desprotegida')
                         break
@@ -313,6 +317,7 @@ personagem 03 - geralt - bruxo''')
                 self.contador_de_vida -= 1
         if self.contador_de_vida <= 2:
             daniel.recuperar_vida()
+
         if self.casa == 55:
             daniel.casa55()
         elif self.casa == 11:
@@ -322,6 +327,10 @@ personagem 03 - geralt - bruxo''')
             print('\033[32m prepare-se para aventura no portal \033[m')
             teste.som_de_portal()
             daniel.portal1()
+        elif self.casa == 33:
+            daniel.casa33()
+        elif self.casa == 55:
+            daniel.casa52()
         elif self.casa == 35:
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal\033[m')
@@ -348,6 +357,8 @@ personagem 03 - geralt - bruxo''')
             self.CONTADOR_DE_BATALHA_DEMOGORGON += 1
             if self.CONTADOR_DE_BATALHA_DEMOGORGON == 1:
                 daniel.rota2_floresta_invertida()
+        elif self.casa == 80:
+            daniel.fruta_envenenada()
 
     def leitura_em_voz(self):
         with open('lendoflorestaencantada.py', 'r') as arquivo:
@@ -426,9 +437,12 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
     def casa22(self):
         self.casa -= 4
         print('\033[1mdeixou cair um item da mochila no percurso, retorne pra buscar\033[m')
+        self.moeda -= 5
     def casa33(self):
         self.casa -= 10
-        print('\033[1mcaminho bloqueado por montanha, dê a volta pela encosta\033[m')
+        print('\033[1mescorregou na ponta da montanha e deixou seus recursos cairem, dê a volta pela encosta\033[m')
+        self.inventario.clear()
+        self.contador_de_vida -= 2
     def casa55(self):
         print(f'\033[1m monstros a sua espreita, volte 8 casas\033[m')
         self.casa -= 8
@@ -441,6 +455,8 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
     def portal1(self):
         print(f'\033[32m\033[1m                 encontrou o primeiro portal da floresta encantada, viaje entre as dimensões para a casa 38\033[m ')
         self.casa = 38
+        print(f'encountrou também 10 moedas enquanto viajava entre a dimensão')
+        self.moeda += 10
     def portal2(self):
         print(f'\033[32m \033[1m                encontrou o segundo portal da floresta encantada, viaje entre as dimensões para a casa 71\033[m ')
         self.casa = 39
@@ -493,6 +509,15 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         self.casa += 5
         print(f'\033[1m aproveitou a correnteza do rio e encheu a garrafinha, avançe {self.personagem_escolhido}\033[m')
         self.contador_de_sede += 3
+
+    def casa52(self):
+        print('um animal mágico puxou sua mochila e levou suas moedas')
+        self.moeda -= 20
+        if self.moeda <= 0:
+            self.moeda = 0
+    def casa30(self):
+        print('encontrou um saquinho de moedas durante o caminho, pegue - as')
+        self.moeda += 20
     def casa86(self):
         print('\033[1mcomeu fruto envenenado, se recupere cavalheiro\033[m')
         self.casa -= 2
@@ -515,6 +540,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.barra_de_vida_demogorgon = teste.barra_de_vida_demogorgon
                 self.STATUS = True
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.escudo, daniel.revivedor]
+
 
             def som_demogorgon_atacando(self):
                 playsound('somdemogorgon_atacando.mp3')
@@ -540,7 +566,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 print(f'\033[33m \033[1m{"ESCUDO":^40}')
                 print(f'\033[31m \033[1m{self.vida_demogorgon:^40} ', end='  ')
                 print(f'\033[34m \033[1m{daniel.marcador_de_vida:^40}\033[m', end='  ')
-                if daniel.opcao == 'sim':
+                if daniel.opcao_de_escudo == True:
                     print(f'\033[1m {daniel.marcador_de_escudo:^40}\033[m')
                 else:
                     print('')
@@ -555,23 +581,23 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
                 elif self.dado_demogorgon <= 3:
                     self.dano = 4
-                    if daniel.opcao == 'sim':
+                    if daniel.opcao_de_escudo == True:
                         daniel.contador_de_escudo -= 1
                 elif self.dado_demogorgon <= 6:
                     self.dano = 6
-                    if daniel.opcao == 'sim':
+                    if daniel.opcao_de_escudo == True:
                         daniel.contador_de_escudo -= 3
                 elif self.dado_demogorgon <= 9:
                     self.dano = 7
-                    if daniel.opcao == 'sim':
+                    if daniel.opcao_de_escudo == True:
                         daniel.contador_de_escudo -= 2
 
                 elif self.dado_demogorgon <= 12:
                     self.dano = 8
-                    if daniel.opcao == 'sim':
+                    if daniel.opcao_de_escudo == True:
                         daniel.contador_de_escudo -= 5
 
-                if daniel.opcao == 'sim':
+                if daniel.opcao_de_escudo == True:
                     self.dano -= 3
                     if self.dano <= 0:
                         self.dano = 0
@@ -639,7 +665,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 for itens in list_itens_adicionados:
                     print(f'{itens.upper():^50}')
                     sleep(1.2)
-                print(f'{"moedas".upper():^45}')
+                print(f'{"moedas".upper():^40}')
                 print(f'\033[4m \033[1m \033[32m {"-" * 50:^50} \033[m')
                 print('\n \033[32m \033[1m fechando baú de recompensa do demogorgon \033[m')
                 sleep(1)
@@ -666,12 +692,12 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                         self.dano += 3
                         self.adicional = 3
                 elif self.dado_personagem <= 9:
-                    self.dano = 10
+                    self.dano = 9
                     if daniel.personagem_escolhido == 'geralt':
                         self.dano += 3
                         self.adicional = 3
                 elif self.dado_personagem <= 12:
-                    self.dano = 9
+                    self.dano = 8
                     if daniel.personagem_escolhido == 'geralt':
                         self.dano += 4
                         self.adicional = 4
@@ -753,6 +779,47 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             print('\033[1m \033[31m opção inválida, digite apenas sim ou não para tomar a poção de reviver \033[m')
             daniel.pocao_de_reviver()
 
+    def fruta_envenenada(self):
+        opcao = str(input('fruta mágica em sua frente, deseja gastar uma garrafa de àgua para molhar ela e ativar sua magia? ')).lower()
+        while True:
+            if opcao == 'sim':
+                if self.garrafa_de_agua in daniel.inventario:
+                    print('regando fruta mágica')
+                    sleep(1)
+                    daniel.inventario.remove(daniel.garrafa_de_agua)
+                    print('comendo fruta mágica..')
+                    sleep(1)
+                    break
+                else:
+                    while True:
+                        opcao_mercado = str(input('você não têm a garrafa de àgua para molhar a fruta mágica, deseja comprar a garrafa no mercado? ')).lower()
+                        if opcao_mercado == 'sim':
+                            daniel.mercadinho()
+                            break
+                        elif opcao_mercado == 'não' or opcao_mercado == 'nao':
+                            print()
+                            break
+                        else:
+                            print('\033[31m \033[1m apenas sim ou não \033[1m')
+                    break
+            elif opcao == 'não' or opcao == 'nao':
+                print('deixando fruta mágica para trás')
+                sleep(1)
+                break
+            else:
+                print('\033[31m \033[1m digite apenas sim ou não \033[m')
+        list_opcao_fruta = ['envenenada', 'não envenenada']
+        opcao_fruta = choice(list_opcao_fruta)
+        if opcao == 'sim':
+            if opcao_fruta == 'envenenada':
+                self.contador_de_vida -= 4
+                print('a fruta estava envenenada')
+            elif opcao_fruta == 'não envenenada':
+                print('a fruta mágica lhe alimentou')
+                self.contador_de_fome += 4
+                self.contador_de_sede += 2
+            else:
+                print()
 
 
 daniel = PrimeiraParte('castiel')
@@ -817,9 +884,6 @@ if daniel.contador_de_vida <= 0:
     if daniel.revivedor in daniel.inventario:
         print('\033[1m \033[31m vida zerada \033[m')
         daniel.pocao_de_reviver()
-    else:
-        print(f'\033[31m \033[1m \033[2m {"GAME ENCERRADO, VIDA DO PERSONAGEM ZERADA":^100}\033[m')
-        teste.som_game_over()
 if daniel.STATUS == False:
     teste.som_game_over()
     print(f'\033[31m \033[1m \033[2m {"GAME ENCERRADO, VIDA DO PERSONAGEM ZERADA":^100}\033[m')
