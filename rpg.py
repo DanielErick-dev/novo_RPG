@@ -132,8 +132,8 @@ class PrimeiraParte(Exception):
         self.cristal = 'cristal        '
         self.inventario = [self.garrafa_de_agua, self.carne, self.aditivo_de_cura]
         self.revivedor = 'revivedor      '
-        self.escudo = 'escudo        '
-        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.escudo: 5}
+        self.escudo = 'escudo         '
+        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.escudo: 15}
         self.list_itens_comprados = []
         self.personagem_escolhido = ''
         self.CONTADOR_DE_BATALHA_DEMOGORGON = 0
@@ -195,12 +195,12 @@ personagem 03 - geralt - bruxo''')
     def escolhendo_e_organizando_escudos(self):
         if daniel.escudo in daniel.inventario:
             while True:
-                opcao = str(input('deseja utilizar seu escudo? ')).lower()
-                if opcao == 'sim':
+                self.opcao = str(input('deseja utilizar seu escudo? ')).lower()
+                if self.opcao == 'sim':
                     print('equipando escudo')
                     daniel.inventario.append(daniel.escudo)
                     break
-                elif opcao == 'não' or opcao == 'nao':
+                elif self.opcao == 'não' or self.opcao == 'nao':
                     if daniel.personagem_escolhido == 'arfrid':
                         print(f'inutilização de escudos,{daniel.personagem_escolhido} está desprotegida')
                         break
@@ -520,7 +520,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 playsound('somdemogorgon_atacando.mp3')
             def narrando_demogorgon(self):
                 falar = pyttsx3.init('sapi5')
-                frase = str('demogórgon aproxima-se')
+                frase = str('demogórgon está se aproximando')
                 falar.say(frase)
                 falar.runAndWait()
             def demogorgon_aparecendo(self):
@@ -536,11 +536,11 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 if daniel.escudo in daniel.inventario:
                     print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
                 else:
-                    print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ')
+                    print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
                 print(f'\033[33m \033[1m{"ESCUDO":^40}')
                 print(f'\033[31m \033[1m{self.vida_demogorgon:^40} ', end='  ')
                 print(f'\033[34m \033[1m{daniel.marcador_de_vida:^40}\033[m', end='  ')
-                if daniel.escudo in daniel.inventario:
+                if daniel.opcao == 'sim':
                     print(f'\033[1m {daniel.marcador_de_escudo:^40}\033[m')
                 else:
                     print('')
@@ -555,20 +555,24 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
                 elif self.dado_demogorgon <= 3:
                     self.dano = 4
-                    daniel.contador_de_escudo -= 1
+                    if daniel.opcao == 'sim':
+                        daniel.contador_de_escudo -= 1
                 elif self.dado_demogorgon <= 6:
                     self.dano = 6
-                    daniel.contador_de_escudo -= 3
+                    if daniel.opcao == 'sim':
+                        daniel.contador_de_escudo -= 3
                 elif self.dado_demogorgon <= 9:
                     self.dano = 7
-                    daniel.contador_de_escudo -= 2
+                    if daniel.opcao == 'sim':
+                        daniel.contador_de_escudo -= 2
 
                 elif self.dado_demogorgon <= 12:
                     self.dano = 8
-                    daniel.contador_de_escudo -= 5
+                    if daniel.opcao == 'sim':
+                        daniel.contador_de_escudo -= 5
 
-                if daniel.escudo in daniel.inventario:
-                    self.dano -= 4
+                if daniel.opcao == 'sim':
+                    self.dano -= 3
                     if self.dano <= 0:
                         self.dano = 0
                 print(f'dano imposto por demogorgon: {self.dano}')
@@ -583,8 +587,6 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     if daniel.contador_de_escudo == 0:
                         daniel.inventario.remove(daniel.escudo)
                         print('\033[1m \033[31m dano sendo recebido diretamente por ausência de escudo \033[m')
-                        if daniel.escudo in daniel.inventario:
-                            daniel.contador_de_escudo = 12
                 daniel.marcador_de_escudo = teste.escudo * daniel.contador_de_escudo
 
             def ataque_direto(self, numero_do_programa):
