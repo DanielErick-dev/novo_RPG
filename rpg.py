@@ -10,6 +10,12 @@ import pygame
 pygame.init()
 
 class PrimeiraParte(Exception):
+    def voz_mercadinho(self):
+        falar = pyttsx3.init('sapi5')
+        frase = 'bem vindo ao mercadinho mágico'
+        falar.say(frase)
+        falar.runAndWait()
+
     def mostrando_bau(self):
         janela = pygame.display.set_mode((700, 565))
         position = (0, 0)
@@ -134,7 +140,8 @@ class PrimeiraParte(Exception):
         self.inventario = [self.garrafa_de_agua, self.carne, self.aditivo_de_cura]
         self.revivedor = 'revivedor      '
         self.escudo = 'escudo         '
-        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.escudo: 15}
+        self.reparador = 'reparador      '
+        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.escudo: 15, self.reparador: 10}
         self.list_itens_comprados = []
         self.personagem_escolhido = ''
         self.CONTADOR_DE_BATALHA_DEMOGORGON = 0
@@ -144,6 +151,7 @@ class PrimeiraParte(Exception):
         self.contador_de_escudo = 12
         self.marcador_de_escudo = teste.escudo * self.contador_de_escudo
         self.opcao_de_escudo = False
+
 
 
 
@@ -168,6 +176,7 @@ personagem 03 - geralt - bruxo''')
         sleep(3)
     def mercadinho(self):
         print(f'\033[35m \033[1m{"BEM VINDO AO MERCADINHO MÁGICO":^50}\033[m')
+        daniel.voz_mercadinho()
         self.codigo_agua = '245'
         self.codigo_carne = '103'
         self.codigo_pocao = '205'
@@ -175,7 +184,8 @@ personagem 03 - geralt - bruxo''')
         self.codigo_cristal = '534'
         self.codigo_revivedor = '890'
         self.codigo_escudo = '387'
-        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_escudo]
+        self.codigo_reparador = '631'
+        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_escudo, self.codigo_reparador]
         c = 0
         print('\033[31m \033[1m \033[4m')
         print('|CÓDIGO|        |ITEM|          |MOEDAS|\033[m')
@@ -281,6 +291,14 @@ personagem 03 - geralt - bruxo''')
                 print('item comprado')
             else:
                 print('quantidade de moedas insuficiente para comprar o escudo')
+        elif codigo == self.codigo_reparador:
+            if self.moeda >= self.mercado[self.reparador]:
+                self.moeda -= self.mercado[self.reparador]
+                self.inventario.append(self.reparador)
+                self.list_itens_comprados.append(self.reparador)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficiente para comprar o reparador de escudo')
 
         else:
             print('\033[31m \0331m               código inserido não corresponde a nenhum produto do mercado mágico \033[m')
@@ -440,9 +458,11 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         self.moeda -= 5
     def casa33(self):
         self.casa -= 10
-        print('\033[1mescorregou na ponta da montanha e deixou seus recursos cairem, dê a volta pela encosta\033[m')
+        print('\033[1m escorregou na ponta da montanha e deixou seus recursos cairem, dê a volta pela encosta\033[m')
         self.inventario.clear()
         self.contador_de_vida -= 2
+        self.contador_de_sede -= 1
+        self.contador_de_fome -= 1
     def casa55(self):
         print(f'\033[1m monstros a sua espreita, volte 8 casas\033[m')
         self.casa -= 8
@@ -516,7 +536,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         if self.moeda <= 0:
             self.moeda = 0
     def casa30(self):
-        print('encontrou um saquinho de moedas durante o caminho, pegue - as')
+        print('encontrou um saquinho de moedas durante o caminho, pegue-as')
         self.moeda += 20
     def casa86(self):
         print('\033[1mcomeu fruto envenenado, se recupere cavalheiro\033[m')
@@ -525,6 +545,29 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         self.contador_de_fome -= 3
         self.contador_de_vida -= 3
 
+    def reparando_escudo(self):
+        print(f'\n \033[31m \033[1m escudo de {daniel.personagem_escolhido} será quebrado em batalha... \033[m')
+        if daniel.reparador in daniel.inventario:
+            while True:
+                sleep(1)
+                opcao = str(input('deseja usar seu recuperador de colete? ')).lower()
+                if opcao == 'sim':
+                    print('reparando colete..')
+                    sleep(2)
+                    print(f'\033[1m \033[31m {"escudo reparado com sucesso".upper():^40} \033[m')
+                    sleep(0.6)
+                    daniel.contador_de_escudo += 10
+                    daniel.inventario.remove(daniel.reparador)
+                    break
+                elif opcao == 'não' or opcao == 'nao':
+                    print('escudo será destruido')
+                    print(f'\033[1m \033[31m {"escudo não será reparado".upper():^40} \033[m')
+                    sleep(0.6)
+                    break
+                else:
+                    print('\033[31m \033[m digite apenas sim ou não 033[m')
+        else:
+            print(' \033[1m ausência de reparador de escudo  \033[m')
     # ROTAS ALTERNATIVAS
     def rota1_caverna(self):
         pass
@@ -609,7 +652,9 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 if demogorgon.STATUS <= 0:
                     demogorgon.STATUS = False
                 if daniel.contador_de_escudo <= 0:
-                    daniel.contador_de_escudo = 0
+                    daniel.reparando_escudo()
+                    if daniel.contador_de_escudo <= 0:
+                        daniel.contador_de_escudo = 0
                     if daniel.contador_de_escudo == 0:
                         daniel.inventario.remove(daniel.escudo)
                         print('\033[1m \033[31m dano sendo recebido diretamente por ausência de escudo \033[m')
@@ -669,6 +714,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 print(f'\033[4m \033[1m \033[32m {"-" * 50:^50} \033[m')
                 print('\n \033[32m \033[1m fechando baú de recompensa do demogorgon \033[m')
                 sleep(1)
+
 
 
 
@@ -796,6 +842,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                         if opcao_mercado == 'sim':
                             daniel.mercadinho()
                             break
+
                         elif opcao_mercado == 'não' or opcao_mercado == 'nao':
                             print()
                             break

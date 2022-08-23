@@ -54,7 +54,7 @@ class Alimentos():
 
 
     def lendo_mercadinho(self):
-        with open('mercadinho.py') as mercadinho:
+        with open('vozmercadinho.py', 'r') as mercadinho:
             for linha in mercadinho:
                 frase = gtts.gTTS(linha, lang='pt-br')
                 frase.save('frase.mp3')
@@ -62,6 +62,7 @@ class Alimentos():
 
 
 alimentos = Alimentos()
+
 
 
 
