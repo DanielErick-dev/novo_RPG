@@ -139,18 +139,18 @@ class PrimeiraParte(Exception):
         self.cristal = 'cristal        '
         self.inventario = [self.garrafa_de_agua, self.carne, self.aditivo_de_cura]
         self.revivedor = 'revivedor      '
-        self.escudo = 'escudo         '
+        self.armadura = 'armadura       '
         self.reparador = 'reparador      '
-        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.escudo: 15, self.reparador: 10}
+        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.armadura: 15, self.reparador: 10}
         self.list_itens_comprados = []
         self.personagem_escolhido = ''
         self.CONTADOR_DE_BATALHA_DEMOGORGON = 0
         self.STATUS = True
-        self.armadura = 'armadura'
-        self.escudo_escolhido = [self.escudo]
-        self.contador_de_escudo = 12
-        self.marcador_de_escudo = teste.escudo * self.contador_de_escudo
-        self.opcao_de_escudo = False
+        self.escudo_escolhido = [self.armadura]
+        self.contador_de_armadura = 12
+        self.marcador_de_armadura = teste.escudo * self.contador_de_armadura
+        self.opcao_de_armadura = False
+
 
 
 
@@ -183,9 +183,9 @@ personagem 03 - geralt - bruxo''')
         self.codigo_arma = '934'
         self.codigo_cristal = '534'
         self.codigo_revivedor = '890'
-        self.codigo_escudo = '387'
+        self.codigo_armadura = '387'
         self.codigo_reparador = '631'
-        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_escudo, self.codigo_reparador]
+        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_armadura, self.codigo_reparador]
         c = 0
         print('\033[31m \033[1m \033[4m')
         print('|CÓDIGO|        |ITEM|          |MOEDAS|\033[m')
@@ -204,26 +204,27 @@ personagem 03 - geralt - bruxo''')
                 break
             else:
                 print('\033[31mdigite apenas sim ou não cavalheiro\033[m')
-    def escolhendo_e_organizando_escudos(self):
-        if daniel.escudo in daniel.inventario:
+    def escolhendo_e_organizando_armaduras(self):
+        if daniel.armadura in daniel.inventario:
             while True:
-                self.opcao = str(input('deseja utilizar seu escudo? ')).lower()
+                self.opcao = str(input('deseja utilizar sua armadura? ')).lower()
                 if self.opcao == 'sim':
-                    daniel.opcao_de_escudo = True
-                    print('equipando escudo')
-                    daniel.inventario.append(daniel.escudo)
+                    daniel.opcao_de_armadura = True
+                    print(' \033[31m \033[4m equipando armadura \033[m')
+                    teste.som_equipando_armadura()
+                    daniel.inventario.append(daniel.armadura)
                     break
                 elif self.opcao == 'não' or self.opcao == 'nao':
-                    daniel.opcao_de_escudo = False
+                    daniel.opcao_de_armadura = False
                     if daniel.personagem_escolhido == 'arfrid':
-                        print(f'inutilização de escudos,{daniel.personagem_escolhido} está desprotegida')
+                        print(f'inutilização de armadura,{daniel.personagem_escolhido} está desprotegida')
                         break
                     else:
-                        print(f'inutilização de escudos,{daniel.personagem_escolhido} está desprotegido')
+                        print(f'inutilização de armadura,{daniel.personagem_escolhido} está desprotegido')
                         break
                 else:
                     print('\033[31m \033[1m apenas sim ou não \033[m')
-                    daniel.escolhendo_e_organizando_escudos()
+                    daniel.escolhendo_e_organizando_armaduras()
 
         else:
             print()
@@ -283,11 +284,11 @@ personagem 03 - geralt - bruxo''')
             else:
                 print('quantidade de moedas insuficiente para comprar o revivedor')
 
-        elif codigo == self.codigo_escudo:
-            if self.moeda >= self.mercado[self.escudo]:
-                self.moeda -= self.mercado[self.escudo]
-                self.inventario.append(self.escudo)
-                self.list_itens_comprados.append(self.escudo)
+        elif codigo == self.codigo_armadura:
+            if self.moeda >= self.mercado[self.armadura]:
+                self.moeda -= self.mercado[self.armadura]
+                self.inventario.append(self.armadura)
+                self.list_itens_comprados.append(self.armadura)
                 print('item comprado')
             else:
                 print('quantidade de moedas insuficiente para comprar o escudo')
@@ -550,24 +551,25 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         if daniel.reparador in daniel.inventario:
             while True:
                 sleep(1)
-                opcao = str(input('deseja usar seu recuperador de colete? ')).lower()
+                opcao = str(input('deseja usar seu recuperador de armadura? ')).lower()
                 if opcao == 'sim':
-                    print('reparando colete..')
-                    sleep(2)
-                    print(f'\033[1m \033[31m {"escudo reparado com sucesso".upper():^40} \033[m')
+                    print('reparando armadura..')
+                    teste.som_regenerando_armadura()
+                    sleep(0.5)
+                    print(f'\033[1m \033[31m {"armadura reparada com sucesso".upper():^40} \033[m')
                     sleep(0.6)
-                    daniel.contador_de_escudo += 10
+                    daniel.contador_de_armadura += 12
                     daniel.inventario.remove(daniel.reparador)
                     break
                 elif opcao == 'não' or opcao == 'nao':
-                    print('escudo será destruido')
-                    print(f'\033[1m \033[31m {"escudo não será reparado".upper():^40} \033[m')
+                    print('armadura será destruida')
+                    print(f'\033[1m \033[31m {"armadura não será reparada".upper():^40} \033[m')
                     sleep(0.6)
                     break
                 else:
                     print('\033[31m \033[m digite apenas sim ou não 033[m')
         else:
-            print(' \033[1m ausência de reparador de escudo  \033[m')
+            print(' \033[1m ausência de reparador de armadura  \033[m')
     # ROTAS ALTERNATIVAS
     def rota1_caverna(self):
         pass
@@ -582,11 +584,11 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.contador_de_vida = 30
                 self.barra_de_vida_demogorgon = teste.barra_de_vida_demogorgon
                 self.STATUS = True
-                self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.escudo, daniel.revivedor]
+                self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura, daniel.revivedor]
 
 
             def som_demogorgon_atacando(self):
-                playsound('somdemogorgon_atacando.mp3')
+                playsound('newsom_demogorgon_atacando.mp3')
             def narrando_demogorgon(self):
                 falar = pyttsx3.init('sapi5')
                 frase = str('demogórgon está se aproximando')
@@ -602,15 +604,15 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.vida_demogorgon = self.barra_de_vida_demogorgon * self.contador_de_vida
                 daniel.marcador_de_vida = daniel.contador_de_vida * teste.coracao
                 print(f'\033[31m \033[1m{"VIDA DEMOGORGON":^40} ', end ='  ')
-                if daniel.escudo in daniel.inventario:
+                if daniel.armadura in daniel.inventario:
                     print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
                 else:
                     print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
-                print(f'\033[33m \033[1m{"ESCUDO":^40}')
+                print(f'\033[33m \033[1m{"ARMADURA":^40}')
                 print(f'\033[31m \033[1m{self.vida_demogorgon:^40} ', end='  ')
                 print(f'\033[34m \033[1m{daniel.marcador_de_vida:^40}\033[m', end='  ')
-                if daniel.opcao_de_escudo == True:
-                    print(f'\033[1m {daniel.marcador_de_escudo:^40}\033[m')
+                if daniel.opcao_de_armadura == True:
+                    print(f'\033[1m {daniel.marcador_de_armadura:^40}\033[m')
                 else:
                     print('')
 
@@ -624,23 +626,23 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
                 elif self.dado_demogorgon <= 3:
                     self.dano = 4
-                    if daniel.opcao_de_escudo == True:
-                        daniel.contador_de_escudo -= 1
+                    if daniel.opcao_de_armadura == True:
+                        daniel.contador_de_armadura -= 1
                 elif self.dado_demogorgon <= 6:
                     self.dano = 6
-                    if daniel.opcao_de_escudo == True:
-                        daniel.contador_de_escudo -= 3
+                    if daniel.opcao_de_armadura == True:
+                        daniel.contador_de_armadura -= 3
                 elif self.dado_demogorgon <= 9:
                     self.dano = 7
-                    if daniel.opcao_de_escudo == True:
-                        daniel.contador_de_escudo -= 2
+                    if daniel.opcao_de_armadura == True:
+                        daniel.contador_de_armadura -= 2
 
                 elif self.dado_demogorgon <= 12:
                     self.dano = 8
-                    if daniel.opcao_de_escudo == True:
-                        daniel.contador_de_escudo -= 5
+                    if daniel.opcao_de_armadura == True:
+                        daniel.contador_de_armadura -= 5
 
-                if daniel.opcao_de_escudo == True:
+                if daniel.opcao_de_armadura == True:
                     self.dano -= 3
                     if self.dano <= 0:
                         self.dano = 0
@@ -651,14 +653,14 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     daniel.STATUS = False
                 if demogorgon.STATUS <= 0:
                     demogorgon.STATUS = False
-                if daniel.contador_de_escudo <= 0:
+                if daniel.contador_de_armadura <= 0:
                     daniel.reparando_escudo()
-                    if daniel.contador_de_escudo <= 0:
-                        daniel.contador_de_escudo = 0
-                    if daniel.contador_de_escudo == 0:
-                        daniel.inventario.remove(daniel.escudo)
-                        print('\033[1m \033[31m dano sendo recebido diretamente por ausência de escudo \033[m')
-                daniel.marcador_de_escudo = teste.escudo * daniel.contador_de_escudo
+                    if daniel.contador_de_armadura <= 0:
+                        daniel.contador_de_armadura = 0
+                    if daniel.contador_de_armadura == 0:
+                        daniel.inventario.remove(daniel.armadura)
+                        print('\033[1m \033[31m dano sendo recebido diretamente por ausência de armadura \033[m')
+                daniel.marcador_de_armadura = teste.escudo * daniel.contador_de_armadura
 
             def ataque_direto(self, numero_do_programa):
                 while True:
@@ -762,7 +764,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             print(f'{daniel.personagem_escolhido} avistou o demogorgon do outro lado da floresta invertida')
             sleep(1)
             demogorgon.demogorgon_aparecendo()
-            daniel.escolhendo_e_organizando_escudos()
+            daniel.escolhendo_e_organizando_armaduras()
             sleep(1)
             while True:
                 opcao = str(input('\033[1m deseja fazer um ataque direto ao demogorgon? \033[m')).lower()
