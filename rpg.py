@@ -152,6 +152,7 @@ class PrimeiraParte(Exception):
         self.marcador_de_armadura = teste.escudo * self.contador_de_armadura
         self.opcao_de_armadura = False
         self.STATUS_ARMADURA = False
+        self.nivel_de_escudo = 1
 
 
 
@@ -382,6 +383,12 @@ personagem 03 - geralt - bruxo''')
             daniel.casa86()
         elif self.casa == 67:
             daniel.casa67()
+        elif self.casa == 60:
+            daniel.bau_surpresa()
+        elif self.casa == 20:
+            daniel.bau_surpresa()
+        elif self.casa == 70:
+            daniel.bau_surpresa()
         elif 50 > self.casa >= 40:
             self.CONTADOR_DE_BATALHA_DEMOGORGON += 1
             if self.CONTADOR_DE_BATALHA_DEMOGORGON == 1:
@@ -397,27 +404,43 @@ personagem 03 - geralt - bruxo''')
                 playsound('frase.mp3')
 
     def alimentar(self):
-        opcao = str(input('deseja comer? ')).lower()
-        if opcao == 'sim':
-            if self.carne in daniel.inventario:
-                self.marcador_de_fome += alimentos.carne_para_comer
-                self.contador_de_fome += alimentos.quantidade_de_carne
-                daniel.inventario.remove(self.carne)
-                print(f'aguarde, {self.personagem_escolhido} está se alimentando')
-                teste.som_de_comer()
+        while True:
+            opcao = str(input('deseja comer? ')).lower()
+            if opcao == 'sim':
+                if self.carne in daniel.inventario:
+                    self.marcador_de_fome += alimentos.carne_para_comer
+                    self.contador_de_fome += alimentos.quantidade_de_carne
+                    daniel.inventario.remove(self.carne)
+                    print(f'aguarde, {self.personagem_escolhido} está se alimentando')
+                    teste.som_de_comer()
+                    break
+                else:
+                    print(f'alimento não encontrado na mochila de {self.personagem_escolhido}, obtenha seus recursos')
+            elif opcao == 'não' or opcao == 'nao':
+                print(f'{daniel.personagem_escolhido} está com fome')
+                break
             else:
-                print(f'alimento não encontrado na mochila de {self.personagem_escolhido}, obtenha seus recursos')
+                print('\033[31m \033[m \033[4m digite apenas sim ou não \033[m')
     def beber_agua(self):
-        opcao = str(input('deseja beber àgua? ')).lower()
-        if opcao == 'sim':
-            if self.garrafa_de_agua in daniel.inventario:
-                self.marcador_de_sede += alimentos.garrafa_de_agua_para_beber
-                self.contador_de_sede += alimentos.quantidade_de_agua
-                daniel.inventario.remove(self.garrafa_de_agua)
-                print(f'aguarde, {self.personagem_escolhido} está se hidratando')
-                teste.som_de_beber()
+        while True:
+            opcao = str(input('deseja beber àgua? ')).lower()
+            if opcao == 'sim':
+                if self.garrafa_de_agua in daniel.inventario:
+                    self.marcador_de_sede += alimentos.garrafa_de_agua_para_beber
+                    self.contador_de_sede += alimentos.quantidade_de_agua
+                    daniel.inventario.remove(self.garrafa_de_agua)
+                    print(f'aguarde, {self.personagem_escolhido} está se hidratando')
+                    teste.som_de_beber()
+                    break
+                else:
+                    print(f'garrafa de àgua não encontrada na mochila de {self.personagem_escolhido}, obtenha seus recursos')
+                    break
+            elif opcao == 'não' or opcao == 'nao':
+                print(f'{daniel.personagem_escolhido} está com sede')
+                break
             else:
-                print(f'garrafa de àgua não encontrada na mochila de {self.personagem_escolhido}, obtenha seus recursos')
+                print('\033[31m \033[m \033[4m digite apenas sim ou não \033[m')
+
 
     def recuperar_vida(self):
         opcao = str(input('deseja recuperar sua vida perdida? ')).lower()
@@ -555,6 +578,32 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         self.contador_de_sede -= 3
         self.contador_de_fome -= 3
         self.contador_de_vida -= 3
+    def bau_surpresa(self):
+        sleep(2)
+        print('bem vindo ao baú surpresa, pague o preço do baú e resgate seu prêmio aleatório')
+        print('preço do baú = 30 moedas')
+        while True:
+            opcao = str(input('deseja obter o baú surpresa por 30 moedas? ')).lower()
+            if opcao == 'sim':
+                if self.moeda >= 30:
+                    list = [self.garrafa_de_agua, self.carne, self.aditivo_de_cura, self.arma, self.cristal, self.revivedor, self.armadura, self.reparador, self.upador_de_armadura]
+                    bau = []
+                    for c in range(0, 4):
+                        item = choice(list)
+                        bau.append(item)
+                    for itens in bau:
+                        print(f'item adicionado: {itens}')
+                        daniel.inventario.append(itens)
+                    self.moeda -= 30
+                    break
+                else:
+                    print('\033[1m \033[31m quantidade insuficiente de moedas para abrir o baú surpresa, uma pena')
+                    break
+            elif opcao == 'não' or opcao == 'nao':
+                print('\nignorando báu surpresa, quem sabe na próxima')
+                break
+            else:
+                print(' \033[31m \033[1m \033[4m digite apenas sim ou não para abrir o baú surpresa \033[m')
 
     def reparando_escudo(self):
         self.STATUS_ARMADURA = False
@@ -600,6 +649,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print('\033[1m \033[4m \033[36m  ESCUDO MELHORADO - NIVEL AUMENTADO - \033[m')
                     print('\n')
                     break
+                    self.nivel_de_escudo += 1
                 elif opcao == 'não' or opcao == 'nao':
                     sleep(1)
                     print('armadura permanece da mesma forma')
@@ -618,7 +668,6 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         class CombateDemogorgon():
             def __init__(self, nome):
                 self.nome = nome
-
                 self.contador_de_vida = 30
                 self.barra_de_vida_demogorgon = teste.barra_de_vida_demogorgon
                 self.STATUS = True
@@ -641,16 +690,16 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 sleep(1)
                 self.vida_demogorgon = self.barra_de_vida_demogorgon * self.contador_de_vida
                 daniel.marcador_de_vida = daniel.contador_de_vida * teste.coracao
-                print(f'\033[31m \033[1m{"VIDA DEMOGORGON":^40} ', end ='  ')
+                print(f'\033[31m \033[1m{"VIDA DEMOGORGON":^30} ', end='  ')
                 if daniel.armadura in daniel.inventario:
-                    print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
+                    print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^30}  ', end='  ')
                 else:
-                    print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^40}  ', end='  ')
-                print(f'\033[33m \033[1m{"ARMADURA":^40}')
-                print(f'\033[31m \033[1m{self.vida_demogorgon:^40} ', end='  ')
-                print(f'\033[34m \033[1m{daniel.marcador_de_vida:^40}\033[m', end='  ')
+                    print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^30}  ', end='  ')
+                print(f'\033[33m \033[1m{"ARMADURA":^30}')
+                print(f'\033[31m \033[1m{self.vida_demogorgon:^30} ', end='  ')
+                print(f'\033[34m \033[1m{daniel.marcador_de_vida:^30}\033[m', end='  ')
                 if daniel.opcao_de_armadura == True:
-                    print(f'\033[1m {daniel.marcador_de_armadura:^40}\033[m')
+                    print(f'\033[1m {daniel.marcador_de_armadura:^30}\033[m')
                 else:
                     print('')
 
@@ -673,7 +722,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 elif self.dado_demogorgon <= 9:
                     self.dano = 7
                     if daniel.opcao_de_armadura == True:
-                        daniel.contador_de_armadura -= 2
+                        daniel.contador_de_armadura -= 3
 
                 elif self.dado_demogorgon <= 12:
                     self.dano = 8
@@ -684,6 +733,9 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     self.dano -= 3
                     if self.dano <= 0:
                         self.dano = 0
+                    if daniel.nivel_de_escudo >= 2:
+                        self.dano -= 2
+                        daniel.contador_de_armadura += 1
                 print(f'dano imposto por demogorgon: {self.dano}')
                 print()
                 daniel.contador_de_vida -= self.dano
@@ -705,13 +757,14 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             def ataque_direto(self, numero_do_programa):
                 while True:
                     numero = int(input('digite um número entre 0 e 12: '))
-                    if 0 <= numero <= 12:
+                    numero1 = int(input('digite um número entre 0 e 12: '))
+                    if 0 <= numero <= 12 and 0 <= numero1 <= 12:
                         break
                     else:
                         print('\033[31m \033[1m apenas números entre 0 e 12. \033[m')
                 print(f'{daniel.personagem_escolhido} está atacando demogorgon')
                 daniel.som_do_personagem(daniel.personagem_escolhido)
-                if numero == numero_do_programa:
+                if numero or numero1 == numero_do_programa:
                     sleep(1)
                     print('\033[1m \033[32m INCRIVEL, golpe acertado em cheio \033[m')
                     sleep(1)
