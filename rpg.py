@@ -131,7 +131,7 @@ class PrimeiraParte(Exception):
         self.contador_de_fome = 8
         self.contador_de_sede = 8
         self.contador_de_vida = 20
-        self.garrafa_de_agua = 'garrafa de àgua'
+        self.garrafa_de_agua = 'garrafa de agua'
         self.carne = 'carne          '
         self.aditivo_de_cura = 'aditivo de cura'
         self.arma = 'arma           '
@@ -632,6 +632,36 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print('\033[31m \033[1m digite apenas sim ou não \033[m')
         else:
             print(' \033[1m ausência de reparador de armadura  \033[m')
+    def troca_de_item_por_moeda(self):
+        daniel.mostrando_inventario()
+        opcao = str(input('digite qual item do inventário você deseja trocar por moedas? ')).lower()
+        print('analisando item')
+        def tamanho_da_variavel(variavel):
+            while len(variavel) != 15:
+                variavel += ' '
+                if len(variavel) == 15:
+                    break
+            return variavel
+        item = tamanho_da_variavel(opcao)
+        if item in daniel.inventario:
+            print(f'vendendo item..')
+            sleep(2)
+            for nome_do_item, preco in daniel.mercado.items():
+                if nome_do_item == item:
+                    self.item = nome_do_item
+                    print(f'preço do item: {preco} moedas')
+                    print('item vendido de volta para o mercado mágico')
+                    daniel.moeda += preco
+                    daniel.inventario.remove(self.item)
+        else:
+            print('este item não existe ou ele não se encontra em seu inventário, não foi possivel vende-lo, tente novamente')
+            daniel.troca_de_item_por_moeda()
+
+
+
+
+
+
     def upar_armadura(self):
         if daniel.armadura not in daniel.inventario:
             print(f'não é possivel atribuir um nivel a mais para sua armadura pois {daniel.personagem_escolhido} não possui uma armadura')
@@ -1003,6 +1033,8 @@ def executando_floresta_encantada():
                     daniel.mercadinho()
                 elif iniciar == 'mochila':
                     daniel.mostrando_inventario()
+                elif iniciar == 'troca':
+                    daniel.troca_de_item_por_moeda()
                 elif iniciar == 'cristal':
                     daniel.inimigos_proximos_pelo_cristal()
                 elif iniciar == 'upar armadura':
