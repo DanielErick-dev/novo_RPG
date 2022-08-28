@@ -118,9 +118,12 @@ class PrimeiraParte(Exception):
             |   para acessar seu inventário basta escrever mochila no "digite enter cavalheiro" e veja seus recursos disponiveis      |
             |                                                                                                                         |
             |CRISTAL:                                                                                                                 |
-            |  a função do cristal é atentar o jogador de determinado oponente que ele enfrentará durante o caminho, para usar escreva|
+            |   a função do cristal é atentar o jogador de determinado oponente que ele enfrentará durante o caminho, para usar escreva|
             |    'cristal' no 'aperte enter cavalheiro' lembrando, o cristal nao começará no seu estoque inicial. obtenha-o           |
-            |                                                                                                                         |
+            |TROCA:                                                                                                                   |
+            |    para trocar um item do seu inventário por moedas basta escrever TROCA e digitar o nome do item que deseja vender     |                                                                                                                   
+            |UPAR ARMADURA:                                                                                                           |
+            |   ao ter a armadura em seu inventário, para melhorar seu nivel, basta escrever upar armadura que poderá aumentar o nivel|
             ---------------------------------------------------------------------------------------------------------------------------
         ''')
 
@@ -455,6 +458,10 @@ personagem 03 - geralt - bruxo''')
                 teste.tomando_pocao()
             else:
                 print(f'poção não encontrado na mochila de {self.personagem_escolhido}, obtenha seus recursos')
+        elif opcao == 'não' or opcao == 'nao':
+            print(f'{daniel.personagem_escolhido} precisa recuperar sua vida')
+        else:
+            print('\033[31m \033[1m \033[4m digite apenas sim ou não \033[m')
     def inimigos_proximos_pelo_cristal(self):
         if daniel.cristal in daniel.inventario:
             while True:
@@ -731,6 +738,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura, daniel.revivedor]
                 self.contador_de_ativacao_de_habilidade = 4
                 self.contador_de_ativacao_de_habilidade = 4
+                self.dano_demogorgon = 0
             def habilidade_especial(self):
                 if self.contador_de_ativacao_de_habilidade <= 0:
                     if daniel.personagem_escolhido == 'andrey':
@@ -756,26 +764,26 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                 sleep(1)
                                 if opcao == 'sim':
                                     def chuva_de_flechas():
+                                        cont = 0
                                         for c in range(0, 5):
-                                            cont = 0
                                             cont += 1
                                             dado = ran(0, 3)
                                             if dado == 0:
                                                 pass
                                             elif dado == 1:
-                                                self.dano += 1
+                                                self.dano_demogorgon += 1
                                             elif dado == 2:
-                                                self.dano += 2
+                                                self.dano_demogorgon += 2
                                             else:
-                                                self.dano += 3
-                                            demogorgon.contador_de_vida -= self.dano
+                                                self.dano_demogorgon += 3
+                                            demogorgon.contador_de_vida -= self.dano_demogorgon
                                             print(f'{cont}° flecha sendo lançada')
                                             sleep(1)
                                     sleep(1)
-                                    print(' \033[1m \033[4m \033[34m CHUVA DE FLECHAS, ahhhh \033[m')
+                                    teste.som_chuva_de_flechas()
                                     chuva_de_flechas()
                                     sleep(2)
-                                    print(f'dano total das chuvas de flechas de arfrid: {self.dano}')
+                                    print(f'dano total das chuvas de flechas de arfrid: {self.dano_demogorgon}')
                                     self.contador_de_ativacao_de_habilidade = 4
                                     break
                                 elif opcao == 'não' or opcao == 'nao':
@@ -784,7 +792,25 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                 else:
                                     print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
                     if daniel.personagem_escolhido == 'geralt':
-                        pass
+                        while True:
+                            sleep(2)
+                            opcao = str(input('deseja ativar habilidade especial de geralt? ')).lower()
+                            sleep(1)
+                            if opcao == 'sim':
+                                sleep(1)
+                                print(' \033[1m \033[4m \033[34m magia rejuvenescedora \033[m')
+                                self.contador_de_ativacao_de_habilidade = 4
+                                demogorgon.personagem_jogando()
+                                break
+                            elif opcao == 'não' or opcao == 'nao':
+                                print()
+                                break
+                            else:
+                                print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
+                        print('magia de geralt sendo ativada, convertendo dano em vida')
+                        daniel.contador_de_vida += demogorgon.dano_demogorgon
+                        daniel.contador_de_vida += 1
+
             def som_demogorgon_atacando(self):
                 playsound('newsom_demogorgon_atacando.mp3')
             def narrando_demogorgon(self):
@@ -815,41 +841,41 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print('')
 
             def demogorgon_jogando(self):
-                self.dano = 0
+                self.dano_demogorgon = 0
                 self.dado_demogorgon = ran(0, 12)
                 print('demogorgon atacando..')
                 demogorgon.som_demogorgon_atacando()
                 if self.dado_demogorgon <= 1:
-                    self.dano = 0
+                    self.dano_demogorgon = 0
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
                 elif self.dado_demogorgon <= 3:
-                    self.dano = 4
+                    self.dano_demogorgon = 4
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 1
                 elif self.dado_demogorgon <= 6:
-                    self.dano = 6
+                    self.dano_demogorgon = 6
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 3
                 elif self.dado_demogorgon <= 9:
-                    self.dano = 7
+                    self.dano_demogorgon = 7
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 3
 
                 elif self.dado_demogorgon <= 12:
-                    self.dano = 8
+                    self.dano_demogorgon = 8
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 5
 
                 if daniel.opcao_de_armadura == True:
-                    self.dano -= 3
-                    if self.dano <= 0:
-                        self.dano = 0
+                    self.dano_demogorgon -= 3
+                    if self.dano_demogorgon <= 0:
+                        self.dano_demogorgon = 0
                     if daniel.nivel_de_escudo >= 2:
-                        self.dano -= 2
+                        self.dano_demogorgon -= 2
                         daniel.contador_de_armadura += 1
-                print(f'dano imposto por demogorgon: {self.dano}')
+                print(f'dano imposto por demogorgon: {self.dano_demogorgon}')
                 print()
-                daniel.contador_de_vida -= self.dano
+                daniel.contador_de_vida -= self.dano_demogorgon
                 if daniel.contador_de_vida <= 0:
                     daniel.STATUS = False
                 if demogorgon.STATUS <= 0:
@@ -925,35 +951,35 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
 
 
             def personagem_jogando(self):
-                self.dano = 0
+                self.dano_personagem = 0
                 self.dado_personagem = ran(0, 12)
                 self.adicional = 0
                 print(f'{daniel.personagem_escolhido} está atacando demogorgon..')
                 daniel.som_do_personagem(daniel.personagem_escolhido)
-                if self.dado_demogorgon <= 1:
-                    self.dano = 0
+                if self.dado_personagem <= 1:
+                    self.dano_personagem = 0
                     print(f'{demogorgon.nome} desviou do ataque')
                 elif self.dado_personagem <= 3:
-                    self.dano = 3
+                    self.dano_personagem = 3
                     if daniel.personagem_escolhido == 'geralt':
-                        self.dano += 2
+                        self.dano_personagem += 2
                         self.adicional = 2
                 elif self.dado_personagem <= 6:
-                    self.dano = 7
+                    self.dano_personagem = 7
                     if daniel.personagem_escolhido == 'geralt':
-                        self.dano += 3
+                        self.dano_personagem += 3
                         self.adicional = 3
                 elif self.dado_personagem <= 9:
-                    self.dano = 9
+                    self.dano_personagem = 9
                     if daniel.personagem_escolhido == 'geralt':
-                        self.dano += 3
+                        self.dano_personagem += 3
                         self.adicional = 3
                 elif self.dado_personagem <= 12:
-                    self.dano = 8
+                    self.dano_personagem = 8
                     if daniel.personagem_escolhido == 'geralt':
-                        self.dano += 4
-                        self.adicional = 4
-                print(f'dano imposto por {daniel.personagem_escolhido}: {self.dano}')
+                        self.dano_personagem += 3
+                        self.adicional = 3
+                print(f'dano imposto por {daniel.personagem_escolhido}: {self.dano_personagem}')
                 print(f'dano adcional: {self.adicional}')
                 print()
                 self.contador_de_ativacao_de_habilidade -= 1
@@ -962,7 +988,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     demogorgon.habilidade_especial()
                 else:
                     print('habilidade especial carregando')
-                demogorgon.contador_de_vida -= self.dano
+                demogorgon.contador_de_vida -= self.dano_personagem
                 if demogorgon.contador_de_vida <= 0:
                     demogorgon.STATUS = False
                 if daniel.contador_de_vida <= 0:
