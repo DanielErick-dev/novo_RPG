@@ -395,6 +395,8 @@ personagem 03 - geralt - bruxo''')
                 daniel.rota2_floresta_invertida()
         elif self.casa == 80:
             daniel.fruta_envenenada()
+        elif self.casa == 68:
+            daniel.casa68()
 
     def leitura_em_voz(self):
         with open('lendoflorestaencantada.py', 'r') as arquivo:
@@ -490,6 +492,10 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         self.casa -= 4
         print('\033[1mdeixou cair um item da mochila no percurso, retorne pra buscar\033[m')
         self.moeda -= 5
+    def casa68(self):
+        print('achou peixes ao lado da cachoeira, coma-os')
+        sleep(2)
+        daniel.contador_de_fome += 4
     def casa33(self):
         self.casa -= 10
         print('\033[1m escorregou na ponta da montanha e deixou seus recursos cairem, dê a volta pela encosta\033[m')
@@ -633,6 +639,16 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         else:
             print(' \033[1m ausência de reparador de armadura  \033[m')
     def troca_de_item_por_moeda(self):
+        while True:
+            opcao = str(input('deseja fazer a troca do item por moedas?  ')).lower()
+            if opcao == 'sim':
+                break
+            elif opcao == 'não' or opcao == 'nao':
+                print('fechando troca de item por moeda')
+                sleep(3)
+                break
+            else:
+                print('\033[31mdigite apenas sim ou não cavalheiro\033[m')
         daniel.mostrando_inventario()
         opcao = str(input('digite qual item do inventário você deseja trocar por moedas? ')).lower()
         print('analisando item')
@@ -656,6 +672,15 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         else:
             print('este item não existe ou ele não se encontra em seu inventário, não foi possivel vende-lo, tente novamente')
             daniel.troca_de_item_por_moeda()
+        while True:
+            a = str(input('deseja trocar mais algo? ')).lower()
+            if a == 'sim':
+                daniel.troca_de_item_por_moeda()
+                break
+            elif a == 'não' or a == 'nao':
+                break
+            else:
+                print('\033[31mdigite apenas sim ou não cavalheiro\033[m')
 
 
 
@@ -688,10 +713,12 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 else:
                     print('\033[31m \033[1m digite apenas sim ou não \033[m')
                     sleep(1)
+
+
+
     # ROTAS ALTERNATIVAS
     def rota1_caverna(self):
         pass
-
 
 
     def rota2_floresta_invertida(self):
@@ -702,8 +729,62 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.barra_de_vida_demogorgon = teste.barra_de_vida_demogorgon
                 self.STATUS = True
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura, daniel.revivedor]
-
-
+                self.contador_de_ativacao_de_habilidade = 4
+                self.contador_de_ativacao_de_habilidade = 4
+            def habilidade_especial(self):
+                if self.contador_de_ativacao_de_habilidade <= 0:
+                    if daniel.personagem_escolhido == 'andrey':
+                        while True:
+                            sleep(2)
+                            opcao = str(input('deseja ativar habilidade especial de andrey? ')).lower()
+                            sleep(1)
+                            if opcao == 'sim':
+                                sleep(1)
+                                print(' \033[1m \033[4m \033[31m golpe duplo de espadas, ahhhh \033[m')
+                                self.contador_de_ativacao_de_habilidade = 4
+                                demogorgon.personagem_jogando()
+                                break
+                            elif opcao == 'não' or opcao == 'nao':
+                                print()
+                                break
+                            else:
+                                print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
+                    if daniel.personagem_escolhido == 'arfrid':
+                            while True:
+                                sleep(2)
+                                opcao = str(input('deseja ativar habilidade especial de arfrid? ')).lower()
+                                sleep(1)
+                                if opcao == 'sim':
+                                    def chuva_de_flechas():
+                                        for c in range(0, 5):
+                                            cont = 0
+                                            cont += 1
+                                            dado = ran(0, 3)
+                                            if dado == 0:
+                                                pass
+                                            elif dado == 1:
+                                                self.dano += 1
+                                            elif dado == 2:
+                                                self.dano += 2
+                                            else:
+                                                self.dano += 3
+                                            demogorgon.contador_de_vida -= self.dano
+                                            print(f'{cont}° flecha sendo lançada')
+                                            sleep(1)
+                                    sleep(1)
+                                    print(' \033[1m \033[4m \033[34m CHUVA DE FLECHAS, ahhhh \033[m')
+                                    chuva_de_flechas()
+                                    sleep(2)
+                                    print(f'dano total das chuvas de flechas de arfrid: {self.dano}')
+                                    self.contador_de_ativacao_de_habilidade = 4
+                                    break
+                                elif opcao == 'não' or opcao == 'nao':
+                                    print()
+                                    break
+                                else:
+                                    print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
+                    if daniel.personagem_escolhido == 'geralt':
+                        pass
             def som_demogorgon_atacando(self):
                 playsound('newsom_demogorgon_atacando.mp3')
             def narrando_demogorgon(self):
@@ -875,11 +956,23 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 print(f'dano imposto por {daniel.personagem_escolhido}: {self.dano}')
                 print(f'dano adcional: {self.adicional}')
                 print()
+                self.contador_de_ativacao_de_habilidade -= 1
+                if self.contador_de_ativacao_de_habilidade <= 0:
+                    print(f'habilidade especial de {daniel.personagem_escolhido} pronta para ser usada')
+                    demogorgon.habilidade_especial()
+                else:
+                    print('habilidade especial carregando')
                 demogorgon.contador_de_vida -= self.dano
                 if demogorgon.contador_de_vida <= 0:
                     demogorgon.STATUS = False
                 if daniel.contador_de_vida <= 0:
-                    daniel.STATUS = False
+                    if daniel.nivel_de_escudo >= 2:
+                        print('absorvendo dano para armadura, sacrificio de escudo')
+                        daniel.contador_de_vida += 6
+                        daniel.inventario.remove(daniel.armadura)
+                        daniel.contador_de_armadura = 0
+                    else:
+                        daniel.STATUS = False
 
         demogorgon = CombateDemogorgon('demogorgon')
         if daniel.CONTADOR_DE_BATALHA_DEMOGORGON == 1:
@@ -927,6 +1020,8 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         daniel.contador_de_fome -= 3
         daniel.casa = 42
         executando_floresta_encantada()
+
+
 
 
     def rota3_alguma_coisa(self):
@@ -1004,7 +1099,7 @@ def executando_floresta_encantada():
         print(f'{"mostrando manual do jogo, LEIA".upper():^100}')
         sleep(2)
         daniel.manual()
-        sleep(5)
+        sleep(1)
         print('''amostra de personagens
     aperte em fechar para continuar: ''')
         sleep(1.2)
@@ -1046,13 +1141,8 @@ def executando_floresta_encantada():
                     print(f'prepare {daniel.personagem_escolhido} para andar:\033[34m {valor} casas \033[m')
                     daniel.pulando_casas(valor)
                     daniel.mostrar_casa()
-
-
-
         if daniel.casa < 100:
             inicializando_jogo(iniciar=str(input(f'\naperte enter cavalheiro: ')).lower())
-
-
     if daniel.STATUS == True:
         print(f'\033[33m {"parabêns sobrevivente, ultrapassou a floresta encantada":^40}\033[m')
 
