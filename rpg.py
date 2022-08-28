@@ -798,18 +798,19 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                             sleep(1)
                             if opcao == 'sim':
                                 sleep(1)
-                                print(' \033[1m \033[4m \033[34m magia rejuvenescedora \033[m')
+                                print(' \033[1m RESSUSCITAR \033[m')
+                                teste.som_ressuscitar()
                                 self.contador_de_ativacao_de_habilidade = 4
-                                demogorgon.personagem_jogando()
+                                daniel.contador_de_vida += demogorgon.dano_demogorgon
+                                daniel.contador_de_vida += demogorgon.dano_demogorgon
+
                                 break
                             elif opcao == 'não' or opcao == 'nao':
                                 print()
                                 break
                             else:
                                 print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
-                        print('magia de geralt sendo ativada, convertendo dano em vida')
-                        daniel.contador_de_vida += demogorgon.dano_demogorgon
-                        daniel.contador_de_vida += 1
+
 
             def som_demogorgon_atacando(self):
                 playsound('newsom_demogorgon_atacando.mp3')
@@ -917,33 +918,24 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     daniel.contador_de_sede -= 3
                     daniel.contador_de_fome -= 3
             def bau_recompensa_demogorgon(self):
-                sleep(2)
+                print('\n')
                 print('baú mágico a sua espera')
                 sleep(2)
                 daniel.mostrando_bau()
+                print('abrindo báu')
+                teste.som_abrindo_bau()
                 list_itens_adicionados = []
-                while True:
-                    opcao = str(input('\naperte enter para abrir o baú. ')).lower()
-                    if opcao == '':
-                        sleep(1)
-                        print('\033[1m \033[4m \033[36m baú mágico sendo aberto.. \033[m')
-                        sleep(1)
-                        teste.som_abrindo_bau()
-                        break
-                    else:
-                        print(f'\033[31m \033[1m aperte apenas enter cavalheiro \033[m')
                 for item in demogorgon.bau:
                     list_itens_adicionados.append(item)
                     daniel.inventario.append(item)
                 daniel.moeda += 30
-                sleep(1)
                 print(f'\033[32m \033[4m \033[1m {"itens adicionados: ".upper():^50} \033[m')
                 sleep(1)
                 for itens in list_itens_adicionados:
                     print(f'{itens.upper():^50}')
-                    sleep(1.2)
+                    sleep(2)
                 print(f'{"moedas".upper():^40}')
-                print(f'\033[4m \033[1m \033[32m {"-" * 50:^50} \033[m')
+                print(f'\033[4m \033[1m \033[32m {"-" * len("itens adicionados"):^50} \033[m')
                 print('\n \033[32m \033[1m fechando baú de recompensa do demogorgon \033[m')
                 sleep(1)
 
