@@ -145,7 +145,8 @@ class PrimeiraParte(Exception):
         self.armadura = 'armadura       '
         self.reparador = 'reparador      '
         self.upador_de_armadura = 'upar armadura  '
-        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.armadura: 15, self.reparador: 10, self.upador_de_armadura: 15}
+        self.acelerador_de_habilidade = 'acelerador ULT '
+        self.mercado = {self.garrafa_de_agua: 10, self.carne: 10, self.aditivo_de_cura: 15, self.arma: 20, self.cristal: 25, self.revivedor: 30, self.armadura: 15, self.reparador: 10, self.upador_de_armadura: 15, self.acelerador_de_habilidade: 10}
         self.list_itens_comprados = []
         self.personagem_escolhido = ''
         self.CONTADOR_DE_BATALHA_DEMOGORGON = 0
@@ -156,6 +157,7 @@ class PrimeiraParte(Exception):
         self.opcao_de_armadura = False
         self.STATUS_ARMADURA = False
         self.nivel_de_escudo = 1
+
 
 
 
@@ -192,7 +194,8 @@ personagem 03 - geralt - bruxo''')
         self.codigo_armadura = '387'
         self.codigo_reparador = '631'
         self.codigo_upador_de_armadura = '027'
-        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_armadura, self.codigo_reparador, self.codigo_upador_de_armadura]
+        self.codigo_acelerador_de_habilidade = '112'
+        self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_armadura, self.codigo_reparador, self.codigo_upador_de_armadura, self.codigo_acelerador_de_habilidade]
         c = 0
         print('\033[31m \033[1m \033[4m')
         print('|CÓDIGO|        |ITEM|          |MOEDAS|\033[m')
@@ -315,6 +318,14 @@ personagem 03 - geralt - bruxo''')
                 print('item comprado')
             else:
                 print('quantidade de moedas insuficientes para comprar o upador de armadura')
+        elif codigo == self.codigo_acelerador_de_habilidade:
+            if self.moeda >= self.mercado[self.acelerador_de_habilidade]:
+                self.moeda -= self.mercado[self.acelerador_de_habilidade]
+                self.inventario.append(self.acelerador_de_habilidade)
+                self.list_itens_comprados.append(self.acelerador_de_habilidade)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficientes para comprar o acelerador de habilidade')
         else:
             print('\033[31m \033[1m             código inserido não corresponde a nenhum produto do mercado mágico \033[m')
             daniel.compra_no_mercado()
@@ -605,8 +616,10 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                         item = choice(list)
                         bau.append(item)
                     for itens in bau:
+                        sleep(1)
                         print(f'item adicionado: {itens}')
                         daniel.inventario.append(itens)
+                        sleep(0.9)
                     self.moeda -= 30
                     break
                 else:
@@ -710,8 +723,9 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     sleep(2)
                     print('\033[1m \033[4m \033[36m  ESCUDO MELHORADO - NIVEL AUMENTADO - \033[m')
                     print('\n')
-                    break
                     self.nivel_de_escudo += 1
+                    daniel.inventario.remove(daniel.upador_de_armadura)
+                    break
                 elif opcao == 'não' or opcao == 'nao':
                     sleep(1)
                     print('armadura permanece da mesma forma')
@@ -803,7 +817,8 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                 self.contador_de_ativacao_de_habilidade = 4
                                 daniel.contador_de_vida += demogorgon.dano_demogorgon
                                 daniel.contador_de_vida += demogorgon.dano_demogorgon
-
+                                if daniel.contador_de_vida > 0:
+                                    daniel.STATUS = True
                                 break
                             elif opcao == 'não' or opcao == 'nao':
                                 print()
@@ -850,7 +865,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     self.dano_demogorgon = 0
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
                 elif self.dado_demogorgon <= 3:
-                    self.dano_demogorgon = 4
+                    self.dano_demogorgon = 5
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 1
                 elif self.dado_demogorgon <= 6:
@@ -940,8 +955,6 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 sleep(1)
 
 
-
-
             def personagem_jogando(self):
                 self.dano_personagem = 0
                 self.dado_personagem = ran(0, 12)
@@ -974,6 +987,18 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 print(f'dano imposto por {daniel.personagem_escolhido}: {self.dano_personagem}')
                 print(f'dano adcional: {self.adicional}')
                 print()
+                if daniel.acelerador_de_habilidade in daniel.inventario:
+                    opcao = str(input('acelerador de habilidade pronto para ser usado, deseja usar? ')).lower()
+                    if opcao == 'sim':
+                        print('ativando acelerador de habilidade')
+                        daniel.inventario.remove(daniel.acelerador_de_habilidade)
+                        sleep(2)
+                        print('acelerador de habilidade ativado')
+                        self.contador_de_ativacao_de_habilidade -= 2
+                    elif opcao == 'não' or opcao == 'nao':
+                        print('recusando ativação do acelerador de habilidade')
+                    else:
+                        print('\033[31m \033[4m \033[1m digite apenas sim ou não \033[m')
                 self.contador_de_ativacao_de_habilidade -= 1
                 if self.contador_de_ativacao_de_habilidade <= 0:
                     print(f'habilidade especial de {daniel.personagem_escolhido} pronta para ser usada')
