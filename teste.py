@@ -1,11 +1,44 @@
 
+
 import gtts
 from playsound import playsound
 import pyttsx3
+
 from random import randint as ran
+
 
 falar = pyttsx3.init('sapi5')
 
+# SONS DE ARFRID:
+def som_arfrid_comeco_do_jogo():
+    playsound('arfrid_comeco_de_partida.mp3')
+def som_arfrid_sendo_sarcastica():
+    playsound('arfrid_sarcasmomp3')
+def som_chuva_de_flechas():
+    playsound('rajada_de_flechas.mp3')
+
+
+# SONS DE ANDREY:
+def som_andrey_começo_de_partida():
+    playsound('andrey_comeco_de_partida.mp3')
+def som_andrey_final_de_partida():
+    playsound('andrey_final_de_partida.mp3')
+def corte_duplo_andrey():
+    playsound('corte_duplo_andrey.mp3')
+
+# SONS DE GERALT:
+def som_geralt_final_de_partida():
+    playsound('som_final_de_partida_geralt.mp3')
+def som_geralt_comeco_de_partida():
+    playsound('som_comeco_de_partida_geralt.mp3')
+def som_ressuscitar():
+    playsound('ressuscitar.mp3')
+
+# SONS ALEATÓRIOS
+def som_armadura_quebrando():
+    playsound('armadura_quebrando.mp3')
+def som_equipando_armadura():
+    playsound('equipando_escudo.mp3')
 def som_de_comer():
     playsound('personagemcomendo.mp3')
 
@@ -23,7 +56,8 @@ def som_game_over():
 
 def som_abrindo_bau():
     playsound('abrindobau.mp3')
-
+def som_regenerando_armadura():
+    playsound('regenerando_armadura.mp3')
 
 # marcadores
 agua = '\U0001f4a7'
@@ -41,6 +75,7 @@ cura = coracao
 # classe organizacional
 class Alimentos():
     def __init__(self):
+
         self.quantidade_de_agua = 10
         self.quantidade_de_carne = 10
         self.quantidade_de_aditivo_de_cura = 10
@@ -62,6 +97,8 @@ class Alimentos():
 
 
 alimentos = Alimentos()
+
+
 
 
 

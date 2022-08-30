@@ -161,8 +161,6 @@ class PrimeiraParte(Exception):
 
 
 
-
-
     def escolha_de_personagem(self):
         print('''\npersonagem 01 - andrey - caçador assassino
 personagem 02 - arfrid - arqueira 
@@ -171,12 +169,15 @@ personagem 03 - geralt - bruxo''')
             escolha = str(input('escreva o nome do personagem que você deseja: ')).lower()
             if escolha == 'andrey':
                 self.personagem_escolhido = 'andrey'
+                teste.som_andrey_começo_de_partida()
                 break
             elif escolha == 'arfrid':
                 self.personagem_escolhido = 'arfrid'
+                teste.som_arfrid_comeco_do_jogo()
                 break
             elif escolha == 'geralt':
                 self.personagem_escolhido = 'geralt'
+                teste.som_geralt_comeco_de_partida()
                 break
             else:
                 print('\033[31mopção de personagem inválida\033[m')
@@ -734,7 +735,13 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 else:
                     print('\033[31m \033[1m digite apenas sim ou não \033[m')
                     sleep(1)
-
+    def voz_final_sarcastica_do_personagem(self):
+        if daniel.personagem_escolhido == 'andrey':
+            teste.som_andrey_final_de_partida()
+        elif daniel.personagem_escolhido == 'arfrid':
+            teste.som_arfrid_sendo_sarcastica()
+        else:
+            teste.som_geralt_final_de_partida()
 
 
     # ROTAS ALTERNATIVAS
@@ -762,7 +769,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                             sleep(1)
                             if opcao == 'sim':
                                 sleep(1)
-                                print(' \033[1m \033[4m \033[31m golpe duplo de espadas, ahhhh \033[m')
+                                teste.corte_duplo_andrey()
                                 self.contador_de_ativacao_de_habilidade = 4
                                 demogorgon.personagem_jogando()
                                 break
@@ -1049,6 +1056,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     break
                 if demogorgon.STATUS == False and daniel.STATUS == True:
                     print(f'\033[1m \033[36m demogorgon derrotado por {daniel.personagem_escolhido}\033[m')
+                    daniel.voz_final_sarcastica_do_personagem()
                     print(f'prepare-se para sua recompensa')
                     sleep(1)
                     daniel.contador_de_vida += 1
@@ -1056,13 +1064,15 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     break
                 if demogorgon.STATUS == True and daniel.STATUS == False:
                     print(f'\033[1m \033[31m {daniel.personagem_escolhido} foi morto por demogorgon\033[m')
+
                     break
                 daniel.casa = 42
 
-        daniel.contador_de_sede -= 3
-        daniel.contador_de_fome -= 3
-        daniel.casa = 42
-        executando_floresta_encantada()
+            daniel.contador_de_sede -= 3
+            daniel.contador_de_fome -= 3
+            daniel.casa = 42
+            daniel.voz_final_sarcastica_do_personagem()
+            executando_floresta_encantada()
 
 
 
