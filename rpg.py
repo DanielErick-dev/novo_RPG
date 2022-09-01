@@ -532,15 +532,16 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
 
     # PORTAIS
     def portal1(self):
-        print(f'\033[32m\033[1m                 encontrou o primeiro portal da floresta encantada, viaje entre as dimensões para a casa 38\033[m ')
+        print(f'\033[32m\033[1m \033[4m{"encontrou o primeiro portal da floresta encantada, viaje entre as dimensões para a casa 38".upper():^100}\033[m ')
+        print('viajando entre as dimensões..')
+        print('encontrou 10 moedas no caminho da viagem interdimensional')
         self.casa = 38
-        print(f'encountrou também 10 moedas enquanto viajava entre a dimensão')
         self.moeda += 10
     def portal2(self):
-        print(f'\033[32m \033[1m                encontrou o segundo portal da floresta encantada, viaje entre as dimensões para a casa 71\033[m ')
+        print(f'\033[32m \033[1m  \033[4m{"encontrou o segundo portal da floresta encantada, viaje entre as dimensões para a casa 71".upper():^100}\033[m ')
         self.casa = 39
     def portal3(self):
-        print(f'\033[32m \033[1m                encontrou o terceiro portal da floresta encantada, viaje entre as dimensões para a casa 90\033[m ')
+        print(f'\033[32m \033[1m  \033[4m {"encontrou o terceiro portal da floresta encantada, viaje entre as dimensões para a casa 90".upper():^100}\033[m ')
         self.casa = 90
     def recompensa_por_2_portais(self):
         print(f'brilhante {self.nome}, viajou entre 2 portais na floresta encantada, aproveite em breve sua recompensa de sorte')
@@ -548,6 +549,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
     def primeira_parte_floresta(self, valor=0):
         floresta_encantada = 'voçê está na primeira parte de sua jornada, entre na floresta encantada'.upper()
         print(f'\033[32m\033[4m \033[1m {floresta_encantada:^100}\033[m')
+        teste.som_floresta_encantada()
 
 
     # marcadores
@@ -758,7 +760,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 self.STATUS = True
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura, daniel.revivedor]
                 self.contador_de_ativacao_de_habilidade = 4
-                self.contador_de_ativacao_de_habilidade = 4
+
                 self.dano_demogorgon = 0
             def habilidade_especial(self):
                 if self.contador_de_ativacao_de_habilidade <= 0:
@@ -1030,7 +1032,9 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             sleep(1.4)
             print(f'{daniel.personagem_escolhido} avistou o demogorgon do outro lado da floresta invertida')
             sleep(1)
+            teste.som_demogorgon_aparecendo()
             demogorgon.demogorgon_aparecendo()
+
             daniel.escolhendo_e_organizando_armaduras()
             sleep(1)
             while True:

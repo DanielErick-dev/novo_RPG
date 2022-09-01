@@ -3,6 +3,8 @@
 import gtts
 from playsound import playsound
 import pyttsx3
+import pygame
+
 
 from random import randint as ran
 
@@ -11,7 +13,7 @@ falar = pyttsx3.init('sapi5')
 
 # SONS DE ARFRID:
 def som_arfrid_comeco_do_jogo():
-    playsound('arfrid_comeco_de_partida.mp3')
+    playsound('voz_ashe_arqueira.mp3')
 def som_arfrid_sendo_sarcastica():
     playsound('arfrid_sarcasmomp3')
 def som_chuva_de_flechas():
@@ -20,7 +22,7 @@ def som_chuva_de_flechas():
 
 # SONS DE ANDREY:
 def som_andrey_começo_de_partida():
-    playsound('andrey_comeco_de_partida.mp3')
+    playsound('voz_espadachim.mp3')
 def som_andrey_final_de_partida():
     playsound('andrey_final_de_partida.mp3')
 def corte_duplo_andrey():
@@ -59,6 +61,18 @@ def som_abrindo_bau():
 def som_regenerando_armadura():
     playsound('regenerando_armadura.mp3')
 
+def som_demogorgon_aparecendo():
+    pygame.init()
+    pygame.mixer.init()
+    som = pygame.mixer.Sound('som_demogorgon_aparecendo.wav')
+    som.play()
+
+def som_floresta_encantada():
+    pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.set_volume(0.8)
+    pygame.mixer.music.load('som_floresta.mp3')
+    pygame.mixer.music.play()
 # marcadores
 agua = '\U0001f4a7'
 coracao = '♥'
