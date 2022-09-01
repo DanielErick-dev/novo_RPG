@@ -62,6 +62,7 @@ def som_regenerando_armadura():
     playsound('regenerando_armadura.mp3')
 
 def som_demogorgon_aparecendo():
+    #inicializando demogorgon
     pygame.init()
     pygame.mixer.init()
     som = pygame.mixer.Sound('som_demogorgon_aparecendo.wav')

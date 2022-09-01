@@ -1075,7 +1075,6 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             daniel.contador_de_sede -= 3
             daniel.contador_de_fome -= 3
             daniel.casa = 42
-            daniel.voz_final_sarcastica_do_personagem()
             executando_floresta_encantada()
 
 
