@@ -550,6 +550,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         floresta_encantada = 'voçê está na primeira parte de sua jornada, entre na floresta encantada'.upper()
         print(f'\033[32m\033[4m \033[1m {floresta_encantada:^100}\033[m')
         teste.som_floresta_encantada()
+        teste.mostrando_floresta_encantada()
 
 
     # marcadores

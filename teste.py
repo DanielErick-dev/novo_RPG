@@ -4,6 +4,7 @@ import gtts
 from playsound import playsound
 import pyttsx3
 import pygame
+from time import sleep
 
 
 from random import randint as ran
@@ -74,6 +75,20 @@ def som_floresta_encantada():
     pygame.mixer.music.set_volume(0.8)
     pygame.mixer.music.load('som_floresta.mp3')
     pygame.mixer.music.play()
+def mostrando_floresta_encantada():
+    janela = pygame.display.set_mode((1400, 700))
+    fundo = pygame.image.load('floresta_encantada_editado.jpg')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        contador_de_janela += 1
+        sleep(3)
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        if contador_de_janela == 4:
+            pygame.quit()
+            break
+    print(f'\033[32m \033[1m {"SIGA EM FRENTE, ATRAVESSE AS ÁRVORES":^100} \033[m')
 # marcadores
 agua = '\U0001f4a7'
 coracao = '♥'
@@ -112,6 +127,8 @@ class Alimentos():
 
 
 alimentos = Alimentos()
+
+
 
 
 
