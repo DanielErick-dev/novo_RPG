@@ -173,11 +173,11 @@ personagem 03 - viego - bruxo''')
                 break
             elif escolha == 'ashe':
                 self.personagem_escolhido = 'ashe'
-                teste.som_arfrid_comeco_do_jogo()
+                teste.som_ashe_comeco_do_jogo()
                 break
             elif escolha == 'viego':
                 self.personagem_escolhido = 'viego'
-                teste.som_geralt_comeco_de_partida()
+                teste.som_viego_comeco_de_partida()
                 break
             else:
                 print('\033[31mopção de personagem inválida\033[m')
@@ -744,9 +744,9 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         if daniel.personagem_escolhido == 'andrey':
             teste.som_andrey_final_de_partida()
         elif daniel.personagem_escolhido == 'arfrid':
-            teste.som_arfrid_sendo_sarcastica()
+            teste.som_()
         else:
-            teste.som_geralt_final_de_partida()
+            teste.som_viego_final_de_partida()
 
 
     # ROTAS ALTERNATIVAS
@@ -783,10 +783,10 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                 break
                             else:
                                 print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
-                    if daniel.personagem_escolhido == 'arfrid':
+                    if daniel.personagem_escolhido == 'ashe':
                             while True:
                                 sleep(2)
-                                opcao = str(input('deseja ativar habilidade especial de arfrid? ')).lower()
+                                opcao = str(input('deseja ativar habilidade especial de ashe? ')).lower()
                                 sleep(1)
                                 if opcao == 'sim':
                                     def chuva_de_flechas():
@@ -809,7 +809,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                     teste.som_chuva_de_flechas()
                                     chuva_de_flechas()
                                     sleep(2)
-                                    print(f'dano total das chuvas de flechas de arfrid: {self.dano_demogorgon}')
+                                    print(f'dano total das chuvas de flechas de ashe: {self.dano_demogorgon}')
                                     self.contador_de_ativacao_de_habilidade = 4
                                     break
                                 elif opcao == 'não' or opcao == 'nao':
@@ -817,10 +817,10 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                     break
                                 else:
                                     print('\033[31m \033[1m \033[4m apenas sim ou não \033[m')
-                    if daniel.personagem_escolhido == 'geralt':
+                    if daniel.personagem_escolhido == 'viego':
                         while True:
                             sleep(2)
-                            opcao = str(input('deseja ativar habilidade especial de geralt? ')).lower()
+                            opcao = str(input('deseja ativar habilidade especial de viego? ')).lower()
                             sleep(1)
                             if opcao == 'sim':
                                 sleep(1)
@@ -1026,6 +1026,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                         daniel.contador_de_vida += 6
                         daniel.inventario.remove(daniel.armadura)
                         daniel.contador_de_armadura = 0
+                        daniel.STATUS = True
                     else:
                         daniel.STATUS = False
 
