@@ -72,7 +72,7 @@ def som_demogorgon_aparecendo():
 def som_floresta_encantada():
     pygame.init()
     pygame.mixer.init()
-    pygame.mixer.music.set_volume(0.8)
+    pygame.mixer.music.set_volume(1)
     pygame.mixer.music.load('som_floresta.mp3')
     pygame.mixer.music.play()
 def mostrando_floresta_encantada():

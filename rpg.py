@@ -45,9 +45,9 @@ class PrimeiraParte(Exception):
 
 
     def personagem01(self):
-        janela = pygame.display.set_mode((350, 580))
-        fundo = pygame.image.load('personagem.jpg')
-        pygame.display.set_caption('personagem 01 Andrey')
+        janela = pygame.display.set_mode((1095, 650))
+        fundo = pygame.image.load('espadachim a ser usado.png')
+        pygame.display.set_caption('personagem 01 andrey')
         position = (0, 0)
         janela_aberta = True
         while janela_aberta:
@@ -58,8 +58,8 @@ class PrimeiraParte(Exception):
             pygame.display.update()
         pygame.quit()
     def personagem02(self):
-        janela = pygame.display.set_mode((500, 600))
-        fundo = pygame.image.load('ARQUEIRA_editado.jpg')
+        janela = pygame.display.set_mode((1280, 720))
+        fundo = pygame.image.load('Ashe_OriginalCentered.webp')
         pygame.display.set_caption('personagem 02 Arfrid')
         position = (0, 0)
         janela_aberta = True
@@ -71,8 +71,8 @@ class PrimeiraParte(Exception):
                 pygame.display.update()
         pygame.quit()
     def personagem03(self):
-        janela = pygame.display.set_mode((400, 500))
-        fundo = pygame.image.load('bruxo.webp')
+        janela = pygame.display.set_mode((1215, 717))
+        fundo = pygame.image.load('Viego.jpg')
         pygame.display.set_caption('personagemg 03 bruxo')
         position = (0, 0)
         janela_aberta = True
@@ -86,9 +86,9 @@ class PrimeiraParte(Exception):
     def som_do_personagem(self, persona):
         if persona == 'andrey':
             playsound('somdeespada.mp3')
-        elif persona == 'arfrid':
+        elif persona == 'ashe':
             playsound('somdeflecha.mp3')
-        elif persona == 'geralt':
+        elif persona == 'viego':
             playsound('somdefogo.mp3')
     def manual(self):
         print('''
@@ -163,20 +163,20 @@ class PrimeiraParte(Exception):
 
     def escolha_de_personagem(self):
         print('''\npersonagem 01 - andrey - caçador assassino
-personagem 02 - arfrid - arqueira 
-personagem 03 - geralt - bruxo''')
+personagem 02 - ashe - arqueira 
+personagem 03 - viego - bruxo''')
         while True:
             escolha = str(input('escreva o nome do personagem que você deseja: ')).lower()
             if escolha == 'andrey':
                 self.personagem_escolhido = 'andrey'
                 teste.som_andrey_começo_de_partida()
                 break
-            elif escolha == 'arfrid':
-                self.personagem_escolhido = 'arfrid'
+            elif escolha == 'ashe':
+                self.personagem_escolhido = 'ashe'
                 teste.som_arfrid_comeco_do_jogo()
                 break
-            elif escolha == 'geralt':
-                self.personagem_escolhido = 'geralt'
+            elif escolha == 'viego':
+                self.personagem_escolhido = 'viego'
                 teste.som_geralt_comeco_de_partida()
                 break
             else:
@@ -413,12 +413,12 @@ personagem 03 - geralt - bruxo''')
         elif self.casa == 68:
             daniel.casa68()
 
-    def leitura_em_voz(self):
-        with open('lendoflorestaencantada.py', 'r') as arquivo:
-            for linha in arquivo:
-                frase = gtts.gTTS(linha, lang='pt-br')
-                frase.save('frase.mp3')
-                playsound('frase.mp3')
+    # def leitura_em_voz(self):
+    #     with open('lendoflorestaencantada.py', 'r') as arquivo:
+    #         for linha in arquivo:
+    #             frase = gtts.gTTS(linha, lang='pt-br')
+    #             frase.save('frase.mp3')
+    #             playsound('frase.mp3')
 
     def alimentar(self):
         while True:
@@ -551,6 +551,8 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         print(f'\033[32m\033[4m \033[1m {floresta_encantada:^100}\033[m')
         teste.som_floresta_encantada()
         teste.mostrando_floresta_encantada()
+        teste.som_floresta_encantada()
+
 
 
     # marcadores
@@ -1170,7 +1172,7 @@ def executando_floresta_encantada():
         a = 'inicializando floresta encantada'.upper()
         print(f'\033[36m \033[1m {a}\033[m')
         daniel.primeira_parte_floresta()
-        daniel.leitura_em_voz()
+        #daniel.leitura_em_voz()
     while True:
         if daniel.casa >= 100:
             break
