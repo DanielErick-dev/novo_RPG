@@ -9,72 +9,89 @@ from time import sleep
 
 from random import randint as ran
 
+class SonseImagens():
+    falar = pyttsx3.init('sapi5')
 
-falar = pyttsx3.init('sapi5')
-
-# SONS DE ARFRID:
-def som_arfrid_comeco_do_jogo():
-    playsound('voz_ashe_arqueira.mp3')
-def som_arfrid_sendo_sarcastica():
-    playsound('arfrid_sarcasmomp3')
-def som_chuva_de_flechas():
-    playsound('rajada_de_flechas.mp3')
+    # SONS DE ASHE:
+    def som_ashe_comeco_do_jogo(self):
+        playsound('voz_ashe_arqueira.mp3')
+    def som_ashe_final_de_partida(self):
+        playsound('voz_ashe_final_de_partida.mp3')
+    def som_chuva_de_flechas(self):
+        playsound('rajada_de_flechas.mp3')
 
 
-# SONS DE ANDREY:
-def som_andrey_começo_de_partida():
-    playsound('voz_espadachim.mp3')
-def som_andrey_final_de_partida():
-    playsound('andrey_final_de_partida.mp3')
-def corte_duplo_andrey():
-    playsound('corte_duplo_andrey.mp3')
+    # SONS DE ANDREY:
+    def som_andrey_começo_de_partida(self):
+        playsound('voz_espadachim.mp3')
+    def som_andrey_final_de_partida(self):
+        playsound('andrey_final_de_partida.mp3')
+    def corte_duplo_andrey(self):
+        playsound('corte_duplo_andrey.mp3')
 
-# SONS DE GERALT:
-def som_geralt_final_de_partida():
-    playsound('som_final_de_partida_geralt.mp3')
-def som_geralt_comeco_de_partida():
-    playsound('som_comeco_de_partida_geralt.mp3')
-def som_ressuscitar():
-    playsound('ressuscitar.mp3')
+    # SONS DE VIEGO:
+    def som_viego_final_de_partida(self):
+        playsound('som_viego_final_de_partida.mp3')
+    def som_viego_comeco_de_partida(self):
+        playsound('fala_inicio_viego.mp3')
+    def som_ressuscitar(self):
+        playsound('som_viego_durante_batalha.mp3')
 
-# SONS ALEATÓRIOS
-def som_armadura_quebrando():
-    playsound('armadura_quebrando.mp3')
-def som_equipando_armadura():
-    playsound('equipando_escudo.mp3')
-def som_de_comer():
-    playsound('personagemcomendo.mp3')
+    # SONS ALEATÓRIOS
+    def som_armadura_quebrando(self):
+        playsound('armadura_quebrando.mp3')
+    def som_equipando_armadura(self):
+        playsound('equipando_escudo.mp3')
+    def som_de_comer(self):
+        playsound('personagemcomendo.mp3')
 
-def som_de_beber():
-    playsound('beberagua.mp3')
+    def som_de_beber(self):
+        playsound('beberagua.mp3')
 
-def som_de_portal():
-    playsound('portalmagico.mp3')
+    def som_de_portal(self):
+        playsound('portalmagico.mp3')
 
-def tomando_pocao():
-    playsound('pilulamagica.mp3')
+    def tomando_pocao(self):
+        playsound('pilulamagica.mp3')
 
-def som_game_over():
-    playsound('somgameover.mp3')
+    def som_game_over(self):
+        playsound('somgameover.mp3')
 
-def som_abrindo_bau():
-    playsound('abrindobau.mp3')
-def som_regenerando_armadura():
-    playsound('regenerando_armadura.mp3')
+    def som_abrindo_bau(self):
+        playsound('abrindobau.mp3')
 
-def som_demogorgon_aparecendo():
-    #inicializando demogorgon
-    pygame.init()
-    pygame.mixer.init()
-    som = pygame.mixer.Sound('som_demogorgon_aparecendo.wav')
-    som.play()
+    def som_regenerando_armadura(self):
+        playsound('regenerando_armadura.mp3')
 
-def som_floresta_encantada():
-    pygame.init()
-    pygame.mixer.init()
-    pygame.mixer.music.set_volume(1)
-    pygame.mixer.music.load('som_floresta.mp3')
-    pygame.mixer.music.play()
+    def som_demogorgon_aparecendo(self):
+        #inicializando demogorgon
+        pygame.init()
+        pygame.mixer.init()
+        som = pygame.mixer.Sound('som_demogorgon_aparecendo.wav')
+        som.play()
+
+    def som_floresta_encantada(self, volume=1):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        self.musica_de_fundo_floresta_encantada = pygame.mixer.music.load('som_floresta.mp3')
+        pygame.mixer.music.play()
+
+    def som_floresta_invertida(self, volume=1):
+        sons.som_floresta_encantada(0)
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        self.musica_de_fundo_floresta_invertida = pygame.mixer.music.load('floresta_invertida.mp3')
+        pygame.mixer.music.play()
+
+
+sons = SonseImagens()
+
+
+
+
+
 def mostrando_floresta_encantada():
     janela = pygame.display.set_mode((1400, 700))
     fundo = pygame.image.load('floresta_encantada_editado.jpg')
@@ -82,13 +99,29 @@ def mostrando_floresta_encantada():
     position = (0, 0)
     while True:
         contador_de_janela += 1
-        sleep(3)
+        sleep(1)
         janela.blit(fundo, dest=position)
         pygame.display.update()
         if contador_de_janela == 4:
             pygame.quit()
             break
     print(f'\033[32m \033[1m {"SIGA EM FRENTE, ATRAVESSE AS ÁRVORES":^100} \033[m')
+def mostrando_floresta_invertida():
+    janela = pygame.display.set_mode((1672, 700))
+    fundo = pygame.image.load('floresta_invertida_editado.jpg')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        contador_de_janela += 1
+        sleep(2)
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        if contador_de_janela == 3:
+            pygame.quit()
+            break
+    print(f'\033[1m \033[4m \033[35m {"siga seu caminho entre as àrvores da floresta invertida".upper():^100} \033[m')
+
+
 # marcadores
 agua = '\U0001f4a7'
 coracao = '♥'
