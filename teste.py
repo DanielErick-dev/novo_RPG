@@ -84,9 +84,20 @@ class SonseImagens():
         pygame.mixer.music.set_volume(volume)
         self.musica_de_fundo_floresta_invertida = pygame.mixer.music.load('floresta_invertida.mp3')
         pygame.mixer.music.play()
+    def som_caverna(self, volume=0.8):
+        sons.som_floresta_encantada(0)
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        self.musica_de_fundo_caverna = pygame.mixer.music.load('som_de_fundo_caverna.mp3')
+        pygame.mixer.music.play()
+
+
 
 
 sons = SonseImagens()
+
+
 
 
 
@@ -121,7 +132,23 @@ def mostrando_floresta_invertida():
             break
     print(f'\033[1m \033[4m \033[35m {"siga seu caminho entre as àrvores da floresta invertida".upper():^100} \033[m')
 
+def mostrando_caverna():
+    janela = pygame.display.set_mode((1156, 650))
+    fundo = pygame.image.load('CAVERNA_RPG.jpg')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        sons.som_caverna(1.5)
+        sleep(4)
+        contador_de_janela += 1
+        if contador_de_janela == 1:
+            pygame.quit()
+            break
+    print(f'\033[1m \033[4m \033[35m {"aventure-se por dentro da caverna".upper():^100} \033[m')
 
+mostrando_caverna()
 # marcadores
 agua = '\U0001f4a7'
 coracao = '♥'

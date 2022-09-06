@@ -5,10 +5,11 @@ from teste import alimentos
 from time import sleep
 import gtts
 from playsound import playsound
+from teste import sons
 import pyttsx3
 import pygame
 pygame.init()
-
+sons.som_caverna(1.5)
 class PrimeiraParte(Exception):
     def voz_mercadinho(self):
         falar = pyttsx3.init('sapi5')
@@ -60,7 +61,7 @@ class PrimeiraParte(Exception):
     def personagem02(self):
         janela = pygame.display.set_mode((1280, 720))
         fundo = pygame.image.load('Ashe_OriginalCentered.webp')
-        pygame.display.set_caption('personagem 02 Arfrid')
+        pygame.display.set_caption('personagem 02 Ashe')
         position = (0, 0)
         janela_aberta = True
         while janela_aberta:
@@ -73,7 +74,7 @@ class PrimeiraParte(Exception):
     def personagem03(self):
         janela = pygame.display.set_mode((1215, 717))
         fundo = pygame.image.load('Viego.jpg')
-        pygame.display.set_caption('personagemg 03 bruxo')
+        pygame.display.set_caption('personagemg 03 Viego')
         position = (0, 0)
         janela_aberta = True
         while janela_aberta:
@@ -169,15 +170,15 @@ personagem 03 - viego - bruxo''')
             escolha = str(input('escreva o nome do personagem que você deseja: ')).lower()
             if escolha == 'andrey':
                 self.personagem_escolhido = 'andrey'
-                teste.som_andrey_começo_de_partida()
+                sons.som_andrey_começo_de_partida()
                 break
             elif escolha == 'ashe':
                 self.personagem_escolhido = 'ashe'
-                teste.som_ashe_comeco_do_jogo()
+                sons.som_ashe_comeco_do_jogo()
                 break
             elif escolha == 'viego':
                 self.personagem_escolhido = 'viego'
-                teste.som_viego_comeco_de_partida()
+                sons.som_viego_comeco_de_partida()
                 break
             else:
                 print('\033[31mopção de personagem inválida\033[m')
@@ -222,7 +223,7 @@ personagem 03 - viego - bruxo''')
                 if self.opcao == 'sim':
                     daniel.opcao_de_armadura = True
                     print(' \033[31m \033[4m equipando armadura \033[m')
-                    teste.som_equipando_armadura()
+                    sons.som_equipando_armadura()
                     daniel.inventario.append(daniel.armadura)
                     break
                 elif self.opcao == 'não' or self.opcao == 'nao':
@@ -370,7 +371,7 @@ personagem 03 - viego - bruxo''')
         elif self.casa == 15:
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal \033[m')
-            teste.som_de_portal()
+            sons.som_de_portal()
             daniel.portal1()
         elif self.casa == 33:
             daniel.casa33()
@@ -379,12 +380,12 @@ personagem 03 - viego - bruxo''')
         elif self.casa == 35:
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal\033[m')
-            teste.som_de_portal()
+            sons.som_de_portal()
             daniel.portal2()
         elif self.casa == 50:
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal\033[m')
-            teste.som_de_portal()
+            sons.som_de_portal()
             daniel.portal3()
         elif self.casa == 60:
             daniel.casa60()
@@ -429,7 +430,7 @@ personagem 03 - viego - bruxo''')
                     self.contador_de_fome += alimentos.quantidade_de_carne
                     daniel.inventario.remove(self.carne)
                     print(f'aguarde, {self.personagem_escolhido} está se alimentando')
-                    teste.som_de_comer()
+                    sons.som_de_comer()
                     break
                 else:
                     print(f'alimento não encontrado na mochila de {self.personagem_escolhido}, obtenha seus recursos')
@@ -447,7 +448,7 @@ personagem 03 - viego - bruxo''')
                     self.contador_de_sede += alimentos.quantidade_de_agua
                     daniel.inventario.remove(self.garrafa_de_agua)
                     print(f'aguarde, {self.personagem_escolhido} está se hidratando')
-                    teste.som_de_beber()
+                    sons.som_de_beber()
                     break
                 else:
                     print(f'garrafa de àgua não encontrada na mochila de {self.personagem_escolhido}, obtenha seus recursos')
@@ -467,7 +468,7 @@ personagem 03 - viego - bruxo''')
                 self.contador_de_vida += alimentos.quantidade_de_aditivo_de_cura
                 daniel.inventario.remove(self.aditivo_de_cura)
                 print('vida sendo regenerada, aguarde')
-                teste.tomando_pocao()
+                sons.tomando_pocao()
             else:
                 print(f'poção não encontrado na mochila de {self.personagem_escolhido}, obtenha seus recursos')
         elif opcao == 'não' or opcao == 'nao':
@@ -549,9 +550,9 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
     def primeira_parte_floresta(self, valor=0):
         floresta_encantada = 'voçê está na primeira parte de sua jornada, entre na floresta encantada'.upper()
         print(f'\033[32m\033[4m \033[1m {floresta_encantada:^100}\033[m')
-        teste.som_floresta_encantada()
+        sons.som_floresta_encantada(1)
         teste.mostrando_floresta_encantada()
-        teste.som_floresta_encantada()
+        sons.som_floresta_encantada(1)
 
 
 
@@ -646,7 +647,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 opcao = str(input('deseja usar seu recuperador de armadura? ')).lower()
                 if opcao == 'sim':
                     print('reparando armadura..')
-                    teste.som_regenerando_armadura()
+                    sons.som_regenerando_armadura()
                     sleep(0.5)
                     print(f'\033[1m \033[31m {"armadura reparada com sucesso".upper():^40} \033[m')
                     sleep(0.6)
@@ -724,7 +725,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 if opcao == 'sim':
                     sleep(1)
                     print('\033[1m escudo sendo melhorado.. \033[m')
-                    teste.som_equipando_armadura()
+                    sons.som_equipando_armadura()
                     daniel.contador_de_armadura += 5
                     sleep(2)
                     print('\033[1m \033[4m \033[36m  ESCUDO MELHORADO - NIVEL AUMENTADO - \033[m')
@@ -742,19 +743,21 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     sleep(1)
     def voz_final_sarcastica_do_personagem(self):
         if daniel.personagem_escolhido == 'andrey':
-            teste.som_andrey_final_de_partida()
-        elif daniel.personagem_escolhido == 'arfrid':
-            teste.som_()
+            sons.som_andrey_final_de_partida()
+        elif daniel.personagem_escolhido == 'ashe':
+            sons.som_ashe_final_de_partida()
         else:
-            teste.som_viego_final_de_partida()
+            sons.som_viego_final_de_partida()
 
 
     # ROTAS ALTERNATIVAS
     def rota1_caverna(self):
-        pass
+        teste.sons.som_caverna(1.5)
 
 
     def rota2_floresta_invertida(self):
+        teste.mostrando_floresta_invertida()
+        sons.som_floresta_invertida()
         class CombateDemogorgon():
             def __init__(self, nome):
                 self.nome = nome
@@ -774,7 +777,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                             sleep(1)
                             if opcao == 'sim':
                                 sleep(1)
-                                teste.corte_duplo_andrey()
+                                sons.corte_duplo_andrey()
                                 self.contador_de_ativacao_de_habilidade = 4
                                 demogorgon.personagem_jogando()
                                 break
@@ -806,7 +809,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                             print(f'{cont}° flecha sendo lançada')
                                             sleep(1)
                                     sleep(1)
-                                    teste.som_chuva_de_flechas()
+                                    sons.som_chuva_de_flechas()
                                     chuva_de_flechas()
                                     sleep(2)
                                     print(f'dano total das chuvas de flechas de ashe: {self.dano_demogorgon}')
@@ -825,10 +828,10 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                             if opcao == 'sim':
                                 sleep(1)
                                 print(' \033[1m RESSUSCITAR \033[m')
-                                teste.som_ressuscitar()
+                                sons.som_ressuscitar()
                                 self.contador_de_ativacao_de_habilidade = 4
                                 daniel.contador_de_vida += demogorgon.dano_demogorgon
-                                daniel.contador_de_vida += demogorgon.dano_demogorgon
+                                daniel.contador_de_vida += demogorgon.dano_a_ser_convertido_para_viego
                                 if daniel.contador_de_vida > 0:
                                     daniel.STATUS = True
                                 break
@@ -869,28 +872,34 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print('')
 
             def demogorgon_jogando(self):
+                self.dano_a_ser_convertido_para_viego = 0
                 self.dano_demogorgon = 0
                 self.dado_demogorgon = ran(0, 12)
                 print('demogorgon atacando..')
                 demogorgon.som_demogorgon_atacando()
                 if self.dado_demogorgon <= 1:
                     self.dano_demogorgon = 0
+
                     print(f'{daniel.personagem_escolhido} desviou do ataque')
                 elif self.dado_demogorgon <= 3:
                     self.dano_demogorgon = 5
+                    self.dano_a_ser_convertido_para_viego = self.dano_demogorgon
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 1
                 elif self.dado_demogorgon <= 6:
                     self.dano_demogorgon = 6
+                    self.dano_a_ser_convertido_para_viego = self.dano_demogorgon
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 3
                 elif self.dado_demogorgon <= 9:
                     self.dano_demogorgon = 7
+                    self.dano_a_ser_convertido_para_viego = self.dano_demogorgon
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 3
 
                 elif self.dado_demogorgon <= 12:
                     self.dano_demogorgon = 8
+                    self.dano_a_ser_convertido_para_viego = self.dano_demogorgon
                     if daniel.opcao_de_armadura == True:
                         daniel.contador_de_armadura -= 5
 
@@ -915,7 +924,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                             daniel.contador_de_armadura = 0
                         if daniel.contador_de_armadura == 0:
                             daniel.inventario.remove(daniel.armadura)
-                            teste.som_armadura_quebrando()
+                            sons.som_armadura_quebrando()
                             print('\033[1m \033[31m o colete está quebrado \033[m')
                 daniel.marcador_de_armadura = teste.escudo * daniel.contador_de_armadura
 
@@ -950,7 +959,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                 sleep(2)
                 daniel.mostrando_bau()
                 print('abrindo báu')
-                teste.som_abrindo_bau()
+                sons.som_abrindo_bau()
                 list_itens_adicionados = []
                 for item in demogorgon.bau:
                     list_itens_adicionados.append(item)
@@ -978,22 +987,22 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                     print(f'{demogorgon.nome} desviou do ataque')
                 elif self.dado_personagem <= 3:
                     self.dano_personagem = 3
-                    if daniel.personagem_escolhido == 'geralt':
+                    if daniel.personagem_escolhido == 'viego':
                         self.dano_personagem += 2
                         self.adicional = 2
                 elif self.dado_personagem <= 6:
                     self.dano_personagem = 7
-                    if daniel.personagem_escolhido == 'geralt':
+                    if daniel.personagem_escolhido == 'viego':
                         self.dano_personagem += 3
                         self.adicional = 3
                 elif self.dado_personagem <= 9:
                     self.dano_personagem = 9
-                    if daniel.personagem_escolhido == 'geralt':
+                    if daniel.personagem_escolhido == 'viego':
                         self.dano_personagem += 3
                         self.adicional = 3
                 elif self.dado_personagem <= 12:
                     self.dano_personagem = 8
-                    if daniel.personagem_escolhido == 'geralt':
+                    if daniel.personagem_escolhido == 'viego':
                         self.dano_personagem += 3
                         self.adicional = 3
                 print(f'dano imposto por {daniel.personagem_escolhido}: {self.dano_personagem}')
@@ -1032,13 +1041,14 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
 
         demogorgon = CombateDemogorgon('demogorgon')
         if daniel.CONTADOR_DE_BATALHA_DEMOGORGON == 1:
+            daniel.rota1_caverna()
             daniel.contador_de_armadura = daniel.contador_de_armadura
             sleep(1.4)
             print(f'{daniel.personagem_escolhido} avistou o demogorgon do outro lado da floresta invertida')
             sleep(1)
-            teste.som_demogorgon_aparecendo()
+            sons.som_demogorgon_aparecendo()
             demogorgon.demogorgon_aparecendo()
-
+            sons.som_floresta_invertida(1)
             daniel.escolhendo_e_organizando_armaduras()
             sleep(1)
             while True:
@@ -1213,7 +1223,7 @@ if daniel.contador_de_vida <= 0:
         print('\033[1m \033[31m vida zerada \033[m')
         daniel.pocao_de_reviver()
 if daniel.STATUS == False:
-    teste.som_game_over()
+    sons.som_game_over()
     print(f'\033[31m \033[1m \033[2m {"GAME ENCERRADO, VIDA DO PERSONAGEM ZERADA":^100}\033[m')
 
 # #começando segunda parte - deserto de sangue
