@@ -17,8 +17,12 @@ class SonseImagens():
         playsound('voz_ashe_arqueira.mp3')
     def som_ashe_final_de_partida(self):
         playsound('voz_ashe_final_de_partida.mp3')
-    def som_chuva_de_flechas(self):
-        playsound('rajada_de_flechas.mp3')
+    def som_chuva_de_flechas(self, volume):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        pygame.mixer.Sound('enxurrada_de_flechas (online-audio-converter.com).wav')
+        pygame.mixer.music.play()
 
 
     # SONS DE ANDREY:
@@ -91,6 +95,12 @@ class SonseImagens():
         pygame.mixer.music.set_volume(volume)
         self.musica_de_fundo_caverna = pygame.mixer.music.load('som_de_fundo_caverna.mp3')
         pygame.mixer.music.play()
+    def som_flecha_sendo_lancada(self, volume=1):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        pygame.mixer.Sound('FLECHA-SENDO_LANÇADA_VIDEO_CURTO (online-audio-converter.com).wav')
+        pygame.mixer.music.play()
 
 
 
@@ -104,19 +114,20 @@ sons = SonseImagens()
 
 
 def mostrando_floresta_encantada():
-    janela = pygame.display.set_mode((1400, 700))
+    janela = pygame.display.set_mode((1400, 540))
     fundo = pygame.image.load('floresta_encantada_editado.jpg')
     contador_de_janela = 0
     position = (0, 0)
     while True:
         contador_de_janela += 1
-        sleep(1)
+        sleep(2)
         janela.blit(fundo, dest=position)
         pygame.display.update()
         if contador_de_janela == 4:
             pygame.quit()
             break
     print(f'\033[32m \033[1m {"SIGA EM FRENTE, ATRAVESSE AS ÁRVORES":^100} \033[m')
+
 def mostrando_floresta_invertida():
     janela = pygame.display.set_mode((1672, 700))
     fundo = pygame.image.load('floresta_invertida_editado.jpg')
@@ -133,22 +144,22 @@ def mostrando_floresta_invertida():
     print(f'\033[1m \033[4m \033[35m {"siga seu caminho entre as àrvores da floresta invertida".upper():^100} \033[m')
 
 def mostrando_caverna():
-    janela = pygame.display.set_mode((1156, 650))
-    fundo = pygame.image.load('CAVERNA_RPG.jpg')
+    janela = pygame.display.set_mode((1200, 675))
+    fundo = pygame.image.load('caverna_mágica.jpg')
     contador_de_janela = 0
     position = (0, 0)
     while True:
         janela.blit(fundo, dest=position)
         pygame.display.update()
         sons.som_caverna(1.5)
-        sleep(4)
+        sleep(6)
         contador_de_janela += 1
         if contador_de_janela == 1:
             pygame.quit()
             break
-    print(f'\033[1m \033[4m \033[35m {"aventure-se por dentro da caverna".upper():^100} \033[m')
+    print(f'\033[1m \033[4m \033[32m {"suba as escadas e entre na caverna mágica".upper():^100} \033[m')
 
-mostrando_caverna()
+
 # marcadores
 agua = '\U0001f4a7'
 coracao = '♥'

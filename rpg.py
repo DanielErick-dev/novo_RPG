@@ -791,28 +791,31 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                 sleep(2)
                                 opcao = str(input('deseja ativar habilidade especial de ashe? ')).lower()
                                 sleep(1)
+                                demogorgon.dano_personagem = 0
                                 if opcao == 'sim':
+                                    sons.som_chuva_de_flechas(volume=1)
                                     def chuva_de_flechas():
                                         cont = 0
-                                        for c in range(0, 5):
+                                        for c in range(0, 4):
                                             cont += 1
                                             dado = ran(0, 3)
                                             if dado == 0:
                                                 pass
                                             elif dado == 1:
-                                                self.dano_demogorgon += 1
+                                                self.dano_personagem += 1
                                             elif dado == 2:
-                                                self.dano_demogorgon += 2
+                                                self.dano_personagem += 2
                                             else:
-                                                self.dano_demogorgon += 3
-                                            demogorgon.contador_de_vida -= self.dano_demogorgon
+                                                self.dano_personagem += 3
+                                            demogorgon.contador_de_vida -= self.dano_personagem
                                             print(f'{cont}° flecha sendo lançada')
+                                            teste.sons.som_flecha_sendo_lancada(volume=1)
                                             sleep(1)
                                     sleep(1)
-                                    sons.som_chuva_de_flechas()
+                                    sons.som_chuva_de_flechas(volume=1)
                                     chuva_de_flechas()
                                     sleep(2)
-                                    print(f'dano total das chuvas de flechas de ashe: {self.dano_demogorgon}')
+                                    print(f'dano total das chuvas de flechas de ashe: {self.dano_personagem}')
                                     self.contador_de_ativacao_de_habilidade = 4
                                     break
                                 elif opcao == 'não' or opcao == 'nao':
@@ -1101,6 +1104,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         for itens in daniel.inventario:
             print(f'\033[1m{itens:^50}\033[m')
         print(f'\033[35m \033[1m {"_" * 50:^50}\033[m')
+
     def pocao_de_reviver(self):
         opcao = str(input('deseja utilizar sua poção de reviver para retornar ao jogo? ')).lower()
         if opcao == 'sim':
@@ -1108,6 +1112,12 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
             daniel.contador_de_vida += 10
             daniel.inventario.remove(daniel.revivedor)
             daniel.casa -= 20
+            daniel.contador_de_fome = 8
+            daniel.contador_de_vida = 20
+            daniel.contador_de_sede = 8
+            del daniel.inventario
+            daniel.inventario = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura]
+            daniel.moeda = 50
             executando_floresta_encantada()
         elif opcao == 'não' or opcao == 'nao':
             daniel.STATUS = False
