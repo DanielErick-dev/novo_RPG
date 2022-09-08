@@ -1,28 +1,163 @@
 
+
 import gtts
 from playsound import playsound
 import pyttsx3
+import pygame
+from time import sleep
+
+
 from random import randint as ran
 
-falar = pyttsx3.init('sapi5')
+class SonseImagens():
+    falar = pyttsx3.init('sapi5')
 
-def som_de_comer():
-    playsound('personagemcomendo.mp3')
+    # SONS DE ASHE:
+    def som_ashe_comeco_do_jogo(self):
+        playsound('voz_ashe_arqueira.mp3')
+    def som_ashe_final_de_partida(self):
+        playsound('voz_ashe_final_de_partida.mp3')
+    def som_chuva_de_flechas(self, volume):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        pygame.mixer.Sound('enxurrada_de_flechas (online-audio-converter.com).wav')
+        pygame.mixer.music.play()
 
-def som_de_beber():
-    playsound('beberagua.mp3')
 
-def som_de_portal():
-    playsound('portalmagico.mp3')
+    # SONS DE ANDREY:
+    def som_andrey_começo_de_partida(self):
+        playsound('voz_espadachim.mp3')
+    def som_andrey_final_de_partida(self):
+        playsound('andrey_final_de_partida.mp3')
+    def corte_duplo_andrey(self):
+        playsound('corte_duplo_andrey.mp3')
 
-def tomando_pocao():
-    playsound('pilulamagica.mp3')
+    # SONS DE VIEGO:
+    def som_viego_final_de_partida(self):
+        playsound('som_viego_final_de_partida.mp3')
+    def som_viego_comeco_de_partida(self):
+        playsound('fala_inicio_viego.mp3')
+    def som_ressuscitar(self):
+        playsound('som_viego_durante_batalha.mp3')
 
-def som_game_over():
-    playsound('somgameover.mp3')
+    # SONS ALEATÓRIOS
+    def som_armadura_quebrando(self):
+        playsound('armadura_quebrando.mp3')
+    def som_equipando_armadura(self):
+        playsound('equipando_escudo.mp3')
+    def som_de_comer(self):
+        playsound('personagemcomendo.mp3')
 
-def som_abrindo_bau():
-    playsound('abrindobau.mp3')
+    def som_de_beber(self):
+        playsound('beberagua.mp3')
+
+    def som_de_portal(self):
+        playsound('portalmagico.mp3')
+
+    def tomando_pocao(self):
+        playsound('pilulamagica.mp3')
+
+    def som_game_over(self):
+        playsound('somgameover.mp3')
+
+    def som_abrindo_bau(self):
+        playsound('abrindobau.mp3')
+
+    def som_regenerando_armadura(self):
+        playsound('regenerando_armadura.mp3')
+
+    def som_demogorgon_aparecendo(self):
+        #inicializando demogorgon
+        pygame.init()
+        pygame.mixer.init()
+        som = pygame.mixer.Sound('som_demogorgon_aparecendo.wav')
+        som.play()
+
+    def som_floresta_encantada(self, volume=1):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        self.musica_de_fundo_floresta_encantada = pygame.mixer.music.load('som_floresta.mp3')
+        pygame.mixer.music.play()
+
+    def som_floresta_invertida(self, volume=1):
+        sons.som_floresta_encantada(0)
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        self.musica_de_fundo_floresta_invertida = pygame.mixer.music.load('floresta_invertida.mp3')
+        pygame.mixer.music.play()
+    def som_caverna(self, volume=0.8):
+        sons.som_floresta_encantada(0)
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        self.musica_de_fundo_caverna = pygame.mixer.music.load('som_de_fundo_caverna.mp3')
+        pygame.mixer.music.play()
+    def som_flecha_sendo_lancada(self, volume=1):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(volume)
+        pygame.mixer.Sound('FLECHA-SENDO_LANÇADA_VIDEO_CURTO (online-audio-converter.com).wav')
+        pygame.mixer.music.play()
+
+
+
+
+sons = SonseImagens()
+
+
+
+
+
+
+
+def mostrando_floresta_encantada():
+    janela = pygame.display.set_mode((1400, 540))
+    fundo = pygame.image.load('floresta_encantada_editado.jpg')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        contador_de_janela += 1
+        sleep(2)
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        if contador_de_janela == 4:
+            pygame.quit()
+            break
+    print(f'\033[32m \033[1m {"SIGA EM FRENTE, ATRAVESSE AS ÁRVORES":^100} \033[m')
+
+def mostrando_floresta_invertida():
+    janela = pygame.display.set_mode((1672, 700))
+    fundo = pygame.image.load('floresta_invertida_editado.jpg')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        contador_de_janela += 1
+        sleep(2)
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        if contador_de_janela == 3:
+            pygame.quit()
+            break
+    print(f'\033[1m \033[4m \033[35m {"siga seu caminho entre as àrvores da floresta invertida".upper():^100} \033[m')
+
+def mostrando_caverna():
+    janela = pygame.display.set_mode((1200, 675))
+    fundo = pygame.image.load('caverna_mágica.jpg')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        sons.som_caverna(1.5)
+        sleep(6)
+        contador_de_janela += 1
+        if contador_de_janela == 1:
+            pygame.quit()
+            break
+    print(f'\033[1m \033[4m \033[32m {"suba as escadas e entre na caverna mágica".upper():^100} \033[m')
 
 
 # marcadores
@@ -41,6 +176,7 @@ cura = coracao
 # classe organizacional
 class Alimentos():
     def __init__(self):
+
         self.quantidade_de_agua = 10
         self.quantidade_de_carne = 10
         self.quantidade_de_aditivo_de_cura = 10
@@ -62,6 +198,10 @@ class Alimentos():
 
 
 alimentos = Alimentos()
+
+
+
+
 
 
 
