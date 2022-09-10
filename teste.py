@@ -5,11 +5,11 @@ from playsound import playsound
 import pyttsx3
 import pygame
 from time import sleep
-
+pygame.init()
 
 from random import randint as ran
 
-class SonseImagens():
+class Sons:
     falar = pyttsx3.init('sapi5')
 
     # SONS DE ASHE:
@@ -17,12 +17,10 @@ class SonseImagens():
         playsound('voz_ashe_arqueira.mp3')
     def som_ashe_final_de_partida(self):
         playsound('voz_ashe_final_de_partida.mp3')
-    def som_chuva_de_flechas(self, volume):
-        pygame.init()
-        pygame.mixer.init()
-        pygame.mixer.music.set_volume(volume)
-        pygame.mixer.Sound('enxurrada_de_flechas (online-audio-converter.com).wav')
-        pygame.mixer.music.play()
+    def som_ashe_atacando(self, volume=0):
+        playsound('ashe_enxurrada_de_flechas.mp3')
+
+
 
 
     # SONS DE ANDREY:
@@ -96,16 +94,22 @@ class SonseImagens():
         self.musica_de_fundo_caverna = pygame.mixer.music.load('som_de_fundo_caverna.mp3')
         pygame.mixer.music.play()
     def som_flecha_sendo_lancada(self, volume=1):
+        playsound('ashe_flecha_sendo_lancada.mp3')
+
+    def som_floresta_de_neve(self, volume=1):
         pygame.init()
         pygame.mixer.init()
         pygame.mixer.music.set_volume(volume)
-        pygame.mixer.Sound('FLECHA-SENDO_LANÇADA_VIDEO_CURTO (online-audio-converter.com).wav')
+        self.musica_de_fundo_floresta_de_neve = pygame.mixer.music.load('y2meta.com - Sons da Natureza - Vento forte (320 kbps).mp3')
         pygame.mixer.music.play()
 
 
 
 
-sons = SonseImagens()
+sons = Sons()
+
+
+
 
 
 
@@ -127,7 +131,23 @@ def mostrando_floresta_encantada():
             pygame.quit()
             break
     print(f'\033[32m \033[1m {"SIGA EM FRENTE, ATRAVESSE AS ÁRVORES":^100} \033[m')
+def mostrando_floresta_de_neve():
+    janela = pygame.display.set_mode((1300, 700))
+    fundo = pygame.image.load('floresta_de_neve_editado.png')
+    contador_de_janela = 0
+    position = (0, 0)
+    while True:
+        contador_de_janela += 1
+        sleep(2)
+        janela.blit(fundo, dest=position)
+        pygame.display.update()
+        if contador_de_janela == 10:
+            pygame.quit()
+            break
+    print(f'\033[1m \033[4m \033[36m {"se prepare pra floresta de neve".upper():^100} \033[m')
 
+sons.som_floresta_de_neve(0.5)
+mostrando_floresta_de_neve()
 def mostrando_floresta_invertida():
     janela = pygame.display.set_mode((1672, 700))
     fundo = pygame.image.load('floresta_invertida_editado.jpg')
