@@ -9,7 +9,6 @@ from teste import sons
 import pyttsx3
 import pygame
 pygame.init()
-sons.som_caverna(1.5)
 class PrimeiraParte(Exception):
     def voz_mercadinho(self):
         falar = pyttsx3.init('sapi5')
@@ -31,9 +30,9 @@ class PrimeiraParte(Exception):
             pygame.display.update()
         pygame.quit()
     def mostrando_demogorgon(self):
-        janela = pygame.display.set_mode((700, 690))
+        janela = pygame.display.set_mode((900, 450))
         position = (0, 0)
-        fundo = pygame.image.load('The_Demogorgon.png')
+        fundo = pygame.image.load('DEMOGORGON.gif')
         pygame.display.set_caption('demogorgon')
         janela_aberta = True
         while janela_aberta:
@@ -132,10 +131,13 @@ class PrimeiraParte(Exception):
         self.casa = 0
         self.nome = nome
         self.portal = 0
-        self.contador_de_fome = 8
-        self.contador_de_sede = 8
-        self.contador_de_vida = 20
+        self.contador_de_fome = 80
+        self.contador_de_sede = 80
+        self.contador_de_vida = 120
         self.garrafa_de_agua = 'garrafa de agua'
+        self.fogueira = 'fogueira       '
+        self.foguinho = 'foguinho       '
+        self.casaco = 'casaco         '
         self.carne = 'carne          '
         self.aditivo_de_cura = 'aditivo de cura'
         self.arma = 'arma           '
@@ -184,7 +186,7 @@ personagem 03 - viego - bruxo''')
                 print('\033[31mopção de personagem inválida\033[m')
         print(F'personagem escolhido: {self.personagem_escolhido}')
         sleep(3)
-    def mercadinho(self):
+    def mercadinho(self, mercadinho_de_neve=False):
         print(f'\033[35m \033[1m{"BEM VINDO AO MERCADINHO MÁGICO":^50}\033[m')
         daniel.voz_mercadinho()
         self.codigo_agua = '245'
@@ -197,8 +199,18 @@ personagem 03 - viego - bruxo''')
         self.codigo_reparador = '631'
         self.codigo_upador_de_armadura = '027'
         self.codigo_acelerador_de_habilidade = '112'
+        if mercadinho_de_neve == True:
+            self.codigo_fogueira = '740'
+            self.codigo_foguinho = '002'
+            self.codigo_casaco = '112'
+            list_mercado_de_neve = [self.codigo_fogueira, self.codigo_foguinho, self.codigo_casaco]
+
         self.list_de_codigo = [self.codigo_agua, self.codigo_carne, self.codigo_pocao, self.codigo_arma, self.codigo_cristal, self.codigo_revivedor, self.codigo_armadura, self.codigo_reparador, self.codigo_upador_de_armadura, self.codigo_acelerador_de_habilidade]
         c = 0
+        if mercadinho_de_neve == True:
+            for item in list_mercado_de_neve:
+                self.list_de_codigo.append(item)
+
         print('\033[31m \033[1m \033[4m')
         print('|CÓDIGO|        |ITEM|          |MOEDAS|\033[m')
         for k, v in self.mercado.items():
@@ -328,9 +340,36 @@ personagem 03 - viego - bruxo''')
                 print('item comprado')
             else:
                 print('quantidade de moedas insuficientes para comprar o acelerador de habilidade')
+        elif codigo == self.codigo_fogueira:
+            if self.moeda >= self.mercado[self.fogueira]:
+                self.moeda -= self.mercado[self.fogueira]
+                self.inventario.append(self.fogueira)
+                self.list_itens_comprados.append(self.fogueira)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficientes para comprar a fogueira')
+
+        elif codigo == self.codigo_foguinho:
+            if self.moeda >= self.mercado[self.foguinho]:
+                self.moeda -= self.mercado[self.foguinho]
+                self.inventario.append(self.foguinho)
+                self.list_itens_comprados.append(self.foguinho)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficientes para comprar o foguinho mágico')
+        elif codigo == self.codigo_casaco:
+            if self.moeda >= self.mercado[self.casaco]:
+                self.moeda -= self.mercado[self.casaco]
+                self.inventario.append(self.casaco)
+                self.list_itens_comprados.append(self.casaco)
+                print('item comprado')
+            else:
+                print('quantidade de moedas insuficientes para comprar o casaco')
+
         else:
             print('\033[31m \033[1m             código inserido não corresponde a nenhum produto do mercado mágico \033[m')
             daniel.compra_no_mercado()
+
         while True:
             opcao = str(input('deseja comprar mais alguma coisa do mercado mágico? ')).lower()
             if opcao == 'sim':
@@ -349,18 +388,18 @@ personagem 03 - viego - bruxo''')
         print(f'{"->"* len("items comprados"):^80}')
     def pulando_casas(self, valor):
         self.casa += valor
-        self.contador_de_fome -= 1
-        self.contador_de_sede -= 1
+        self.contador_de_fome -= 10
+        self.contador_de_sede -= 10
         if self.contador_de_fome <= 0:
             self.contador_de_fome = 0
             if self.contador_de_fome == 0:
                 daniel.alimentar()
-                self.contador_de_vida -= 1
+                self.contador_de_vida -= 10
         if self.contador_de_sede <= 0:
             self.contador_de_sede = 0
             if self.contador_de_sede == 0:
                 daniel.beber_agua()
-                self.contador_de_vida -= 1
+                self.contador_de_vida -= 10
         if self.contador_de_vida <= 2:
             daniel.recuperar_vida()
 
@@ -372,7 +411,7 @@ personagem 03 - viego - bruxo''')
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal \033[m')
             sons.som_de_portal()
-            daniel.portal1()
+            # daniel.portal1()
         elif self.casa == 33:
             daniel.casa33()
         elif self.casa == 55:
@@ -381,12 +420,12 @@ personagem 03 - viego - bruxo''')
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal\033[m')
             sons.som_de_portal()
-            daniel.portal2()
+            # daniel.portal2()
         elif self.casa == 50:
             self.portal += 1
             print('\033[32m prepare-se para aventura no portal\033[m')
             sons.som_de_portal()
-            daniel.portal3()
+            # daniel.portal3()
         elif self.casa == 60:
             daniel.casa60()
         elif self.casa == 45:
@@ -406,13 +445,15 @@ personagem 03 - viego - bruxo''')
         elif self.casa == 70:
             daniel.bau_surpresa()
         elif 50 > self.casa >= 40:
-            self.CONTADOR_DE_BATALHA_DEMOGORGON += 1
-            if self.CONTADOR_DE_BATALHA_DEMOGORGON == 1:
-                daniel.rota2_floresta_invertida()
+            daniel.escolha_entre_caminhos()
         elif self.casa == 80:
             daniel.fruta_envenenada()
         elif self.casa == 68:
             daniel.casa68()
+        elif self.casa >= 20 and self.casa <= 25:
+            self.casa = 20
+            if self.casa == 20:
+                daniel.escolha_entre_caminhos()
 
     # def leitura_em_voz(self):
     #     with open('lendoflorestaencantada.py', 'r') as arquivo:
@@ -431,9 +472,11 @@ personagem 03 - viego - bruxo''')
                     daniel.inventario.remove(self.carne)
                     print(f'aguarde, {self.personagem_escolhido} está se alimentando')
                     sons.som_de_comer()
+                    daniel.contador_de_vida += 1
                     break
                 else:
                     print(f'alimento não encontrado na mochila de {self.personagem_escolhido}, obtenha seus recursos')
+                    break
             elif opcao == 'não' or opcao == 'nao':
                 print(f'{daniel.personagem_escolhido} está com fome')
                 break
@@ -449,6 +492,7 @@ personagem 03 - viego - bruxo''')
                     daniel.inventario.remove(self.garrafa_de_agua)
                     print(f'aguarde, {self.personagem_escolhido} está se hidratando')
                     sons.som_de_beber()
+                    daniel.contador_de_sede += 1
                     break
                 else:
                     print(f'garrafa de àgua não encontrada na mochila de {self.personagem_escolhido}, obtenha seus recursos')
@@ -553,26 +597,47 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         sons.som_floresta_encantada(1)
         teste.mostrando_floresta_encantada()
         sons.som_floresta_encantada(1)
+    def escolha_entre_caminhos(self):
+        print('''voce se depara neste momento com 3 possiveis rotas:
+rota 1: rota da floresta invertida
+rota 2: rota da floresta de neve
+rota 3: rota da caverna mágica''')
+        opcao = ''
+        while True:
+            opcao = str(input('qual das 3 rotas voce deseja? ')).lower()
+            if opcao == '1':
+                daniel.rota2_floresta_invertida()
+                break
+            if opcao == '2':
+                daniel.floresta_de_neve()
+                break
+            if opcao == '3':
+                daniel.rota1_caverna()
+                break
+            else:
+                print('\033[1m \033[4m \033[31m digite apenas 1, 2 ou 3 \033[m')
+
+
 
 
 
     # marcadores
     def mostrar_fome(self):
-        self.marcador_de_fome = self.contador_de_fome * teste.carne
-        print(f'   \033[31m          FOME \033[32m: {self.marcador_de_fome}', end='       ')
+        self.marcador_de_fome = teste.carne
+        print(f'   \033[31m    FOME \033[32m: {self.marcador_de_fome} {self.contador_de_fome}%', end='       ')
 
 
     def mostrar_vida(self):
-        self.marcador_de_vida = teste.coracao * self.contador_de_vida
-        print(f'  \033[1m   VIDA \033[m: {self.marcador_de_vida}', end='       ')
+        self.marcador_de_vida = teste.coracao
+        print(f'  \033[1m   VIDA \033[m: {self.marcador_de_vida} {self.contador_de_vida}%', end='       ')
 
 
     def mostrar_sede(self):
-        self.marcador_de_sede = self.contador_de_sede * teste.garrafa_de_agua
-        print(f'  \033[36m   SEDE \033[m: \033[36m{self.marcador_de_sede}\033[m', end='       ')
+        self.marcador_de_sede = teste.agua
+        print(f'  \033[36m   SEDE \033[m: \033[36m{self.marcador_de_sede} {self.contador_de_sede}%\033[m', end='       ')
 
     def mostrar_moeda(self):
-        print(f'  \033[33m   MOEDA\033[m:{self.moeda}{teste.moeda}\033[m')
+        print(f'  \033[33m   MOEDA\033[m:{self.moeda}{teste.moeda} \033[m')
 
 
     #casas especiais
@@ -752,12 +817,13 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
 
     # ROTAS ALTERNATIVAS
     def rota1_caverna(self):
-        teste.sons.som_caverna(1.5)
+       pass
 
 
     def rota2_floresta_invertida(self):
         teste.mostrando_floresta_invertida()
         sons.som_floresta_invertida()
+        self.CONTADOR_DE_BATALHA_DEMOGORGON += 1
         class CombateDemogorgon():
             def __init__(self, nome):
                 self.nome = nome
@@ -793,7 +859,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                 sleep(1)
                                 demogorgon.dano_personagem = 0
                                 if opcao == 'sim':
-                                    sons.som_chuva_de_flechas(volume=1)
+                                    sons.som_ashe_atacando()
                                     def chuva_de_flechas():
                                         cont = 0
                                         for c in range(0, 4):
@@ -809,10 +875,8 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
                                                 self.dano_personagem += 3
                                             demogorgon.contador_de_vida -= self.dano_personagem
                                             print(f'{cont}° flecha sendo lançada')
-                                            teste.sons.som_flecha_sendo_lancada(volume=1)
+                                            teste.sons.som_flecha_sendo_lancada()
                                             sleep(1)
-                                    sleep(1)
-                                    sons.som_chuva_de_flechas(volume=1)
                                     chuva_de_flechas()
                                     sleep(2)
                                     print(f'dano total das chuvas de flechas de ashe: {self.dano_personagem}')
@@ -1044,14 +1108,13 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
 
         demogorgon = CombateDemogorgon('demogorgon')
         if daniel.CONTADOR_DE_BATALHA_DEMOGORGON == 1:
-            daniel.rota1_caverna()
             daniel.contador_de_armadura = daniel.contador_de_armadura
             sleep(1.4)
             print(f'{daniel.personagem_escolhido} avistou o demogorgon do outro lado da floresta invertida')
             sleep(1)
             sons.som_demogorgon_aparecendo()
             demogorgon.demogorgon_aparecendo()
-            sons.som_floresta_invertida(1)
+            sons.som_floresta_invertida(0.5)
             daniel.escolhendo_e_organizando_armaduras()
             sleep(1)
             while True:
@@ -1097,8 +1160,65 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
 
 
 
-    def rota3_alguma_coisa(self):
-        pass
+    def floresta_de_neve(self):
+        class Floresta(PrimeiraParte):
+            def __init__(self):
+                self.fogueira = 'fogueira'
+                self.casaco = 'casaco'
+                self.contador_de_resistencia_ao_frio = 8
+                self.foguinho_aquecedor = 'foguinho'
+                self.carne = 'carne'
+                self.agua = 'agua'
+                self.floquinho_de_gelo = ''
+                self.moeda = 50
+                self.casa = 0
+                self.inventario = [self.fogueira, self.foguinho_aquecedor, self.carne, self.casaco, self.agua]
+
+            def pulando_casas(self, passos):
+                if passos > 1:
+                    print(f'prepare-se para andar {passos} passos')
+                else:
+                    print(f'prepare-se para andar {passos} passo')
+                sleep(2)
+                self.casa += passos
+                self.contador_de_resistencia_ao_frio -= 1
+                daniel.contador_de_sede -= 1
+                daniel.contador_de_fome -= 1
+                floresta.mostrando_casa()
+
+            def mostrando_casa(self):
+                print(f'voce está na casa {self.casa}')
+
+            def inicializando_floresta_de_neve(self):
+                print('bem vindo a floresta de neve, nova etapa do RPG')
+                teste.mostrando_floresta_de_neve()
+
+            def rodando_jogo(self):
+                caminhar = str(input('aperte enter para movimentar o personagem: '))
+                if caminhar == '':
+                    valor_a_ser_andado = ran(1, 6)
+                    floresta.pulando_casas(valor_a_ser_andado)
+                elif caminhar == 'mercado':
+                    PrimeiraParte.mercadinho(self, mercadinho_de_neve=True)
+                else:
+                    print('aperte apenas enter')
+            def mostrar_resistencia_ao_frio(self):
+                self.marcador_de_resistencia_ao_frio = self.contador_de_resistencia_ao_frio * self.floquinho_de_gelo
+                print(f'  \033[36m   RESISTÊNCIA \033[m: \033[36m{self.marcador_de_sede}\033[m', end='       ')
+            def mostrando_niveis_de_saude(self):
+                daniel.mostrar_fome()
+                daniel.mostrar_sede()
+                daniel.mostrar_vida()
+                daniel.mostrar_moeda()
+                floresta.mostrar_resistencia_ao_frio()
+
+        floresta = Floresta()
+        floresta.inicializando_floresta_de_neve()
+        while True:
+            floresta.rodando_jogo()
+            if floresta.casa >= 30:
+                print('fim da floresta de neve')
+                break
     def mostrando_inventario(self):
         print(f'\033[4m\033[35m \033[1m{"INVENTÁRIO":^50}\033[m')
         for itens in daniel.inventario:
