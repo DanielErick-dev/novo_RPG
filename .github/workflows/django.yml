@@ -26,4 +26,5 @@ jobs:
         pip install pytest
     - name: Run Tests
       run: |
-        pytest ./test_central_tests
+        cd test_central_tests
+        pytest
