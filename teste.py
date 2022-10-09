@@ -18,7 +18,7 @@ class Sons:
     def som_ashe_final_de_partida(self):
         playsound('voz_ashe_final_de_partida.mp3')
     def som_ashe_atacando(self, volume=0):
-        playsound('ashe_enxurrada_de_flechas.mp3')
+        playsound('enxurrada_de_flechas_ashe.mp3')
 
 
 
@@ -27,23 +27,24 @@ class Sons:
     def som_andrey_começo_de_partida(self):
         playsound('voz_espadachim.mp3')
     def som_andrey_final_de_partida(self):
-        playsound('andrey_final_de_partida.mp3')
-    def corte_duplo_andrey(self):
-        playsound('corte_duplo_andrey.mp3')
+        playsound('som_andrey_final_de_partida.mp3')
+    def som_andrey_meio_de_partida(self):
+        playsound('som_andrey_meio_de_partida.mp3')
+
 
     # SONS DE VIEGO:
     def som_viego_final_de_partida(self):
         playsound('som_viego_final_de_partida.mp3')
     def som_viego_comeco_de_partida(self):
-        playsound('fala_inicio_viego.mp3')
+        playsound('viego_iniciando_partida_comeco.mp3')
     def som_ressuscitar(self):
         playsound('som_viego_durante_batalha.mp3')
 
     # SONS ALEATÓRIOS
     def som_armadura_quebrando(self):
-        playsound('armadura_quebrando.mp3')
+        pass
     def som_equipando_armadura(self):
-        playsound('equipando_escudo.mp3')
+        pass
     def som_de_comer(self):
         playsound('personagemcomendo.mp3')
 
@@ -87,26 +88,38 @@ class Sons:
         self.musica_de_fundo_floresta_invertida = pygame.mixer.music.load('floresta_invertida.mp3')
         pygame.mixer.music.play()
     def som_caverna(self, volume=0.8):
+        # sons.som_floresta_encantada(0)
+        # pygame.init()
+        # pygame.mixer.init()
+        # pygame.mixer.music.set_volume(volume)
+        # self.musica_de_fundo_caverna = pygame.mixer.music.load('som_de_fundo_caverna.mp3')
+        # pygame.mixer.music.play()
+        pass
+    def som_flecha_sendo_lancada(self):
+        pygame.init()
+        pygame.mixer.init()
+        som = pygame.mixer.Sound('flecha_sendo_lancada.wav')
+        som.set_volume(1.5)
+        som.play()
+
+
+    def som_floresta_de_neve(self, volume=1):
         sons.som_floresta_encantada(0)
         pygame.init()
         pygame.mixer.init()
         pygame.mixer.music.set_volume(volume)
-        self.musica_de_fundo_caverna = pygame.mixer.music.load('som_de_fundo_caverna.mp3')
-        pygame.mixer.music.play()
-    def som_flecha_sendo_lancada(self, volume=1):
-        playsound('ashe_flecha_sendo_lancada.mp3')
-
-    def som_floresta_de_neve(self, volume=1):
-        pygame.init()
-        pygame.mixer.init()
-        pygame.mixer.music.set_volume(volume)
-        self.musica_de_fundo_floresta_de_neve = pygame.mixer.music.load('y2meta.com - Sons da Natureza - Vento forte (320 kbps).mp3')
+        self.musica_de_fundo_floresta_de_neve = pygame.mixer.music.load('y2meta.com - Som de Vento no Topo da Montanha para Relaxar e Dormir (320 kbps) (online-audio-converter.com).mp3')
         pygame.mixer.music.play()
 
 
 
 
 sons = Sons()
+
+
+
+
+
 
 
 
@@ -138,7 +151,7 @@ def mostrando_floresta_de_neve():
     position = (0, 0)
     while True:
         contador_de_janela += 1
-        sleep(2)
+        sleep(0.2)
         janela.blit(fundo, dest=position)
         pygame.display.update()
         if contador_de_janela == 10:
@@ -146,8 +159,7 @@ def mostrando_floresta_de_neve():
             break
     print(f'\033[1m \033[4m \033[36m {"se prepare pra floresta de neve".upper():^100} \033[m')
 
-sons.som_floresta_de_neve(0.5)
-mostrando_floresta_de_neve()
+
 def mostrando_floresta_invertida():
     janela = pygame.display.set_mode((1672, 700))
     fundo = pygame.image.load('floresta_invertida_editado.jpg')
@@ -162,6 +174,7 @@ def mostrando_floresta_invertida():
             pygame.quit()
             break
     print(f'\033[1m \033[4m \033[35m {"siga seu caminho entre as àrvores da floresta invertida".upper():^100} \033[m')
+
 
 def mostrando_caverna():
     janela = pygame.display.set_mode((1200, 675))
@@ -180,6 +193,7 @@ def mostrando_caverna():
     print(f'\033[1m \033[4m \033[32m {"suba as escadas e entre na caverna mágica".upper():^100} \033[m')
 
 
+
 # marcadores
 agua = '\U0001f4a7'
 coracao = '♥'
@@ -187,8 +201,8 @@ carne = '🥩'
 moeda = '\033[33m💰'
 escudo = '🛡️'
 barra_de_vida_demogorgon = '━'
-
-
+floco_de_gelo =  ['❄', '']
+floco = floco_de_gelo[0]
 garrafa_de_agua = f'\033[36m{agua}'
 alimento_de_carne = carne
 cura = coracao
