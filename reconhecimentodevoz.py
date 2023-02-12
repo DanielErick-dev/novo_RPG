@@ -39,18 +39,24 @@ def demogorgon():
     falar.runAndWait()
     print('dps apareço')
 
+def marina():
+    frase = 'marina não gosta de daniel'
+    falar.say(frase)
+    falar.runAndWait()
 
-with sr.Microphone(0) as mic:
+
+with sr.Microphone() as mic:
     while True:
         rec.adjust_for_ambient_noise(mic)
         print("escutando..")
-        sleep(0.8)
         audio = rec.listen(mic)
         texto = rec.recognize_google(audio, language='pt-BR')
         texto.split()
         texto = ''.join(texto)
         if 'bom dia' in texto:
             bom_dia()
+        elif 'ma' or 'marina' in texto:
+            marina()
         elif ' tarde' in texto:
             boa_tarde()
         elif ' noite' in texto:

@@ -1,20 +1,18 @@
 from random import randint as ran
 from random import choice
-import teste
-from teste import alimentos
+import arquivo_suporte
+from arquivo_suporte import alimentos
 from time import sleep
-import gtts
+from arquivo_suporte import sons
 from playsound import playsound
-from teste import sons
-import pyttsx3
 import pygame
 pygame.init()
 class PrimeiraParte(Exception):
-    def voz_mercadinho(self):
-        falar = pyttsx3.init('sapi5')
-        frase = 'bem vindo ao mercadinho mágico'
-        falar.say(frase)
-        falar.runAndWait()
+    # def voz_mercadinho(self):
+    #     falar = pyttsx3.init('sapi5')
+    #     frase = 'bem vindo ao mercadinho mágico'
+    #     falar.say(frase)
+    #     falar.runAndWait()
 
     def mostrando_bau(self):
         janela = pygame.display.set_mode((700, 565))
@@ -46,7 +44,7 @@ class PrimeiraParte(Exception):
 
     def personagem01(self):
         janela = pygame.display.set_mode((1095, 650))
-        fundo = pygame.image.load('espadachim a ser usado.png')
+        fundo = pygame.image.load('foto_personagens/espadachin_andrey.png')
         pygame.display.set_caption('personagem 01 andrey')
         position = (0, 0)
         janela_aberta = True
@@ -59,7 +57,7 @@ class PrimeiraParte(Exception):
         pygame.quit()
     def personagem02(self):
         janela = pygame.display.set_mode((1280, 720))
-        fundo = pygame.image.load('Ashe_OriginalCentered.webp')
+        fundo = pygame.image.load('foto_personagens/Ashe_OriginalCentered.webp')
         pygame.display.set_caption('personagem 02 Ashe')
         position = (0, 0)
         janela_aberta = True
@@ -72,7 +70,7 @@ class PrimeiraParte(Exception):
         pygame.quit()
     def personagem03(self):
         janela = pygame.display.set_mode((1215, 717))
-        fundo = pygame.image.load('Viego.jpg')
+        fundo = pygame.image.load('foto_personagens/Viego.jpg')
         pygame.display.set_caption('personagemg 03 Viego')
         position = (0, 0)
         janela_aberta = True
@@ -164,7 +162,7 @@ class PrimeiraParte(Exception):
         self.STATUS = True
         self.escudo_escolhido = [self.armadura]
         self.contador_de_armadura = 12
-        self.marcador_de_armadura = teste.escudo * self.contador_de_armadura
+        self.marcador_de_armadura = arquivo_suporte.escudo * self.contador_de_armadura
         self.opcao_de_armadura = False
         self.STATUS_ARMADURA = False
         self.nivel_de_escudo = 1
@@ -608,7 +606,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         floresta_encantada = 'voçê está na primeira parte de sua jornada, entre na floresta encantada'.upper()
         print(f'\033[32m\033[4m \033[1m {floresta_encantada:^100}\033[m')
         sons.som_floresta_encantada(1)
-        teste.mostrando_floresta_encantada()
+        arquivo_suporte.mostrando_floresta_encantada()
         sons.som_floresta_encantada(1)
     def escolha_entre_caminhos(self):
         print('''voce se depara neste momento com 3 possiveis rotas:
@@ -1234,9 +1232,9 @@ rota 3: rota da caverna mágica''')
 
             def inicializando_floresta_de_neve(self):
                 print('bem vindo a floresta de neve, nova etapa do RPG')
-                teste.sons.som_floresta_de_neve(1)
-                teste.mostrando_floresta_de_neve()
-                teste.sons.som_floresta_de_neve(1)
+                arquivo_suporte.sons.som_floresta_de_neve(1)
+                arquivo_suporte.mostrando_floresta_de_neve()
+                arquivo_suporte.sons.som_floresta_de_neve(1)
 
             def rodando_jogo(self):
                 caminhar = str(input('aperte enter para movimentar o personagem: '))
