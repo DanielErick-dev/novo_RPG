@@ -58,42 +58,42 @@ class Sons:
     def som_equipando_armadura(self):
         pass
     def som_de_comer(self):
-
+        pass
 
     def som_de_beber(self):
-
+        pass
 
     def som_de_portal(self):
-
+        pass
 
     def tomando_pocao(self):
-
+        pass
 
     def som_game_over(self):
-
+        pass
 
     def som_abrindo_bau(self):
-
+        pass
 
     def som_regenerando_armadura(self):
-
+        pass
 
     def som_demogorgon_aparecendo(self):
-
+        pass
 
     def som_floresta_encantada(self, volume=1):
         sons.som_geral_de_trilha_sonora(volume=1, nome='sons_gerais/som_floresta.mp3')
 
     def som_floresta_invertida(self, volume=1):
-
+        pass
     def som_caverna(self, volume=0.8):
-
+        pass
     def som_flecha_sendo_lancada(self):
-
+        pass
 
 
     def som_floresta_de_neve(self, volume=1):
-
+        pass
 
 
 
@@ -116,7 +116,7 @@ sons = Sons()
 
 def mostrando_floresta_encantada():
     janela = pygame.display.set_mode((1400, 540))
-    fundo = pygame.image.load('floresta_encantada_editado.jpg')
+    fundo = pygame.image.load('imagens_gerais_cenário/floresta_encantada.jpg')
     contador_de_janela = 0
     position = (0, 0)
     while True:

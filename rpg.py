@@ -6,6 +6,7 @@ from time import sleep
 from arquivo_suporte import sons
 from playsound import playsound
 import pygame
+import pyttsx3
 pygame.init()
 class PrimeiraParte(Exception):
     # def voz_mercadinho(self):
@@ -634,21 +635,21 @@ rota 3: rota da caverna mágica''')
 
     # marcadores
     def mostrar_fome(self):
-        self.marcador_de_fome = teste.carne
+        self.marcador_de_fome = arquivo_suporte.carne
         print(f'   \033[31m    FOME \033[31m: {self.marcador_de_fome} {self.contador_de_fome}%', end='       ')
 
 
     def mostrar_vida(self):
-        self.marcador_de_vida = teste.coracao
+        self.marcador_de_vida = arquivo_suporte.coracao
         print(f'  \033[1m   VIDA \033[m: {self.marcador_de_vida} {self.contador_de_vida}%', end='       ')
 
 
     def mostrar_sede(self):
-        self.marcador_de_sede = teste.agua
+        self.marcador_de_sede = arquivo_suporte.agua
         print(f'  \033[36m   SEDE \033[m: \033[36m{self.marcador_de_sede} {self.contador_de_sede}%\033[m', end='       ')
 
     def mostrar_moeda(self):
-        print(f'  \033[33m   MOEDA\033[m:{self.moeda}{teste.moeda} \033[m')
+        print(f'  \033[33m   MOEDA\033[m:{self.moeda}{arquivo_suporte.moeda} \033[m')
 
 
     #casas especiais
@@ -832,7 +833,7 @@ rota 3: rota da caverna mágica''')
 
 
     def rota2_floresta_invertida(self):
-        teste.mostrando_floresta_invertida()
+        arquivo_suporte.mostrando_floresta_invertida()
         sons.som_floresta_invertida()
         self.CONTADOR_DE_BATALHA_DEMOGORGON += 1
         class CombateDemogorgon():
@@ -886,7 +887,7 @@ rota 3: rota da caverna mágica''')
                                                 self.dano_personagem += 4
                                             demogorgon.contador_de_vida -= self.dano_personagem
                                             print(f'{cont}° flecha sendo lançada')
-                                            teste.sons.som_flecha_sendo_lancada()
+                                            arquivo_suporte.sons.som_flecha_sendo_lancada()
                                             sleep(1)
                                     chuva_de_flechas()
                                     sleep(2)
