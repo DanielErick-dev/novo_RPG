@@ -1,3 +1,49 @@
+import tkinter as tk
+from PIL import Image, ImageTk
+
+root = tk.Tk()
+
+def atualizar_gif():
+    global gif, contador, label
+    try:
+        frame = gif.tell()
+        gif.seek(frame+1)
+        img = ImageTk.PhotoImage(gif.convert("RGBA"))
+        label.config(image=img)
+        label.image = img
+        contador.set(contador.get()+1)
+        root.after(50, atualizar_gif)
+    except EOFError:
+        # exibe a última imagem do GIF
+        img = ImageTk.PhotoImage(gif.convert("RGBA"))
+        label.config(image=img)
+        label.image = img
+        reiniciar_btn.config(state=tk.NORMAL)
+    except AttributeError as e:
+        print("Erro ao abrir o arquivo de gif:", e)
+
+def reiniciar_gif():
+    global gif, contador
+    # retorna ao primeiro frame do GIF e reinicia o loop
+    gif.seek(0)
+    contador.set(0)
+    reiniciar_btn.config(state=tk.DISABLED)
+    atualizar_gif()
+
+contador = tk.IntVar()
+try:
+    gif = Image.open("foto_personagens/demogorgon.gif")
+except FileNotFoundError as e:
+    print("Arquivo de gif não encontrado:", e)
+    gif = None
+label = tk.Label(root)
+label.pack()
+atualizar_gif()
+reiniciar_btn = tk.Button(root, text="Reiniciar", command=reiniciar_gif, state=tk.DISABLED)
+reiniciar_btn.pack()
+
+root.mainloop()
+
 # def contar_caracteres(string):
 #     caracteres_ordenados = sorted(string)
 #     caracter_anterior = caracteres_ordenados[0]
@@ -639,31 +685,31 @@
 #    v = ('-')
 #    print(v, end='')
 
-from random import sample as sam
-from random import choice
-palavra = str(input('digite uma palavra: '))
-list = []
-new_string = ''
-if palavra != '':
-    palavra = palavra.split()
-    palavra = ''.join(palavra)
-    if len(palavra) > 7:
-        primeira_parte = palavra[:3]
-        segunda_parte = palavra[2:5]
-        terceira_parte = palavra[5:len(palavra)]
-    else:
-        primeira_parte = palavra[:2]
-        segunda_parte = palavra[2:4]
-        terceira_parte = palavra[4: len(palavra)]
-    value = range(1, 2)
-    valor = choice(value)
-    if valor == 1:
-        new_string = segunda_parte + primeira_parte + terceira_parte
-    elif valor == 2:
-        new_string = primeira_parte + terceira_parte + primeira_parte
-
-    elif valor == 3:
-        new_string = terceira_parte + primeira_parte + segunda_parte
-
-
-print(f'a palavra {palavra} embaralhada é: {new_string}')
+# from random import sample as sam
+# from random import choice
+# palavra = str(input('digite uma palavra: '))
+# list = []
+# new_string = ''
+# if palavra != '':
+#     palavra = palavra.split()
+#     palavra = ''.join(palavra)
+#     if len(palavra) > 7:
+#         primeira_parte = palavra[:3]
+#         segunda_parte = palavra[2:5]
+#         terceira_parte = palavra[5:len(palavra)]
+#     else:
+#         primeira_parte = palavra[:2]
+#         segunda_parte = palavra[2:4]
+#         terceira_parte = palavra[4: len(palavra)]
+#     value = range(1, 2)
+#     valor = choice(value)
+#     if valor == 1:
+#         new_string = segunda_parte + primeira_parte + terceira_parte
+#     elif valor == 2:
+#         new_string = primeira_parte + terceira_parte + primeira_parte
+#
+#     elif valor == 3:
+#         new_string = terceira_parte + primeira_parte + segunda_parte
+#
+#
+# print(f'a palavra {palavra} embaralhada é: {new_string}')

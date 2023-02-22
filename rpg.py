@@ -7,6 +7,9 @@ from arquivo_suporte import sons
 from playsound import playsound
 import pygame
 import pyttsx3
+
+
+import moviepy.editor as mp
 pygame.init()
 class PrimeiraParte(Exception):
     # def voz_mercadinho(self):
@@ -16,10 +19,19 @@ class PrimeiraParte(Exception):
     #     falar.runAndWait()
 
     def mostrando_bau(self):
-        janela = pygame.display.set_mode((700, 565))
+        daniel.amostra_geral_na_tela(primeiro_valor=700,
+                                     segundo_valor=565,
+                                     diretorio_da_imagem='bau.jpg',
+                                     nome_do_personagem='Baú mágico')
+
+
+
+
+    def amostra_geral_na_tela(self, primeiro_valor, segundo_valor, diretorio_da_imagem, nome_do_personagem):
+        janela = pygame.display.set_mode((primeiro_valor, segundo_valor))
+        fundo = pygame.image.load(diretorio_da_imagem)
+        pygame.display.set_caption(nome_do_personagem)
         position = (0, 0)
-        fundo = pygame.image.load('baueditado.jpg')
-        pygame.display.set_caption('baú mágico')
         janela_aberta = True
         while janela_aberta:
             for event in pygame.event.get():
@@ -28,67 +40,32 @@ class PrimeiraParte(Exception):
             janela.blit(fundo, dest=position)
             pygame.display.update()
         pygame.quit()
-    def mostrando_demogorgon(self):
-        janela = pygame.display.set_mode((900, 450))
-        position = (0, 0)
-        fundo = pygame.image.load('DEMOGORGON.gif')
-        pygame.display.set_caption('demogorgon')
-        janela_aberta = True
-        while janela_aberta:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    janela_aberta = False
-            janela.blit(fundo, dest=position)
-            pygame.display.update()
-        pygame.quit()
-
-
     def personagem01(self):
-        janela = pygame.display.set_mode((1095, 650))
-        fundo = pygame.image.load('foto_personagens/espadachin_andrey.png')
-        pygame.display.set_caption('personagem 01 andrey')
-        position = (0, 0)
-        janela_aberta = True
-        while janela_aberta:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    janela_aberta = False
-            janela.blit(fundo, dest=position)
-            pygame.display.update()
-        pygame.quit()
+        daniel.amostra_geral_na_tela(primeiro_valor=1095,
+                                     segundo_valor=650,
+                                     diretorio_da_imagem='foto_personagens/espadachin_andrey.png',
+                                     nome_do_personagem='personagem 01 Andrey')
+
     def personagem02(self):
-        janela = pygame.display.set_mode((1280, 720))
-        fundo = pygame.image.load('foto_personagens/Ashe_OriginalCentered.webp')
-        pygame.display.set_caption('personagem 02 Ashe')
-        position = (0, 0)
-        janela_aberta = True
-        while janela_aberta:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    janela_aberta = False
-                janela.blit(fundo, dest=position)
-                pygame.display.update()
-        pygame.quit()
+        daniel.amostra_geral_na_tela(primeiro_valor=1280,
+                                     segundo_valor=720,
+                                     diretorio_da_imagem='foto_personagens/Ashe_OriginalCentered.webp',
+                                     nome_do_personagem='personagem 02 Ashe')
+
     def personagem03(self):
-        janela = pygame.display.set_mode((1215, 717))
-        fundo = pygame.image.load('foto_personagens/Viego.jpg')
-        pygame.display.set_caption('personagemg 03 Viego')
-        position = (0, 0)
-        janela_aberta = True
-        while janela_aberta:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    janela_aberta = False
-                janela.blit(fundo, dest=position)
-                pygame.display.update()
-        pygame.quit()
+        daniel.amostra_geral_na_tela(primeiro_valor=1215,
+                                     segundo_valor=717,
+                                     diretorio_da_imagem='foto_personagens/Viego.jpg',
+                                     nome_do_personagem='personagem 03 Viego')
+
     def som_do_personagem(self, persona):
         if persona == 'andrey':
-            playsound('somdeespada.mp3')
+            sons.sons_gerais('vozes_andrey/especial_andrey.mp3')
         elif persona == 'ashe':
-            playsound('somdeflecha.mp3')
+            sons.sons_gerais('vozes_ashe/especial_ashe.mp3')
         elif persona == 'viego':
-            playsound('somdefogo.mp3')
+            playsound('vozes_viego/especial_viego.mp3')
+        sleep(2)
     def manual(self):
         print('''
             ---------------------------------------------------------------------------------------------------------------------------
@@ -607,7 +584,7 @@ capacidade de matar = 40% vida = 30 fraqueza = ataques de fogo, não apresenta r
         floresta_encantada = 'voçê está na primeira parte de sua jornada, entre na floresta encantada'.upper()
         print(f'\033[32m\033[4m \033[1m {floresta_encantada:^100}\033[m')
         sons.som_floresta_encantada(1)
-        arquivo_suporte.mostrando_floresta_encantada()
+        arquivo_suporte.daniel.mostrando_floresta_encantada()
         sons.som_floresta_encantada(1)
     def escolha_entre_caminhos(self):
         print('''voce se depara neste momento com 3 possiveis rotas:
@@ -833,14 +810,15 @@ rota 3: rota da caverna mágica''')
 
 
     def rota2_floresta_invertida(self):
-        arquivo_suporte.mostrando_floresta_invertida()
+        sons.som_floresta_invertida()
+        arquivo_suporte.daniel.mostrando_floresta_invertida()
         sons.som_floresta_invertida()
         self.CONTADOR_DE_BATALHA_DEMOGORGON += 1
         class CombateDemogorgon():
             def __init__(self, nome):
                 self.nome = nome
                 self.contador_de_vida = 30
-                self.barra_de_vida_demogorgon = teste.barra_de_vida_demogorgon
+                self.barra_de_vida_demogorgon = arquivo_suporte.barra_de_vida_demogorgon
                 self.STATUS = True
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura, daniel.revivedor]
                 self.contador_de_ativacao_de_habilidade = 4
@@ -922,7 +900,8 @@ rota 3: rota da caverna mágica''')
 
 
             def som_demogorgon_atacando(self):
-                playsound('newsom_demogorgon_atacando.mp3')
+                sons.som_demogorgon_atacando()
+                sleep(1)
             def narrando_demogorgon(self):
                 falar = pyttsx3.init('sapi5')
                 frase = str('demogórgon está se aproximando')
@@ -930,13 +909,13 @@ rota 3: rota da caverna mágica''')
                 falar.runAndWait()
             def demogorgon_aparecendo(self):
                 demogorgon.narrando_demogorgon()
-                sleep(1)
-                daniel.mostrando_demogorgon()
+                sleep(2)
+                arquivo_suporte.daniel.mostrando_demogorgon()
 
             def mostrar_vida_demogorgon(self):
                 sleep(1)
                 self.vida_demogorgon = self.barra_de_vida_demogorgon * self.contador_de_vida
-                daniel.marcador_de_vida =  teste.coracao
+                daniel.marcador_de_vida = arquivo_suporte.coracao
                 print(f'\033[31m \033[1m{"VIDA DEMOGORGON":^30} ', end='  ')
                 if daniel.armadura in daniel.inventario:
                     print(f'\033[34m \033[1m{"VIDA PERSONAGEM":^30}  ', end='  ')
@@ -1005,7 +984,7 @@ rota 3: rota da caverna mágica''')
                             daniel.inventario.remove(daniel.armadura)
                             sons.som_armadura_quebrando()
                             print('\033[1m \033[31m o colete está quebrado \033[m')
-                daniel.marcador_de_armadura = teste.escudo * daniel.contador_de_armadura
+                daniel.marcador_de_armadura = arquivo_suporte.escudo * daniel.contador_de_armadura
 
             def ataque_direto(self, numero_do_programa):
                 while True:
