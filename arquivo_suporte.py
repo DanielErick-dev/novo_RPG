@@ -67,7 +67,7 @@ class Sons:
     def som_armadura_quebrando(self):
         sons.sons_gerais('sons_gerais/')
     def som_equipando_armadura(self):
-        sons.sons_gerais('sons_gerais/som_equipando_armadura ')
+        sons.sons_gerais('sons_gerais/som_equipando_armadura.mp3')
     def som_de_comer(self):
         sons.sons_gerais('sons_gerais/som_comendo.mp3')
 
@@ -228,7 +228,7 @@ daniel = Mapas()
 agua = '\U0001f4a7'
 coracao = '♥'
 carne = '🥩'
-moeda = '\033[33m💰'
+moeda = '\033[33m 💰'
 escudo = '🛡️'
 barra_de_vida_demogorgon = '━'
 floco_de_gelo =  ['❄', '']

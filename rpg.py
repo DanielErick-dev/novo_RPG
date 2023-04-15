@@ -4,7 +4,6 @@ import arquivo_suporte
 from arquivo_suporte import alimentos
 from time import sleep
 from arquivo_suporte import sons
-from playsound import playsound
 import pygame
 import pyttsx3
 
@@ -64,7 +63,7 @@ class PrimeiraParte(Exception):
         elif persona == 'ashe':
             sons.sons_gerais('vozes_ashe/especial_ashe.mp3')
         elif persona == 'viego':
-            playsound('vozes_viego/especial_viego.mp3')
+            sons.sons_gerais('vozes_viego/especial_viego.mp3')
         sleep(2)
     def manual(self):
         print('''
@@ -175,7 +174,6 @@ personagem 03 - viego - bruxo''')
         sleep(3)
     def mercadinho(self,mercadinho_de_neve):
         print(f'\033[35m \033[1m{"BEM VINDO AO MERCADINHO MÁGICO":^50}\033[m')
-        daniel.voz_mercadinho()
         self.codigo_agua = '245'
         self.codigo_carne = '103'
         self.codigo_pocao = '205'
@@ -822,7 +820,6 @@ rota 3: rota da caverna mágica''')
                 self.STATUS = True
                 self.bau = [daniel.garrafa_de_agua, daniel.carne, daniel.aditivo_de_cura, daniel.armadura, daniel.revivedor]
                 self.contador_de_ativacao_de_habilidade = 4
-
                 self.dano_demogorgon = 0
             def habilidade_especial(self):
                 if self.contador_de_ativacao_de_habilidade <= 0:
@@ -935,6 +932,7 @@ rota 3: rota da caverna mágica''')
                 self.dado_demogorgon = ran(0, 12)
                 print('demogorgon atacando..')
                 demogorgon.som_demogorgon_atacando()
+                sleep(1.5)
                 if self.dado_demogorgon <= 1:
                     self.dano_demogorgon = 0
 
@@ -1040,6 +1038,7 @@ rota 3: rota da caverna mágica''')
                 self.adicional = 0
                 print(f'{daniel.personagem_escolhido} está atacando demogorgon..')
                 daniel.som_do_personagem(daniel.personagem_escolhido)
+                sleep(1.5)
                 if self.dado_personagem <= 1:
                     self.dano_personagem = 0
                     print(f'{demogorgon.nome} desviou do ataque')
