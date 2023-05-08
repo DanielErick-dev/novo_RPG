@@ -5,6 +5,78 @@ import pygame
 from time import sleep
 import tkinter as tk
 from PIL import Image, ImageTk
+import sys
+from PIL import Image
+
+# INCREMENTAR A MOVIMENTAÇÃO DA FLECHA EM DIREÇÃO AO FINAL DA TELA AO SER PRESSIONADO A TECLA "A"
+
+imagem_original = Image.open('imagens_gerais_cenário/cenário.png')
+nova_largura = 1300
+nova_altura = 700
+imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
+imagem_redimensionada.save('imagens_gerais_cenário/novo_cenario.png')
+
+
+
+
+pygame.init()
+largura = 1300
+altura = 700
+tela = pygame.display.set_mode((largura, altura))
+
+mapa = [[0, 0, 0],
+         [0, 1, 0],
+         [0, 0, 0]]
+posicao_do_personagem = [100, 100]
+imagem_personagem = pygame.image.load('foto_personagens/mine2.0.png')
+velocidade_personagem = 2
+cor_branca = (255, 255, 255)
+cor_preta = (0, 0, 0)
+cor_verde = (0, 255, 0)
+cor_objeto = (0, 255, 0)
+fundo_imagem = pygame.image.load('imagens_gerais_cenário/novo_cenario.png')
+tamanho_objeto = 32
+cor_fundo = (0, 0, 0)
+def desenhar_mapa(mapa):
+    pass
+    # for linha in range(len(mapa)):
+    #     for coluna in range(len(mapa[linha])):
+    #         if mapa[coluna][linha] ==1:
+    #             pygame.draw.rect(tela,cor_objeto,(coluna*tamanho_objeto, linha*tamanho_objeto, tamanho_objeto, tamanho_objeto))
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    desenhar_mapa(mapa)
+    tela.blit(fundo_imagem, (0, 0))
+    tela.blit(imagem_personagem, posicao_do_personagem)
+    teclas_pressionadas = pygame.key.get_pressed()
+    if event.type == pygame.KEYDOWN:
+        if teclas_pressionadas[pygame.K_LEFT]:
+            posicao_do_personagem[0] -= velocidade_personagem
+        if teclas_pressionadas[pygame.K_RIGHT]:
+            posicao_do_personagem[0] += velocidade_personagem
+        if teclas_pressionadas[pygame.K_DOWN]:
+            posicao_do_personagem[1] += velocidade_personagem
+        if teclas_pressionadas[pygame.K_UP]:
+            posicao_do_personagem[1] -= velocidade_personagem
+
+
+
+    pygame.display.update()
+
+
+
+
+
+
+
+
+
+
+
 
 
 
