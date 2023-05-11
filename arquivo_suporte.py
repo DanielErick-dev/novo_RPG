@@ -8,13 +8,12 @@ from PIL import Image, ImageTk
 import sys
 from PIL import Image
 
-# INCREMENTAR A MOVIMENTAÇÃO DA FLECHA EM DIREÇÃO AO FINAL DA TELA AO SER PRESSIONADO A TECLA "A"
 
-imagem_original = Image.open('imagens_gerais_cenário/cenário.png')
-nova_largura = 1300
-nova_altura = 700
-imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
-imagem_redimensionada.save('imagens_gerais_cenário/novo_cenario.png')
+# imagem_original = Image.open('foto_personagens/zumbi_mine.png')
+# nova_largura = 200
+# nova_altura = 200
+# imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
+# imagem_redimensionada.save('imagens_gerais/zumbi_mine2.0.png')
 
 
 
@@ -27,13 +26,22 @@ tela = pygame.display.set_mode((largura, altura))
 mapa = [[0, 0, 0],
          [0, 1, 0],
          [0, 0, 0]]
-posicao_do_personagem = [100, 100]
+posicao_X = 200
+posicao_Y = 270
+posicao_do_personagem = [30, 270]
+posicao_x_zumbi = 1000
+posicao_y_zumbi = 270
+imagem_zumbi = pygame.image.load('foto_personagens/mumia_mine.png')
 imagem_personagem = pygame.image.load('foto_personagens/mine2.0.png')
+imagem_da_espada = pygame.image.load('imagens_gerais/espada_mine.jpeg')
 velocidade_personagem = 2
+velocidade_da_espada = 2
+velocidade_do_zumbi = 2
 cor_branca = (255, 255, 255)
 cor_preta = (0, 0, 0)
 cor_verde = (0, 255, 0)
 cor_objeto = (0, 255, 0)
+movendo = False
 fundo_imagem = pygame.image.load('imagens_gerais_cenário/novo_cenario.png')
 tamanho_objeto = 32
 cor_fundo = (0, 0, 0)
@@ -48,23 +56,29 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                movendo = True
 
-    desenhar_mapa(mapa)
+    if movendo:
+        posicao_X += velocidade_da_espada
+
+    teclas_pressionadas = pygame.key.get_pressed()
+    if teclas_pressionadas[pygame.K_LEFT]:
+        posicao_do_personagem[0] -= velocidade_personagem
+    if teclas_pressionadas[pygame.K_RIGHT]:
+        posicao_do_personagem[0] += velocidade_personagem
+    if teclas_pressionadas[pygame.K_DOWN]:
+        posicao_do_personagem[1] += velocidade_personagem
+    if teclas_pressionadas[pygame.K_UP]:
+        posicao_do_personagem[1] -= velocidade_personagem
+
     tela.blit(fundo_imagem, (0, 0))
     tela.blit(imagem_personagem, posicao_do_personagem)
-    teclas_pressionadas = pygame.key.get_pressed()
-    if event.type == pygame.KEYDOWN:
-        if teclas_pressionadas[pygame.K_LEFT]:
-            posicao_do_personagem[0] -= velocidade_personagem
-        if teclas_pressionadas[pygame.K_RIGHT]:
-            posicao_do_personagem[0] += velocidade_personagem
-        if teclas_pressionadas[pygame.K_DOWN]:
-            posicao_do_personagem[1] += velocidade_personagem
-        if teclas_pressionadas[pygame.K_UP]:
-            posicao_do_personagem[1] -= velocidade_personagem
+    tela.blit(imagem_da_espada, (posicao_X, posicao_Y))
+    tela.blit(imagem_zumbi, (posicao_x_zumbi, posicao_y_zumbi))
 
-
-
+    pygame.display.flip()
     pygame.display.update()
 
 
