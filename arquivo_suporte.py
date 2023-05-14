@@ -1,4 +1,9 @@
-
+# PRÓXIMAS MISSÕES:
+    # FAZER COM QUE O DEMOGORGON VOLTE AUTOMATICAMENTE DEPOIS DE 3 SEGUNDOS AO SER MORTO
+    # CRIAR CONDIÇÃO DE COLISÃO ENTRE BOLA DE FOGO E ASHE
+    # CRIAR CONDIÇÃO DE COLISÃO ENTRE BOLA DE FOGO E ESCUDO
+    # CRIAR SOM DO DEMOGORGON JOGANDO A BOLA DE FOGO
+    # CRIAR PEQUENO PAINEL DE AÇÕES
 
 from playsound import playsound
 import pygame
@@ -9,77 +14,316 @@ import sys
 from PIL import Image
 
 
-# imagem_original = Image.open('foto_personagens/zumbi_mine.png')
-# nova_largura = 200
-# nova_altura = 200
+# imagem_original = Image.open('foto_personagens/ASHE.png')
+# nova_largura = 180
+# nova_altura = 180
 # imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
-# imagem_redimensionada.save('imagens_gerais/zumbi_mine2.0.png')
+# imagem_redimensionada.save('imagens_gerais_cenário/ASHE.png')
 
 
 
-
+# INICIALIZAÇÃO DO PYGAME
 pygame.init()
+
+# CONFIGURAÇÕES DA TELA
 largura = 1300
 altura = 700
 tela = pygame.display.set_mode((largura, altura))
 
+
 mapa = [[0, 0, 0],
          [0, 1, 0],
          [0, 0, 0]]
-posicao_X = 200
-posicao_Y = 270
-posicao_do_personagem = [30, 270]
-posicao_x_zumbi = 1000
-posicao_y_zumbi = 270
-imagem_zumbi = pygame.image.load('foto_personagens/mumia_mine.png')
-imagem_personagem = pygame.image.load('foto_personagens/mine2.0.png')
-imagem_da_espada = pygame.image.load('imagens_gerais/espada_mine.jpeg')
-velocidade_personagem = 2
-velocidade_da_espada = 2
-velocidade_do_zumbi = 2
+
+
+# CONFIGURAÇÕES DO DEMOGORGON
+imagem_demogorgon = pygame.image.load('foto_personagens/demogorgon.png')
+demogorgon_retangulo = imagem_demogorgon.get_rect()
+posicao_x_demogorgon = 1000
+posicao_y_demogorgon = 500
+posicao_inicial_y_demogorgon = posicao_y_demogorgon
+posicao_inicial_x_demogorgon = posicao_x_demogorgon
+
+
+
+# CONFIGURAÇÕES DO PERSONAGEM ASHE
+imagem_personagem_ashe = pygame.image.load('foto_personagens/ASHE.png')
+personagem_ashe_retangulo = imagem_personagem_ashe.get_rect()
+posicao_x_ashe = 30
+posicao_y_ashe = 500
+posicao_inicial_x_ashe = 30
+posicao_inicial_y_ashe = 500
+posicao_da_ashe = [posicao_inicial_x_ashe, posicao_inicial_y_ashe]
+
+
+
+
+# CONFIGURAÇÕES DO PORTAL
+imagem_portal = pygame.image.load('imagens_gerais_cenário/portal_entrada.png')
+portal_retangulo = imagem_portal.get_rect()
+posicao_x_portal = 700
+posicao_y_portal = 450
+posicao_portal = ((posicao_x_portal, posicao_y_portal))
+
+
+# CONFIGURAÇÕES DA FLECHA DA ASHE
+imagem_da_flecha = pygame.image.load('imagens_gerais/Enxurrada_de_flechas.jpeg')
+flecha_retangulo = imagem_da_flecha.get_rect()
+posicao_x_flecha = posicao_x_ashe + 50
+posicao_y_flecha = posicao_y_ashe
+posicao_inicial_x_flecha = posicao_x_ashe + 50
+posicao_inicial_y_flecha = posicao_y_ashe
+
+
+# CONFIGURAÇÃO DA BOLA DE FOGO
+imagem_da_bola_de_fogo = pygame.image.load('imagens_gerais/bolao_de_fogo.png')
+bola_de_fogo_retangulo = imagem_da_bola_de_fogo.get_rect()
+posicao_x_bola_de_fogo = posicao_x_demogorgon - 20
+posicao_y_bola_de_fogo = posicao_y_demogorgon
+posicao_inicial_x_bola_de_fogo = posicao_x_demogorgon - 20
+posicao_inicial_y_bola_de_fogo = posicao_y_demogorgon
+
+
+# CONFIGURAÇÃO DO ESCUDO DA ASHE
+imagem_do_escudo = pygame.image.load('imagens_gerais/escudo.png')
+escudo_retangulo = imagem_do_escudo.get_rect()
+posicao_x_escudo = posicao_x_ashe + 70
+posicao_y_escudo = posicao_y_ashe
+posicao_inicial_x_escudo = posicao_x_ashe + 50
+posicao_inicial_y_escudo = posicao_y_ashe
+
+
+# CONFIGURAÇÕES DE VELOCIDADE DE MOVIMENTO
+velocidade_personagem_ashe = 2
+velocidade_da_flecha = 6
+velocidade_do_demogorgon = 2
+velocidade_da_bola_de_fogo = 4
+
+
+# CONFIGURAÇÕES DE CORES
 cor_branca = (255, 255, 255)
 cor_preta = (0, 0, 0)
 cor_verde = (0, 255, 0)
 cor_objeto = (0, 255, 0)
-movendo = False
-fundo_imagem = pygame.image.load('imagens_gerais_cenário/novo_cenario.png')
-tamanho_objeto = 32
 cor_fundo = (0, 0, 0)
+
+# VÁRIAVEIS DE CONTROLE BOOLEANA
+flecha_movendo = False
+demogorgon_atingido = False
+permanencia_do_escudo = False
+controle_da_letra_s = False
+controle_da_bola_de_fogo = False
+ashe_atingida = False
+
+
+
+limite_superior = 0
+limite_inferior = altura - personagem_ashe_retangulo.height
+limite_esquerdo = 0
+limite_direito = 700
+tempo_sem_demogorgon = 0
+marcador_de_demogorgon = 0
+ultimo_tempo = 0
+
+# DETERMINANDO O CENÁRIO DE FUNDO DA TELA
+fundo_imagem = pygame.image.load('imagens_gerais_cenário/FLORESTA.JPG')
+tamanho_objeto = 32
+
+# DETERMINANDO AS POSIÇÕES INICIAIS DA FLECHA GLOBALMENTE
+def determinando_posicoes_flecha():
+    global posicao_x_flecha
+    global posicao_y_flecha
+    posicao_x_flecha = posicao_x_ashe + 50
+    posicao_y_flecha = posicao_y_ashe
+
+def determinando_posicoes_escudo():
+    global posicao_x_escudo
+    global posicao_y_escudo
+    posicao_x_escudo = posicao_x_ashe + 70
+    posicao_y_escudo = posicao_y_ashe
+
+def determinando_posicoes_bola_de_fogo():
+    global posicao_x_bola_de_fogo
+    global posicao_y_bola_de_fogo
+    posicao_x_bola_de_fogo = posicao_inicial_x_bola_de_fogo
+    posicao_y_bola_de_fogo = posicao_inicial_y_bola_de_fogo
+
+
+
 def desenhar_mapa(mapa):
     pass
     # for linha in range(len(mapa)):
     #     for coluna in range(len(mapa[linha])):
     #         if mapa[coluna][linha] ==1:
     #             pygame.draw.rect(tela,cor_objeto,(coluna*tamanho_objeto, linha*tamanho_objeto, tamanho_objeto, tamanho_objeto))
+
 while True:
     for event in pygame.event.get():
+        # CONDIÇÃO DE ENCERRAMENTO DA TELA
+        if ashe_atingida is True:
+            sleep(3)
+            pygame.quit()
+            sys.exit()
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_a:
-                movendo = True
+            if event.key == pygame.K_s:
+                # CONDIÇÃO DE REAÇÃO PARA O TOQUE NO TECLADO NA LETRA "S"
+                permanencia_do_escudo = True
+                controle_da_letra_s = True
 
-    if movendo:
-        posicao_X += velocidade_da_espada
+                # ALINHANDO A POSIÇÃO DO ESCUDO JUNTO COM A ASHE
+                posicao_x_escudo = posicao_da_ashe[0] + 100
+                posicao_y_escudo = posicao_da_ashe[1]
 
+
+            if event.key == pygame.K_u:
+                pygame.init()
+                pygame.mixer.init()
+                pygame.mixer.music.load('vozes_ashe/especial_ashe.mp3')
+                pygame.mixer.music.play()
+                # CONDIÇÕES DE REAÇÕES PARA O TOQUE NO TECLADO "A"
+                flecha_movendo = True
+                # ALINHANDO A POSIÇÃO DA FLECHA JUNTAMENTE COM A POSIÇÃO DA PERSONAGEM
+                posicao_x_flecha = posicao_da_ashe[0] + 50
+                posicao_y_flecha = posicao_da_ashe[1]
+
+
+            if event.key == pygame.K_r:
+                # UTILIZANDO LETRA R PARA RETOMADA DO DEMOGORGON A TELA
+                posicao_y_demogorgon = posicao_inicial_y_demogorgon
+                posicao_x_demogorgon = posicao_inicial_x_demogorgon
+
+
+            if event.key == pygame.K_t:
+                controle_da_bola_de_fogo = True
+                posicao_x_bola_de_fogo = posicao_x_demogorgon - 20
+                posicao_y_bola_de_fogo = posicao_y_demogorgon
+
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_s:
+                controle_da_letra_s = False
+
+
+    # FAZENDO A MOVIMENTAÇÃO LESTE, OESTE NORTE E SUL DO PERSONAGEM
     teclas_pressionadas = pygame.key.get_pressed()
-    if teclas_pressionadas[pygame.K_LEFT]:
-        posicao_do_personagem[0] -= velocidade_personagem
-    if teclas_pressionadas[pygame.K_RIGHT]:
-        posicao_do_personagem[0] += velocidade_personagem
-    if teclas_pressionadas[pygame.K_DOWN]:
-        posicao_do_personagem[1] += velocidade_personagem
-    if teclas_pressionadas[pygame.K_UP]:
-        posicao_do_personagem[1] -= velocidade_personagem
+    if teclas_pressionadas[pygame.K_a]:
+        if posicao_da_ashe[0] > limite_esquerdo:
+            posicao_da_ashe[0] -= velocidade_personagem_ashe
+    if teclas_pressionadas[pygame.K_d]:
+        if posicao_da_ashe[0] < 1150:
+            posicao_da_ashe[0] += velocidade_personagem_ashe
+    # if teclas_pressionadas[pygame.K_DOWN]:
+    #     posicao_da_ashe[1] += velocidade_personagem_ashe
+    # if teclas_pressionadas[pygame.K_UP]:
+    #     posicao_da_ashe[1] -= velocidade_personagem_ashe
 
+
+
+    # REALIZANDO A MOVIMENTAÇÃO DA FLECHA E ATUALIZANDO RETANGULO DA FLECHA
+    if flecha_movendo:
+        posicao_x_flecha += velocidade_da_flecha
+        flecha_retangulo.topleft = (posicao_x_flecha, posicao_y_flecha)
+
+
+        # CONDICIONANDO A COLISÃO DA FLECHA COM O DEMOGORGON
+        if flecha_retangulo.colliderect(demogorgon_retangulo):
+            demogorgon_atingido = True
+            posicao_y_demogorgon = -1000
+            posicao_x_demogorgon = -1000
+            flecha_movendo = False
+    if demogorgon_atingido:
+        marcador_de_demogorgon = 1
+        demogorgon_atingido = False
+    if not demogorgon_atingido:
+        if marcador_de_demogorgon == 2:
+            posicao_x_demogorgon = posicao_inicial_x_demogorgon
+            posicao_y_demogorgon = posicao_inicial_y_demogorgon
+            marcador_de_demogorgon = 0
+        else:
+            tempo_sem_demogorgon += pygame.time.get_ticks() - ultimo_tempo
+
+    # CRIANDO O RETANGULO DO ESCUDO
+    if controle_da_letra_s:
+        escudo_retangulo.topleft = (posicao_x_escudo, posicao_y_escudo)
+    if not controle_da_letra_s:
+        escudo_retangulo.move_ip(-1000, -1000)
+
+    # CRIANDO O RETANGULO DA BOLA DE FOGO
+    if controle_da_bola_de_fogo:
+        posicao_x_bola_de_fogo -= velocidade_da_bola_de_fogo
+        bola_de_fogo_retangulo.topleft = (posicao_x_bola_de_fogo, posicao_y_bola_de_fogo)
+
+
+        # CONDICIONANDO A COLISÃO DA BOLA DE FOGO COM O ESCUDO DA ASHE
+        if bola_de_fogo_retangulo.colliderect(escudo_retangulo):
+            ashe_atingida = False
+            posicao_x_bola_de_fogo = -1000
+            posicao_y_bola_de_fogo = -1000
+        else:
+
+
+            # CONDICIONANDO A COLISÃO DA BOLA DE FOGO COM A ASHE
+            if bola_de_fogo_retangulo.colliderect(personagem_ashe_retangulo):
+                ashe_atingida = True
+                posicao_x_ashe = -1000
+                posicao_y_ashe = -1000
+                posicao_da_ashe[0] = -1000
+                posicao_da_ashe[1] = -1000
+                controle_da_bola_de_fogo = False
+
+    # DEFININDO POSIÇÕES INICIAIS DA FLECHA SE A FLECHA NÃO ESTIVER MAIS EM MOVIMENTO
+    if not flecha_movendo:
+        posicao_x_flecha = posicao_da_ashe[0] + 50
+        posicao_y_flecha = posicao_da_ashe[1]
+        flecha_retangulo.topleft = (posicao_x_flecha, posicao_y_flecha)
+
+
+
+    # ATUALIZANDO RETANGULO DO DEMOGORGON
+    demogorgon_retangulo.topleft = (posicao_x_demogorgon, posicao_y_demogorgon)
+
+
+    # ATUALIZANDO RETANGULO DA ASHE
+    personagem_ashe_retangulo.topleft = (posicao_x_ashe, posicao_y_ashe)
+
+    # ATUALIZANDO RETANGULO DO ESCUDO
+    escudo_retangulo.topleft = (posicao_x_escudo, posicao_y_escudo)
+
+
+    # INSERINDO NA TELA TODAS AS IMAGENS NECESSÁRIAS
     tela.blit(fundo_imagem, (0, 0))
-    tela.blit(imagem_personagem, posicao_do_personagem)
-    tela.blit(imagem_da_espada, (posicao_X, posicao_Y))
-    tela.blit(imagem_zumbi, (posicao_x_zumbi, posicao_y_zumbi))
+    if not ashe_atingida:
+        tela.blit(imagem_personagem_ashe, posicao_da_ashe)
 
-    pygame.display.flip()
+
+    #tela.blit(imagem_portal, posicao_portal)
+    tela.blit(imagem_demogorgon, (posicao_x_demogorgon, posicao_y_demogorgon))
+
+
+    # INSERINDO FLECHA NA TELA SE ELA ESTIVER EM MOVIMENTO
+    if flecha_movendo:
+        tela.blit(imagem_da_flecha, (posicao_x_flecha, posicao_y_flecha))
+
+
+    # INSERINDO ESCUDO DA ASHE NA TELA SE A TECLA "S" ESTIVER SENDO PRESSIONADA
+    if controle_da_letra_s:
+        tela.blit(imagem_do_escudo, (posicao_x_escudo, posicao_y_escudo))
+
+    # INSERINDO BOLA DE FOGO DO DEMOGORGON NA TELA A DEPENDER DA VÁRIAVEL BOOLEANA
+    if controle_da_bola_de_fogo:
+        tela.blit(imagem_da_bola_de_fogo, (posicao_x_bola_de_fogo, posicao_y_bola_de_fogo))
+
+
+    # ATUALIZANDO
     pygame.display.update()
+    pygame.display.flip()
+
+    ultimo_tempo = pygame.time.get_ticks()
+
+
 
 
 

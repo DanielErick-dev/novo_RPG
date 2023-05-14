@@ -1,48 +1,88 @@
-import tkinter as tk
-from PIL import Image, ImageTk
+from PIL import Image
 
-root = tk.Tk()
+# Carregue a imagem com o fundo preto
+image = Image.open('imagens_gerais/bola_de_fogo.jpg')
 
-def atualizar_gif():
-    global gif, contador, label
-    try:
-        frame = gif.tell()
-        gif.seek(frame+1)
-        img = ImageTk.PhotoImage(gif.convert("RGBA"))
-        label.config(image=img)
-        label.image = img
-        contador.set(contador.get()+1)
-        root.after(50, atualizar_gif)
-    except EOFError:
-        # exibe a última imagem do GIF
-        img = ImageTk.PhotoImage(gif.convert("RGBA"))
-        label.config(image=img)
-        label.image = img
-        reiniciar_btn.config(state=tk.NORMAL)
-    except AttributeError as e:
-        print("Erro ao abrir o arquivo de gif:", e)
+# Converta a imagem para o modo RGBA
+image = image.convert('RGBA')
 
-def reiniciar_gif():
-    global gif, contador
-    # retorna ao primeiro frame do GIF e reinicia o loop
-    gif.seek(0)
-    contador.set(0)
-    reiniciar_btn.config(state=tk.DISABLED)
-    atualizar_gif()
+# Obtenha os pixels da imagem
+pixels = image.getdata()
 
-contador = tk.IntVar()
-try:
-    gif = Image.open("foto_personagens/demogorgon.gif")
-except FileNotFoundError as e:
-    print("Arquivo de gif não encontrado:", e)
-    gif = None
-label = tk.Label(root)
-label.pack()
-atualizar_gif()
-reiniciar_btn = tk.Button(root, text="Reiniciar", command=reiniciar_gif, state=tk.DISABLED)
-reiniciar_btn.pack()
+# Percorra os pixels e verifique se o fundo é preto (RGB: 0, 0, 0)
+new_pixels = []
+for pixel in pixels:
+    red, green, blue, alpha = pixel
 
-root.mainloop()
+    # Verifique se o pixel é preto
+    if red == 255 and green == 255 and blue == 255:
+        # Defina o canal alpha como 0 para tornar o pixel transparente
+        new_pixels.append((red, green, blue, 0))
+    else:
+        new_pixels.append(pixel)
+
+# Atualize a imagem com os novos pixels
+image.putdata(new_pixels)
+
+# Salve a imagem resultante
+image.save('imagens_gerais_cenário/bola_de_fogo.png', format='PNG')
+
+
+
+# from PIL import Image
+# imagem_original = Image.open('imagens_gerais/enxurrada_de_flechas.jpeg')
+# nova_largura = 40
+# nova_altura = 40
+# imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
+# imagem_redimensionada.save('imagens_gerais_cenário/Enxurrada_de_flechas.jpeg')
+
+
+
+# import tkinter as tk
+# from PIL import Image, ImageTk
+#
+# root = tk.Tk()
+#
+# def atualizar_gif():
+#     global gif, contador, label
+#     try:
+#         frame = gif.tell()
+#         gif.seek(frame+1)
+#         img = ImageTk.PhotoImage(gif.convert("RGBA"))
+#         label.config(image=img)
+#         label.image = img
+#         contador.set(contador.get()+1)
+#         root.after(50, atualizar_gif)
+#     except EOFError:
+#         # exibe a última imagem do GIF
+#         img = ImageTk.PhotoImage(gif.convert("RGBA"))
+#         label.config(image=img)
+#         label.image = img
+#         reiniciar_btn.config(state=tk.NORMAL)
+#     except AttributeError as e:
+#         print("Erro ao abrir o arquivo de gif:", e)
+#
+# def reiniciar_gif():
+#     global gif, contador
+#     # retorna ao primeiro frame do GIF e reinicia o loop
+#     gif.seek(0)
+#     contador.set(0)
+#     reiniciar_btn.config(state=tk.DISABLED)
+#     atualizar_gif()
+#
+# contador = tk.IntVar()
+# try:
+#     gif = Image.open("foto_personagens/demogorgon.gif")
+# except FileNotFoundError as e:
+#     print("Arquivo de gif não encontrado:", e)
+#     gif = None
+# label = tk.Label(root)
+# label.pack()
+# atualizar_gif()
+# reiniciar_btn = tk.Button(root, text="Reiniciar", command=reiniciar_gif, state=tk.DISABLED)
+# reiniciar_btn.pack()
+#
+# root.mainloop()
 
 # def contar_caracteres(string):
 #     caracteres_ordenados = sorted(string)
