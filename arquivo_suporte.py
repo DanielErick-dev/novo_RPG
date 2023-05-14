@@ -1,7 +1,5 @@
 # PRÓXIMAS MISSÕES:
     # FAZER COM QUE O DEMOGORGON VOLTE AUTOMATICAMENTE DEPOIS DE 3 SEGUNDOS AO SER MORTO
-    # CRIAR CONDIÇÃO DE COLISÃO ENTRE BOLA DE FOGO E ASHE
-    # CRIAR CONDIÇÃO DE COLISÃO ENTRE BOLA DE FOGO E ESCUDO
     # CRIAR SOM DO DEMOGORGON JOGANDO A BOLA DE FOGO
     # CRIAR PEQUENO PAINEL DE AÇÕES
 
@@ -156,6 +154,24 @@ def desenhar_mapa(mapa):
     #     for coluna in range(len(mapa[linha])):
     #         if mapa[coluna][linha] ==1:
     #             pygame.draw.rect(tela,cor_objeto,(coluna*tamanho_objeto, linha*tamanho_objeto, tamanho_objeto, tamanho_objeto))
+
+def desenhar_painel_vida(vida_ashe):
+    # DEFINA AS DIMENSÕES E A POSIÇÃO DO PAINEL DE VIDA DA ASHE REPRESENTADO PELO RETANGULO VERMELHO NA TELA
+    largura_vida_atual = vida_ashe
+    altura_vida = 10
+    x_vida_atual = 10
+    y_vida = 10
+
+    # DEFINA AS DIMENSÕES E A POSIÇÃO DO RETANGULO CINZA (VIDA PERDIDA)
+    largura_vida_perdida = 100 - vida_ashe
+    x_vida_perdida = x_vida_atual + largura_vida_atual
+
+
+    # DESENHANDO O RETANGULO VERMELHO NA TELA (VIDA ATUAL)
+    pygame.draw.rect(tela, (255, 0, 0), (x_vida_atual, y_vida, largura_vida_atual, altura_vida))
+
+    # DESENHANDO O RETANGULO CINZA (VIDA PERDIDA)
+    pygame.draw.rect(tela, (128, 128, 128),(x_vida_perdida, y_vida, largura_vida_perdida, altura_vida))
 
 while True:
     for event in pygame.event.get():
