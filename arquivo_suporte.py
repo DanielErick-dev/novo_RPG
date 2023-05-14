@@ -1,7 +1,10 @@
 # PRÓXIMAS MISSÕES:
+    # FAZER UMA BREVE ANIMAÇÃO EXPLOSIVA AO TER O CONTATO ENTRE A BOLA DE FOGO E O ESCUDO DA ASHE
     # FAZER COM QUE O DEMOGORGON VOLTE AUTOMATICAMENTE DEPOIS DE 3 SEGUNDOS AO SER MORTO
     # CRIAR SOM DO DEMOGORGON JOGANDO A BOLA DE FOGO
     # CRIAR PEQUENO PAINEL DE AÇÕES
+    # CRIAR BARRA DE VIDA DO DEMOGORGON
+    # PERSONALIZAR A BARRA DE VIDA DA ASHE COM ESCRITA VIDA E NÚMEROS INFORMATIVOS
 
 from playsound import playsound
 import pygame
@@ -112,6 +115,8 @@ permanencia_do_escudo = False
 controle_da_letra_s = False
 controle_da_bola_de_fogo = False
 ashe_atingida = False
+ashe_vida = 100
+ashe_fora_do_mapa = False
 
 
 
@@ -158,9 +163,9 @@ def desenhar_mapa(mapa):
 def desenhar_painel_vida(vida_ashe):
     # DEFINA AS DIMENSÕES E A POSIÇÃO DO PAINEL DE VIDA DA ASHE REPRESENTADO PELO RETANGULO VERMELHO NA TELA
     largura_vida_atual = vida_ashe
-    altura_vida = 10
-    x_vida_atual = 10
-    y_vida = 10
+    altura_vida = 15
+    x_vida_atual = 100
+    y_vida = 100
 
     # DEFINA AS DIMENSÕES E A POSIÇÃO DO RETANGULO CINZA (VIDA PERDIDA)
     largura_vida_perdida = 100 - vida_ashe
@@ -174,12 +179,14 @@ def desenhar_painel_vida(vida_ashe):
     pygame.draw.rect(tela, (128, 128, 128),(x_vida_perdida, y_vida, largura_vida_perdida, altura_vida))
 
 while True:
+    desenhar_painel_vida(vida_ashe=ashe_vida)
     for event in pygame.event.get():
+
         # CONDIÇÃO DE ENCERRAMENTO DA TELA
-        if ashe_atingida is True:
-            sleep(3)
-            pygame.quit()
-            sys.exit()
+        # if ashe_atingida is True:
+        #     sleep(3)
+        #     pygame.quit()
+        #     sys.exit()
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -196,23 +203,31 @@ while True:
 
 
             if event.key == pygame.K_u:
-                pygame.init()
-                pygame.mixer.init()
-                pygame.mixer.music.load('vozes_ashe/especial_ashe.mp3')
-                pygame.mixer.music.play()
-                # CONDIÇÕES DE REAÇÕES PARA O TOQUE NO TECLADO "A"
-                flecha_movendo = True
-                # ALINHANDO A POSIÇÃO DA FLECHA JUNTAMENTE COM A POSIÇÃO DA PERSONAGEM
-                posicao_x_flecha = posicao_da_ashe[0] + 50
-                posicao_y_flecha = posicao_da_ashe[1]
+                if ashe_fora_do_mapa:
+                    pass
+                else:
+                    pygame.init()
+                    pygame.mixer.init()
+                    pygame.mixer.music.load('vozes_ashe/especial_ashe.mp3')
+                    pygame.mixer.music.play()
+                    # CONDIÇÕES DE REAÇÕES PARA O TOQUE NO TECLADO "A"
+                    flecha_movendo = True
+                    # ALINHANDO A POSIÇÃO DA FLECHA JUNTAMENTE COM A POSIÇÃO DA PERSONAGEM
+                    posicao_x_flecha = posicao_da_ashe[0] + 50
+                    posicao_y_flecha = posicao_da_ashe[1]
 
 
             if event.key == pygame.K_r:
                 # UTILIZANDO LETRA R PARA RETOMADA DO DEMOGORGON A TELA
                 posicao_y_demogorgon = posicao_inicial_y_demogorgon
                 posicao_x_demogorgon = posicao_inicial_x_demogorgon
-
-
+            if event.key == pygame.K_m:
+                # UTILIZANDO LETRA M PARA RETOMADA DO PERSONAGEM A TELA
+                posicao_da_ashe[0] = posicao_inicial_x_ashe
+                posicao_da_ashe[1] = posicao_inicial_y_ashe
+                ashe_atingida = False
+                ashe_fora_do_mapa = False
+                # determinando_posicoes_bola_de_fogo()
             if event.key == pygame.K_t:
                 controle_da_bola_de_fogo = True
                 posicao_x_bola_de_fogo = posicao_x_demogorgon - 20
@@ -273,19 +288,21 @@ while True:
         bola_de_fogo_retangulo.topleft = (posicao_x_bola_de_fogo, posicao_y_bola_de_fogo)
 
 
+
+
         # CONDICIONANDO A COLISÃO DA BOLA DE FOGO COM O ESCUDO DA ASHE
         if bola_de_fogo_retangulo.colliderect(escudo_retangulo):
             ashe_atingida = False
             posicao_x_bola_de_fogo = -1000
             posicao_y_bola_de_fogo = -1000
         else:
-
-
             # CONDICIONANDO A COLISÃO DA BOLA DE FOGO COM A ASHE
             if bola_de_fogo_retangulo.colliderect(personagem_ashe_retangulo):
+                ashe_vida -= 10
                 ashe_atingida = True
-                posicao_x_ashe = -1000
-                posicao_y_ashe = -1000
+                ashe_fora_do_mapa = True
+                # posicao_x_ashe = -1000
+                # posicao_y_ashe = -1000
                 posicao_da_ashe[0] = -1000
                 posicao_da_ashe[1] = -1000
                 controle_da_bola_de_fogo = False
@@ -321,7 +338,10 @@ while True:
 
     # INSERINDO FLECHA NA TELA SE ELA ESTIVER EM MOVIMENTO
     if flecha_movendo:
-        tela.blit(imagem_da_flecha, (posicao_x_flecha, posicao_y_flecha))
+        if ashe_fora_do_mapa:
+            pass
+        else:
+            tela.blit(imagem_da_flecha, (posicao_x_flecha, posicao_y_flecha))
 
 
     # INSERINDO ESCUDO DA ASHE NA TELA SE A TECLA "S" ESTIVER SENDO PRESSIONADA
@@ -332,7 +352,7 @@ while True:
     if controle_da_bola_de_fogo:
         tela.blit(imagem_da_bola_de_fogo, (posicao_x_bola_de_fogo, posicao_y_bola_de_fogo))
 
-
+    desenhar_painel_vida(vida_ashe=ashe_vida)
     # ATUALIZANDO
     pygame.display.update()
     pygame.display.flip()
