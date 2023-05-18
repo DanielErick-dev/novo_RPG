@@ -4,7 +4,6 @@
     # CRIAR SOM DO DEMOGORGON JOGANDO A BOLA DE FOGO
     # CRIAR PEQUENO PAINEL DE AÇÕES
     # CRIAR BARRA DE VIDA DO DEMOGORGON
-    # PERSONALIZAR A BARRA DE VIDA DA ASHE COM ESCRITA VIDA E NÚMEROS INFORMATIVOS
 
 from playsound import playsound
 import pygame
@@ -130,6 +129,9 @@ ultimo_tempo = 0
 
 # DETERMINANDO O CENÁRIO DE FUNDO DA TELA
 fundo_imagem = pygame.image.load('imagens_gerais_cenário/FLORESTA.JPG')
+
+# DETERMINANDO FONTE E TAMANHO DA LETRA
+fonte = pygame.font.Font(None, 20)
 tamanho_objeto = 32
 
 # DETERMINANDO AS POSIÇÕES INICIAIS DA FLECHA GLOBALMENTE
@@ -163,9 +165,9 @@ def desenhar_mapa(mapa):
 def desenhar_painel_vida(vida_ashe):
     # DEFINA AS DIMENSÕES E A POSIÇÃO DO PAINEL DE VIDA DA ASHE REPRESENTADO PELO RETANGULO VERMELHO NA TELA
     largura_vida_atual = vida_ashe
-    altura_vida = 15
+    altura_vida = 20
     x_vida_atual = 100
-    y_vida = 100
+    y_vida = 110
 
     # DEFINA AS DIMENSÕES E A POSIÇÃO DO RETANGULO CINZA (VIDA PERDIDA)
     largura_vida_perdida = 100 - vida_ashe
@@ -174,10 +176,17 @@ def desenhar_painel_vida(vida_ashe):
 
     # DESENHANDO O RETANGULO VERMELHO NA TELA (VIDA ATUAL)
     pygame.draw.rect(tela, (255, 0, 0), (x_vida_atual, y_vida, largura_vida_atual, altura_vida))
+    pygame.draw.rect(tela, cor_preta, (x_vida_atual, y_vida, largura_vida_atual, altura_vida), 2)
 
     # DESENHANDO O RETANGULO CINZA (VIDA PERDIDA)
     pygame.draw.rect(tela, (128, 128, 128),(x_vida_perdida, y_vida, largura_vida_perdida, altura_vida))
+    pygame.draw.rect(tela, cor_preta, (x_vida_atual, y_vida, largura_vida_atual, altura_vida), 2)
 
+    # DESENHANDO O TEXTO
+    texto = fonte.render(f"VIDA: {vida_ashe}%", True, cor_branca)
+
+    # INSERINDO TEXTO NA TELA COM SUA DETERMINADA POSIÇÃO
+    tela.blit(texto, (x_vida_atual + 10, y_vida - 16))
 while True:
     desenhar_painel_vida(vida_ashe=ashe_vida)
     for event in pygame.event.get():
@@ -188,6 +197,9 @@ while True:
         #     pygame.quit()
         #     sys.exit()
         if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if ashe_vida == 0:
             pygame.quit()
             sys.exit()
 
@@ -298,7 +310,7 @@ while True:
         else:
             # CONDICIONANDO A COLISÃO DA BOLA DE FOGO COM A ASHE
             if bola_de_fogo_retangulo.colliderect(personagem_ashe_retangulo):
-                ashe_vida -= 10
+                ashe_vida -= 20
                 ashe_atingida = True
                 ashe_fora_do_mapa = True
                 # posicao_x_ashe = -1000
