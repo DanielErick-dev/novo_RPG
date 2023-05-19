@@ -3,7 +3,6 @@
     # FAZER COM QUE O DEMOGORGON VOLTE AUTOMATICAMENTE DEPOIS DE 3 SEGUNDOS AO SER MORTO
     # CRIAR SOM DO DEMOGORGON JOGANDO A BOLA DE FOGO
     # CRIAR PEQUENO PAINEL DE AÇÕES
-    # CRIAR BARRA DE VIDA DO DEMOGORGON
 
 from playsound import playsound
 import pygame
@@ -106,6 +105,8 @@ cor_preta = (0, 0, 0)
 cor_verde = (0, 255, 0)
 cor_objeto = (0, 255, 0)
 cor_fundo = (0, 0, 0)
+cor_vermelha = (255, 0, 0)
+cor_cinza = (125, 125, 125)
 
 # VÁRIAVEIS DE CONTROLE BOOLEANA
 flecha_movendo = False
@@ -115,6 +116,7 @@ controle_da_letra_s = False
 controle_da_bola_de_fogo = False
 ashe_atingida = False
 ashe_vida = 100
+demogorgon_vida = 100
 ashe_fora_do_mapa = False
 
 
@@ -162,7 +164,7 @@ def desenhar_mapa(mapa):
     #         if mapa[coluna][linha] ==1:
     #             pygame.draw.rect(tela,cor_objeto,(coluna*tamanho_objeto, linha*tamanho_objeto, tamanho_objeto, tamanho_objeto))
 
-def desenhar_painel_vida(vida_ashe):
+def desenhar_painel_vida_ashe(vida_ashe):
     # DEFINA AS DIMENSÕES E A POSIÇÃO DO PAINEL DE VIDA DA ASHE REPRESENTADO PELO RETANGULO VERMELHO NA TELA
     largura_vida_atual = vida_ashe
     altura_vida = 20
@@ -187,10 +189,35 @@ def desenhar_painel_vida(vida_ashe):
 
     # INSERINDO TEXTO NA TELA COM SUA DETERMINADA POSIÇÃO
     tela.blit(texto, (x_vida_atual + 10, y_vida - 16))
-while True:
-    desenhar_painel_vida(vida_ashe=ashe_vida)
-    for event in pygame.event.get():
 
+def desenhar_painel_vida_demogorgon(vida_demogorgon):
+    largura_vida_atual = vida_demogorgon
+    altura_vida = 20
+    x_vida_atual = 1000
+    y_vida = 110
+
+    # DEFINA AS DIMENSÕES E A POSIÇÃO DO RETANGULO CINZA (VIDA PERDIDA)
+    largura_vida_perdida = 100 - vida_demogorgon
+    x_vida_perdida = x_vida_atual + largura_vida_atual
+
+    # DESENHANDO O RETANGULO PRETO NA TELA (VIDA ATUAL)
+    pygame.draw.rect(tela, (cor_preta), (x_vida_atual, y_vida, largura_vida_atual, altura_vida))
+    pygame.draw.rect(tela, cor_branca, (x_vida_atual, y_vida, largura_vida_atual, altura_vida), 2)
+
+    # DESENHANDO O RETANGULO CINZA DA VIDA PERDIDA NA TELA (VIDA PERDIDA)
+    pygame.draw.rect(tela, (125, 125, 125), (x_vida_perdida, y_vida, largura_vida_perdida, altura_vida))
+    pygame.draw.rect(tela, (255,0 , 0), (x_vida_atual, y_vida, largura_vida_atual, altura_vida), 2)
+
+    # DESENHANDO O TEXTO
+    texto = fonte.render(f"VIDA: {vida_demogorgon}%", True, cor_branca)
+
+    # INSERINDO TEXTO NA TELA
+    tela.blit(texto, (x_vida_atual + 10, y_vida - 16))
+
+while True:
+    desenhar_painel_vida_ashe(vida_ashe=ashe_vida)
+    desenhar_painel_vida_demogorgon(vida_demogorgon=demogorgon_vida)
+    for event in pygame.event.get():
         # CONDIÇÃO DE ENCERRAMENTO DA TELA
         # if ashe_atingida is True:
         #     sleep(3)
@@ -273,6 +300,7 @@ while True:
 
         # CONDICIONANDO A COLISÃO DA FLECHA COM O DEMOGORGON
         if flecha_retangulo.colliderect(demogorgon_retangulo):
+            demogorgon_vida -= 20
             demogorgon_atingido = True
             posicao_y_demogorgon = -1000
             posicao_x_demogorgon = -1000
@@ -364,7 +392,9 @@ while True:
     if controle_da_bola_de_fogo:
         tela.blit(imagem_da_bola_de_fogo, (posicao_x_bola_de_fogo, posicao_y_bola_de_fogo))
 
-    desenhar_painel_vida(vida_ashe=ashe_vida)
+    desenhar_painel_vida_ashe(vida_ashe=ashe_vida)
+    desenhar_painel_vida_demogorgon(vida_demogorgon=demogorgon_vida)
+
     # ATUALIZANDO
     pygame.display.update()
     pygame.display.flip()
