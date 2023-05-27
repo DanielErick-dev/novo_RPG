@@ -3,6 +3,8 @@
     # FAZER COM QUE O DEMOGORGON VOLTE AUTOMATICAMENTE DEPOIS DE 3 SEGUNDOS AO SER MORTO
     # CRIAR SOM DO DEMOGORGON JOGANDO A BOLA DE FOGO
     # CRIAR PEQUENO PAINEL DE AÇÕES
+    # ENCONTRAR IMAGENS ONDE A ASHE ESTÁ COM A FLECHA APONTADA PARA FRENTE PARA INSERIR A TELA
+    # INCREMENTAR OUTRAS IDEIAS DO JOGO
 
 from playsound import playsound
 import pygame
@@ -13,11 +15,7 @@ import sys
 from PIL import Image
 
 
-# imagem_original = Image.open('foto_personagens/ASHE.png')
-# nova_largura = 180
-# nova_altura = 180
-# imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
-# imagem_redimensionada.save('imagens_gerais_cenário/ASHE.png')
+
 
 
 
@@ -239,6 +237,8 @@ while True:
                 # ALINHANDO A POSIÇÃO DO ESCUDO JUNTO COM A ASHE
                 posicao_x_escudo = posicao_da_ashe[0] + 100
                 posicao_y_escudo = posicao_da_ashe[1]
+            else:
+                controle_da_letra_s = False
 
 
             if event.key == pygame.K_u:
@@ -261,12 +261,13 @@ while True:
                 posicao_y_demogorgon = posicao_inicial_y_demogorgon
                 posicao_x_demogorgon = posicao_inicial_x_demogorgon
             if event.key == pygame.K_m:
-                # UTILIZANDO LETRA M PARA RETOMADA DO PERSONAGEM A TELA
-                posicao_da_ashe[0] = posicao_inicial_x_ashe
-                posicao_da_ashe[1] = posicao_inicial_y_ashe
-                ashe_atingida = False
-                ashe_fora_do_mapa = False
-                # determinando_posicoes_bola_de_fogo()
+                # UTILIZANDO LETRA M PARA RETOMADA DO PERSONAGEM ASHE A TELA
+                if ashe_fora_do_mapa is True:
+                    posicao_da_ashe[0] = posicao_inicial_x_ashe
+                    posicao_da_ashe[1] = posicao_inicial_y_ashe
+                    ashe_atingida = False
+                    ashe_fora_do_mapa = False
+
             if event.key == pygame.K_t:
                 controle_da_bola_de_fogo = True
                 posicao_x_bola_de_fogo = posicao_x_demogorgon - 20
@@ -277,14 +278,21 @@ while True:
                 controle_da_letra_s = False
 
 
-    # FAZENDO A MOVIMENTAÇÃO LESTE, OESTE NORTE E SUL DO PERSONAGEM
+
+    # FAZENDO A MOVIMENTAÇÃO LESTE E OESTE DO PERSONAGEM
     teclas_pressionadas = pygame.key.get_pressed()
     if teclas_pressionadas[pygame.K_a]:
         if posicao_da_ashe[0] > limite_esquerdo:
-            posicao_da_ashe[0] -= velocidade_personagem_ashe
+            if controle_da_letra_s:
+                pass
+            else:
+                posicao_da_ashe[0] -= velocidade_personagem_ashe
     if teclas_pressionadas[pygame.K_d]:
         if posicao_da_ashe[0] < 1150:
-            posicao_da_ashe[0] += velocidade_personagem_ashe
+            if controle_da_letra_s:
+                pass
+            else:
+                posicao_da_ashe[0] += velocidade_personagem_ashe
     # if teclas_pressionadas[pygame.K_DOWN]:
     #     posicao_da_ashe[1] += velocidade_personagem_ashe
     # if teclas_pressionadas[pygame.K_UP]:
