@@ -29,13 +29,6 @@ image.save('imagens_gerais_cenário/bola_de_fogo.png', format='PNG')
 
 
 
-# from PIL import Image
-# imagem_original = Image.open('imagens_gerais/enxurrada_de_flechas.jpeg')
-# nova_largura = 40
-# nova_altura = 40
-# imagem_redimensionada = imagem_original.resize((nova_largura, nova_altura))
-# imagem_redimensionada.save('imagens_gerais_cenário/Enxurrada_de_flechas.jpeg')
-
 
 
 # import tkinter as tk
