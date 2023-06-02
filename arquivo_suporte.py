@@ -1,10 +1,26 @@
 import pygame
 from playsound import playsound
-
-
+import pyttsx3
 class Sons:
 
 
+    def frase_principal(self, nome=None):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load('Vídeo sem título ‐ Feito com o Clipchamp.mp3')
+        pygame.mixer.music.play()
+
+    def frase_inicial(self, nome=None):
+        engine = pyttsx3.init('sapi5')
+        engine.setProperty('volume', 0.8)
+        engine.setProperty('rate', 150)
+        engine.setProperty('voice', 'pt-br')
+        texto = 'eu sou uma fada mágica'
+        engine.say(texto)
+        engine.runAndWait()
+        voices = engine.getProperty('voices')
+        for voice in voices:
+            print(voice.id)
     # SOM GERAL DE PERSONAGEM
     def sons_gerais(self, nome=None):
         pygame.init()
