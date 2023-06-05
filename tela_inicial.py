@@ -13,8 +13,6 @@ def TELA_SECUNDARIA():
     # VÁRIAVEIS PARA TRANSIÇÃO
     opacidade_transicao = 355
     velocidade_transicao = 3.8
-    trocar_tela = False
-    transicao_iniciada = False
 
     # CONFIGURAÇÃO DA TELA
     altura = 1400
@@ -59,11 +57,12 @@ def TELA_SECUNDARIA():
     y = 50
 
     # CRIANDO VÁRIAVEL FALA
-    fala = ['Bem Vindo A Floresta Encantada, Aqui Se inicia sua Jornada', 'primeiro precisamos nos preparar pra jornada']
+    fala = ['eu me chamo feyre e serei sua companheira em sua caminhada e ajudarei em tudo que puder',
+            'sua primeira missão será atravessar a floresta encantada, portanto vamos começar']
     contagem = -1
 
-    def criando_texto(variavel_fala):
-        texto = font.render(variavel_fala, True,lista_de_cores['verde_brilhante'], lista_de_cores['preto'] )
+    def criando_texto():
+        texto = font.render(fala[contagem], True,lista_de_cores['verde_brilhante'], lista_de_cores['preto'] )
         retangulo_do_texto = texto.get_rect()
         retangulo_do_texto.center = (x,y)
         tela.blit(texto, retangulo_do_texto)
@@ -78,15 +77,18 @@ def TELA_SECUNDARIA():
                 posicao_mouse = pygame.mouse.get_pos()
                 if retangulo_da_seta.collidepoint(posicao_mouse):
                     texto_ativo = True
-                    arquivo_suporte.sons.frase_principal('pasta_falas/audio.wav')
-                    arquivo_suporte.sons.stop = True
                     contagem += 1
+                    if contagem < len(arquivo_suporte.lista_de_falas):
+                        arquivo_suporte.sons.frase_principal(arquivo_suporte.lista_de_falas[contagem])
+
+
 
 
 
 
         retangulo_da_seta.x = posicao_x_setinha
         retangulo_da_seta.y = posicao_y_setinha
+
         tela.fill((0, 0, 0))
         tela.blit(cenario, (0, 0))
 
@@ -97,8 +99,9 @@ def TELA_SECUNDARIA():
 
         # INSERINDO PERSONAGEM NA TELA
         tela.blit(foto_personagem, (posicao_x_personagem, posicao_y_personagem))
-        if texto_ativo:
-            criando_texto(fala[contagem])
+        if texto_ativo and contagem < len(fala):
+            criando_texto()
+
 
         tela_transicao = pygame.Surface((largura, altura))
         tela_transicao.fill(lista_de_cores["preto"])

@@ -3,6 +3,7 @@ from playsound import playsound
 import pyttsx3
 import pyaudio
 from time import sleep
+lista_de_falas = ['pasta_falas/apresentacao_feyre.wav', 'pasta_falas/audio_atravessando_floresta.wav']
 class Sons:
     def __init__(self, stop):
         self.stop = stop
