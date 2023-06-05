@@ -1,14 +1,49 @@
 import pygame
 from playsound import playsound
 import pyttsx3
+import pyaudio
+from time import sleep
 class Sons:
+    def __init__(self, stop):
+        self.stop = stop
+
+    def frase_principal(self, variavel_fala):
+        import wave
+
+        def play_audio(filename, stop):
+            sleep(1)
+            chunk = 1024
+
+            # Abre o arquivo WAV para leitura
+            wf = wave.open(filename, 'rb')
+
+            # Inicializa o PyAudio
+            p = pyaudio.PyAudio()
+
+            # Abre o stream de áudio
+            stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
+                            channels=wf.getnchannels(),
+                            rate=wf.getframerate(),
+                            output=True)
+
+            # Lê os dados do arquivo WAV em chunks e envia para o stream de áudio
+            data = wf.readframes(chunk)
+            while data and not stop:
+                stream.write(data)
+                data = wf.readframes(chunk)
+
+            # Encerra o stream e o PyAudio
+            stream.stop_stream()
+            stream.close()
+            p.terminate()
 
 
-    def frase_principal(self, nome=None):
-        pygame.init()
-        pygame.mixer.init()
-        pygame.mixer.music.load('Vídeo sem título ‐ Feito com o Clipchamp.mp3')
-        pygame.mixer.music.play()
+        # Arquivo de áudio WAV
+        filename = variavel_fala
+
+        # Reproduz o arquivo de áudio
+        play_audio(filename, stop=self.stop)
+
 
     def frase_inicial(self, nome=None):
         engine = pyttsx3.init('sapi5')
@@ -122,7 +157,7 @@ class Sons:
         pass
 
 
-sons = Sons()
+sons = Sons(stop=False)
 
 
 

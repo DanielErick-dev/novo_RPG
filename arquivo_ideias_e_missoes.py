@@ -11,3 +11,5 @@
 #direcionado a esse mapa, fazer com que cada mapa seja um pouco mais dificil do que o outro
 
 # combinar terminal interativo com cores junto com as telas do pygame
+
+# criar lista de áudios igual fiz com a lista de falas da personagem auxiliar

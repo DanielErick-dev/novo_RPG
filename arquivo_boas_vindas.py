@@ -3,6 +3,7 @@ import pygame
 import sys
 import arquivo_suporte
 import tela_ashe_e_demogorgon
+import tela_inicial
 
 pygame.init()
 
@@ -79,8 +80,8 @@ def desenhando_texto(text, x, y, cor, cor_de_fundo):
 
 def iniciar_segunda_tela(troca_de_tela=False, opacidade_transicao=0):
     arquivo_suporte.sons.som_floresta_encantada(ponto_stop=True)
-    tela_ashe_e_demogorgon.TELA_PRINCIPAL()
-
+    # tela_ashe_e_demogorgon.TELA_PRINCIPAL()
+    tela_inicial.TELA_SECUNDARIA()
 
 
 
