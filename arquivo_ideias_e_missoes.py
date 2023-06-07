@@ -13,3 +13,13 @@
 # combinar terminal interativo com cores junto com as telas do pygame
 
 # criar lista de áudios igual fiz com a lista de falas da personagem auxiliar
+
+# inserir os arquivos django neste repositório local com o máximo possivel configurado
+
+# inserir um CI automatizado no github
+
+# realizar cadastro e deploy automático no CI do github com a plataforma apache ou FLY.io
+
+# começar o manual do jogo utilizando o twitter bootstrap no html e css
+
+# começar estrutura html e css colocando em prática e aprendendo novas coisas
