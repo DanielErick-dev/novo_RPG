@@ -12,7 +12,7 @@
 
 # combinar terminal interativo com cores junto com as telas do pygame
 
-# criar lista de áudios igual fiz com a lista de falas da personagem auxiliar
+
 
 # inserir os arquivos django neste repositório local com o máximo possivel configurado
 
