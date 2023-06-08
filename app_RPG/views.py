@@ -2,5 +2,5 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse('seja bem vindo ao manual RPG')
+    return render(request,'index.html')
 # Create your views here.
