@@ -12,7 +12,7 @@ cenario= pygame.image.load('imagens_gerais_cenário/cenario_mercado.jpg')
 carregando_imagem_do_comerciante = pygame.image.load('foto_personagens/velho.png')
 comerciante = pygame.transform.flip(carregando_imagem_do_comerciante, True, False)
 
-livro_magico = pygame.image.load('imagens_gerais/')
+#livro_magico = pygame.image.load('imagens_gerais/')
 posicao_x_comerciante = 280
 posicao_y_comerciante = 240
 
