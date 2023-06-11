@@ -1,11 +1,25 @@
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
+.container { /* CRIANDO CONTAINER */
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
-h1 {
-text-align: center;
+.container::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;  /* define a porcentagem da cor verde no texto da esquerda para direita */
+  height: 50px; /* Define a altura desejada para a área verde */
+  background-color: green;
+  z-index: -1;
 }
+
+.container h1 {
+  margin: 0;
+}
+
+
+
