@@ -15,7 +15,8 @@ posicao_x_comerciante = 280
 posicao_y_comerciante = 240
 
 
-carregando_imagem_ichigo = pygame.image.load('foto_personagens/ichigo.png')
+carregando_imagem_ichigo = pygame.image.load('foto_personagens/arqueira_RPG.png')
+imagem_arqueira = carregando_imagem_ichigo
 imagem_ichigo = pygame.transform.flip(carregando_imagem_ichigo, True, False)
 posicao_x_personagem = 1150
 posicao_y_personagem = 220
@@ -36,7 +37,7 @@ while True:
             sys.exit()
     tela.blit(cenario, (0, 0))
     tela.blit(comerciante, (posicao_x_comerciante, posicao_y_comerciante))
-    tela.blit(imagem_ichigo, (posicao_x_personagem, posicao_y_personagem))
+    tela.blit(carregando_imagem_ichigo, (posicao_x_personagem, posicao_y_personagem))
     tela.blit(caixa_magica, (posicao_x_caixa, posicao_y_caixa))
     pygame.display.flip()
     pygame.display.update()

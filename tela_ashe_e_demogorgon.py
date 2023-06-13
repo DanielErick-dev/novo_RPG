@@ -37,7 +37,7 @@ def TELA_PRINCIPAL():
 
 
     # CONFIGURAÇÕES DA PERSONAGEM ASHE
-    imagem_personagem_ashe = pygame.image.load('foto_personagens/ichigo.png')
+    imagem_personagem_ashe = pygame.image.load('foto_personagens/ASHE.png')
     personagem_ashe_retangulo = imagem_personagem_ashe.get_rect()
     posicao_x_ashe = 30
     posicao_y_ashe = 500
@@ -88,8 +88,8 @@ def TELA_PRINCIPAL():
 
 
     # CONFIGURAÇÕES DE VELOCIDADE DE MOVIMENTO
-    velocidade_personagem_ashe = 2
-    velocidade_da_flecha = 6
+    velocidade_personagem_ashe = 4
+    velocidade_da_flecha = 10
     velocidade_do_demogorgon = 2
     velocidade_da_bola_de_fogo = 4
 

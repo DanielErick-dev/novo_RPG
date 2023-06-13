@@ -23,7 +23,7 @@
 # tirar texto de cima da personagem e inserir condição de encerramento do texto anterior quando a personagem ja estiver falando o segundo texto
 
 
-# tela do mercado consistirá em um senhor no canto esquerdo com fundo de floresta encantada
+
 # enquanto os itens estarão inseridos em um fundo preto onde ficarão empilhados separados por categorias
 # com um bloquinho preto ao redor de cada item
 
