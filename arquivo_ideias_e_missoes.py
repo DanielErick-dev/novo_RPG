@@ -32,3 +32,6 @@
 # inserir diálogo entre personagem e vendedor
 # inserir caixinha de opções para o usuário na loja do mercado
 # inserir quantidade de dinheiro em moedas ou joias
+
+
+# inserir o personagem ichigo onde ao ter determinado nivel de poder ele possa usar seu bankai e haja uma explosão tirando o ichigo da tela e aparecendo o ichigo versão hollow

@@ -37,7 +37,7 @@ def TELA_PRINCIPAL():
 
 
     # CONFIGURAÇÕES DA PERSONAGEM ASHE
-    imagem_personagem_ashe = pygame.image.load('foto_personagens/ASHE.png')
+    imagem_personagem_ashe = pygame.image.load('foto_personagens/ichigo.png')
     personagem_ashe_retangulo = imagem_personagem_ashe.get_rect()
     posicao_x_ashe = 30
     posicao_y_ashe = 500
@@ -413,7 +413,7 @@ def TELA_PRINCIPAL():
         ultimo_tempo = pygame.time.get_ticks()
 
 
-
+TELA_PRINCIPAL()
 
 
 
