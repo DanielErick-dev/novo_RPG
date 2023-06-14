@@ -52,6 +52,16 @@ garrafa_de_agua = pygame.image.load('imagens_gerais/itens_do_mercado/garrafa_de_
 posicao_x_garrafa_de_agua = 30
 posicao_y_garrafa_de_agua = 40
 
+carregando_carne = pygame.image.load('imagens_gerais/itens_do_mercado/carne.png')
+carne = pygame.transform.flip(carregando_carne, True, False)
+posicao_x_carne = 210
+posicao_y_carne = 30
+
+pocao_de_vida = pygame.image.load('imagens_gerais/itens_do_mercado/pocao_de_vida.png')
+posicao_x_pocao_de_vida = 370
+posicao_y_pocao_de_vida = 30
+
+
 quadrado_magico = pygame.image.load('imagens_gerais/quadrado_preto.jpg')
 tamanho_quadrado = quadrado_magico.get_size()
 posicao_x = 20
@@ -76,4 +86,6 @@ while True:
     posicao_x = 20
     posicao_y = 20
     tela.blit(garrafa_de_agua, (posicao_x_garrafa_de_agua, posicao_y_garrafa_de_agua))
+    tela.blit(carne, (posicao_x_carne, posicao_y_carne))
+    tela.blit(pocao_de_vida, (posicao_x_pocao_de_vida, posicao_y_pocao_de_vida))
     pygame.display.flip()
