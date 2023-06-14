@@ -1,3 +1,40 @@
+# import sys
+# import pygame
+#
+# lista_de_cores = {'verde': (0, 100, 0), 'verde_escuro': (0, 39, 0), 'preto': (0, 0, 0),
+#                   'branco': (255, 255, 255)}
+# pygame.init()
+#
+# altura_tela = 700
+# largura_tela = 1400
+# tela = pygame.display.set_mode((largura_tela, altura_tela))
+# pygame.display.set_caption('tela de itens do mercado mágico')
+#
+#
+# quadrado_magico = pygame.image.load('imagens_gerais/quadrado_preto.jpg')
+# posicao_x_quadrado_magico = 20
+# posicao_y_quadrado_magico = 20
+#
+#
+#
+#
+#
+#
+# while True:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#
+#     tela.fill(lista_de_cores['preto'])
+#     for linha in range(0, 8):
+#         for coluna in range(0, 8):
+#             tela.blit(quadrado_magico, (posicao_x_quadrado_magico, posicao_y_quadrado_magico))
+#             posicao_x_quadrado_magico += 100
+#         posicao_x_quadrado_magico = 20
+#         posicao_y_quadrado_magico += 100
+#     posicao_x_quadrado_magico = 20
+#     pygame.display.flip()
 import sys
 import pygame
 
@@ -8,19 +45,18 @@ pygame.init()
 altura_tela = 700
 largura_tela = 1400
 tela = pygame.display.set_mode((largura_tela, altura_tela))
-pygame.display.set_caption('tela de itens do mercado mágico')
+pygame.display.set_caption('Tela de Itens do Mercado Mágico')
 
 
-circulo_magico = pygame.image.load('imagens_gerais/circulo_magico.png')
-posicao_x_circulo_magico = 20
-posicao_y_circulo_magico = 20
+garrafa_de_agua = pygame.image.load('imagens_gerais/itens_do_mercado/garrafa_de_agua.png')
+posicao_x_garrafa_de_agua = 30
+posicao_y_garrafa_de_agua = 40
 
-posicao_xq = 100
-posicao_yq = 100
-altura_quadrado = 100
-largura_quadrado = 100
-
-
+quadrado_magico = pygame.image.load('imagens_gerais/quadrado_preto.jpg')
+tamanho_quadrado = quadrado_magico.get_size()
+posicao_x = 20
+posicao_y = 100
+espacamento = 50
 
 while True:
     for event in pygame.event.get():
@@ -29,13 +65,15 @@ while True:
             sys.exit()
 
     tela.fill(lista_de_cores['preto'])
-    # tela.blit(circulo_magico, (posicao_x_circulo_magico, posicao_y_circulo_magico))
-    for _ in range(0, 8):
-        pygame.draw.rect(tela, lista_de_cores['verde'], pygame.Rect(posicao_xq, posicao_yq, altura_quadrado, largura_quadrado))
-        posicao_xq += largura_quadrado + 10
-        if posicao_xq + largura_quadrado > largura_tela:
-            posicao_xq = 100
-            posicao_yq += altura_quadrado + 10
-    posicao_xq = 100
-    posicao_yq = 100
+
+    for linha in range(0, 8):
+        for coluna in range(0, 8):
+            tela.blit(quadrado_magico, (posicao_x, posicao_y))
+            posicao_x += espacamento + tamanho_quadrado[0]
+        posicao_x = 20
+        posicao_y += espacamento + tamanho_quadrado[1]
+
+    posicao_x = 20
+    posicao_y = 20
+    tela.blit(garrafa_de_agua, (posicao_x_garrafa_de_agua, posicao_y_garrafa_de_agua))
     pygame.display.flip()
